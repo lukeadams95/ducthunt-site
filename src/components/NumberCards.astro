@@ -1,0 +1,16 @@
+---
+interface Props {
+  items: { t: string; d?: string; n?: string }[];
+  card: 'paper' | 'white';
+}
+const { items, card } = Astro.props;
+---
+<div class="grid grid-240" style="margin-top:48px">
+  {items.map((b, i) => (
+    <div class:list={['card', card === 'paper' ? 'on-paper' : 'on-white']}>
+      <span class="tag">{b.n ?? `0${i + 1}`}</span>
+      <h3>{b.t}</h3>
+      {b.d && <p>{b.d}</p>}
+    </div>
+  ))}
+</div>

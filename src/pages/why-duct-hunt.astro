@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+import PhotoHero from '../components/PhotoHero.astro';
+import HeroButtons from '../components/HeroButtons.astro';
+import H2 from '../components/H2.astro';
+import GoogleBadge from '../components/GoogleBadge.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import Placeholder from '../components/Placeholder.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+import { business, homeCities } from '../data/site';
+import { whyWall } from '../data/reviews';
+import { graph, localBusiness } from '../data/schema';
+
+const reasons = [
+  ['$', 'Upfront, honest pricing', 'Priced by vent count and home size, often over the phone with no in-home estimate needed.', 'The price he quoted me was the price I paid.', 'John S.'],
+  ['◩', 'Before & after photos', 'See exactly what came out of your ducts.', 'He showed me the before, during process and after photos.', 'John S.'],
+  ['⌂', 'The owner does the work', 'No subcontractors, no rotating crews.', 'Not only did Derek come on time and do a fantastic job, but he is also the owner!', 'L.H.'],
+  ['◷', 'Fast, reliable scheduling', 'Often next-day, with a reminder before arrival.', 'Returned my call within 15 min & scheduled at my convenience.', 'Elena G.'],
+  ['✓', 'No pressure, ever', 'Add-ons are explained, never pushed.', 'He does not push or pressure you to buy any additional products.', 'Angela T.'],
+  ['✦', 'Respect for your home', 'On time, careful, and the work area is cleaned up after.', 'He left our house just like he found it, except awesomely clean ducts.', 'Donna M.'],
+].map(([i, t, d, q, n]) => ({ i, t, d, q, n }));
+const compare = [
+  ['Owner answers the phone and does the work', 'Call centers and rotating techs'],
+  ['Upfront price, often by phone', 'In-home estimate required'],
+  ['The quoted price is the final price', 'Surprise add-ons and upsells'],
+  ['Before & after photos included', 'Varies'],
+  ['Local North Kansas City business', 'National franchise'],
+];
+const serve = [
+  { t: 'Homeowners', d: 'Cleaner air and a safer dryer vent for your Kansas City home, from a local owner.' },
+  { t: 'Real Estate Agents', d: 'Many local agents recommend Duct Hunt to their buyers and sellers.' },
+  { t: 'Builders, Remodelers & House Flippers', d: 'Post-construction and pre-sale cleaning with fast turnaround.' },
+];
+---
+<Base
+  page="why"
+  title="Why Kansas City Chooses Duct Hunt | Locally Owned Air Duct Cleaning"
+  description="No call centers, no surprise fees, no pressure. Locally owned air duct cleaning in Kansas City from North Kansas City owner Derek Craig, who does every job himself."
+  schema={graph(localBusiness())}
+>
+  <PhotoHero lead="Why Kansas City Chooses" accent="Duct Hunt" pad="clamp(48px,7vw,96px) var(--gutter) clamp(48px,8vw,104px)">
+    <p class="lead">No call centers. No surprise fees. No pressure. Just honest, thorough work from a local owner who shows up himself.</p>
+    <HeroButtons quoteHref="/quote/" />
+    <Placeholder slot="aside" label="Derek with the Duct Hunt work van" />
+  </PhotoHero>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <div class="derek">
+        <Placeholder label="Portrait of Derek Craig, owner" minHeight="clamp(360px,44vw,560px)" />
+        <div>
+          <H2 lead="Meet Derek," sub="Your Kansas City Duct Cleaner" />
+          <p class="body-lg" style="margin:24px 0 0">Duct Hunt is a family-owned Kansas City business, and when you call, you talk to the owner. Derek Craig answers the phone, gives you the quote, and does the work himself.</p>
+          <p class="body-lg" style="margin:16px 0 0">That means the person who promised you a price and a time is the same person who shows up at your door. It's why customers keep calling back, and why many of them send their friends, family, and real estate clients his way.</p>
+          <p style="margin:24px 0 0;font-weight:900;font-size:22px">— Derek Craig, Owner</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec white rule">
+    <div class="wrap">
+      <H2 lead="Six Reasons to Choose" sub="a Locally Owned Duct Cleaner" center />
+      <div class="grid grid-340" style="margin-top:48px">
+        {reasons.map((w) => (
+          <article class="reason">
+            <span aria-hidden="true" class="reason__icon">{w.i}</span>
+            <h3>{w.t}</h3>
+            <p class="reason__d">{w.d}</p>
+            <p class="reason__q">“{w.q}” <span>— {w.n}</span></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec--tall dark">
+    <div class="wrap">
+      <div class="center wrap-960">
+        <span class="tag" style="display:inline-block;background:var(--stone);color:var(--ink)">Real customer</span>
+        <blockquote class="big-quote">“He noticed I was still installing some drywall and needed to sand the floors. He turned my money down and recommended that I finish first, then get my duct work cleaned. I appreciate the up front honesty.”</blockquote>
+        <p style="margin:24px 0 0;font-size:20px;font-weight:700;color:var(--stone)">— Romond H.</p>
+        <p style="margin:28px 0 0;font-weight:900;font-size:clamp(24px,3vw,36px)">That's how we do business.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Duct Hunt vs." sub="Typical Big-Name Companies" center />
+      <table class="cmp">
+        <thead><tr><th scope="col">Duct Hunt</th><th scope="col">Typical Big-Name Companies</th></tr></thead>
+        <tbody>
+          {compare.map(([a, b]) => (
+            <tr><td><span aria-hidden="true">✓</span><span>{a}</span></td><td>{b}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec--band dark">
+    <div class="wrap">
+      <div class="center" style="max-width:860px;margin:auto">
+        <h2 class="h2" style="font-size:clamp(34px,5.4vw,72px);line-height:1;letter-spacing:-.03em">All Work <span class="t-stone">Guaranteed</span></h2>
+        <p style="margin:20px auto 0;font-size:clamp(20px,2.2vw,26px);font-weight:600">If something isn't right, Derek will make it right.</p>
+        <!-- TODO: replace with the guarantee terms once Derek confirms them -->
+        <p class="mono-note" style="margin:28px auto 0;display:inline-block;background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:6px">PLACEHOLDER · Guarantee details to be confirmed by Derek</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Who We Serve" sub="in Kansas City" center />
+      <div class="grid grid-300" style="margin-top:48px">
+        {serve.map((w) => (
+          <div class="serve"><h3>{w.t}</h3><p>{w.d}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="What Kansas City Customers" sub="Say About Duct Hunt" tone="stone" center />
+      <div style="margin-top:20px;display:flex;justify-content:center">
+        <GoogleBadge suffix={`· ${business.reviewCount} Google Reviews`} label={`${business.rating} rating, ${business.reviewCount} Google reviews`} />
+      </div>
+      <div class="grid grid-300" style="margin-top:40px;align-items:start">
+        {whyWall.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+      </div>
+      <div style="margin-top:20px;display:flex;justify-content:center">
+        <a href={business.googleUrl} target="_blank" rel="noopener" class="btn btn--sm btn--ghost-light">Read all reviews on Google</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap split">
+      <div>
+        <H2 lead="Air Duct Cleaning Across the" sub="Kansas City Metro" />
+        <p class="body-lg" style="margin:24px 0 0;max-width:34em">Locally owned and based in North Kansas City, serving homes on both sides of the state line. Don't see your town? Call and ask.</p>
+        <ul class="pill-list" style="margin-top:28px">
+          {homeCities.map((c) => <li class="pill">{c}</li>)}
+        </ul>
+        <!-- TODO: confirm city list with Derek, then remove this note -->
+        <p class="mono-note" style="margin:20px 0 0;color:var(--mute-2)">Placeholder list. Confirm cities with Derek.</p>
+      </div>
+      <MapEmbed minHeight="clamp(320px,38vw,500px)" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .derek { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .reason { background: var(--paper); border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 12px; }
+  .reason__icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center; font-size: 24px; line-height: 1; }
+  .reason h3 { margin: 6px 0 0; font-weight: 800; font-size: 24px; line-height: 1.1; }
+  .reason__d { margin: 0; color: var(--mute); flex: 1; }
+  .reason__q { margin: 8px 0 0; padding-top: 16px; border-top: 2px solid var(--ink); font-size: 16px; font-weight: 600; }
+  .reason__q span { color: var(--mute-2); font-weight: 500; }
+  .big-quote { margin: 28px 0 0; font-weight: 800; font-size: clamp(24px, 3.4vw, 42px); line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+  .cmp { margin: 48px auto 0; max-width: 960px; width: 100%; background: #fff; border-radius: 18px; overflow: hidden; border-collapse: collapse; table-layout: fixed; }
+  .cmp th { background: var(--ink); color: #fff; font-weight: 800; font-size: 18px; padding: 18px 24px; text-align: left; }
+  .cmp th + th { color: var(--stone); }
+  .cmp td { padding: 18px 24px; border-top: 1px solid #d6d4d2; vertical-align: top; }
+  .cmp td:first-child { font-weight: 700; display: grid; grid-template-columns: 28px 1fr; }
+  .cmp td:first-child span:first-child { font-weight: 900; }
+  .cmp td + td { color: var(--mute); border-left: 1px solid #d6d4d2; }
+  .serve { background: #fff; border-radius: 18px; padding: 30px 28px; display: flex; flex-direction: column; gap: 12px; }
+  .serve h3 { margin: 0; font-weight: 900; font-size: 26px; line-height: 1.1; }
+  .serve p { margin: 0; color: var(--mute); }
+</style>

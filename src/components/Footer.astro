@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import logoWhite from '../assets/logo-white.png';
+import { business, services, footerCities } from '../data/site';
+---
+<footer class="ftr">
+  <div class="ftr__grid">
+    <div>
+      <Image src={logoWhite} alt="Duct Hunt LLC" width={196} densities={[1, 2]} class="ftr__logo" />
+      <address class="ftr__addr">
+        {business.street}<br />{business.city}, {business.region} {business.zip}<br />
+        <a href={business.tel} class="ftr__tel">{business.phone}</a><br />
+        <a href={`mailto:${business.email}`}>{business.email}</a>
+      </address>
+    </div>
+    <div>
+      <h2 class="ftr__h">Services</h2>
+      <ul class="ftr__list">
+        {services.map((s) => <li><a href={s.href}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="ftr__h">Service Area</h2>
+      <p class="ftr__p">Kansas City metro, Missouri &amp; Kansas.</p>
+      <p class="ftr__small">Serving: {footerCities}</p>
+    </div>
+    <div>
+      <h2 class="ftr__h">Hours</h2>
+      <!-- TODO: replace with Derek's confirmed hours -->
+      <p class="ftr__p">[Mon–Fri hours placeholder]<br />[Sat hours placeholder]</p>
+    </div>
+  </div>
+  <p class="ftr__legal">© Duct Hunt LLC. Locally owned and operated · All work guaranteed.</p>
+</footer>
+
+<style>
+  .ftr { background: var(--ink); color: var(--paper); padding: clamp(56px, 8vw, 96px) var(--gutter) 40px; font-size: 18px; }
+  .ftr__grid { max-width: 1280px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 40px; }
+  .ftr__logo { height: 120px; width: auto; display: block; margin: -8px 0 4px -6px; }
+  .ftr__addr { font-style: normal; margin-top: 12px; line-height: 1.8; }
+  .ftr__addr a { color: #fff; }
+  .ftr__tel { font-weight: 700; }
+  .ftr__h { margin: 0 0 12px; font-size: 18px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ftr__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .ftr__list a { color: var(--paper); display: inline-block; padding: 8px 0; }
+  .ftr__p { margin: 0; }
+  .ftr__small { margin: 12px 0 0; font-size: 15px; color: var(--line); }
+  .ftr__legal { max-width: 1280px; margin: 56px auto 0; padding-top: 24px; border-top: 2px solid var(--mute); font-size: 15px; }
+</style>

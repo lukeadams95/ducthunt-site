@@ -1,0 +1,188 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import HeroButtons from '../../components/HeroButtons.astro';
+import Chips from '../../components/Chips.astro';
+import H2 from '../../components/H2.astro';
+import Steps from '../../components/Steps.astro';
+import ReviewStrip from '../../components/ReviewStrip.astro';
+import FaqList from '../../components/FaqList.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { business, services } from '../../data/site';
+import { servicesReviews } from '../../data/reviews';
+import { servicesFaqs } from '../../data/faqs';
+import { graph, localBusiness, service, faqPage } from '../../data/schema';
+
+const priceItems = [
+  'Call for a quote. In most cases no in-home estimate is needed.',
+  'The price we quote is the price you pay.',
+  'No hidden fees, no upselling. Add-ons are explained, never pushed.',
+];
+const whoPanels = [
+  {
+    t: 'Homeowners',
+    d: 'Cleaner air and a safer dryer vent for your Kansas City home.',
+    items: ['Allergies and dust', 'Musty smells', 'New home purchase', 'Homes that have never been cleaned'],
+    cta: 'Get a Homeowner Quote',
+  },
+  {
+    t: 'Builders, Remodelers & House Flippers',
+    d: 'Fast turnaround, and a partner you can call again for the next job.',
+    items: ['Post-construction and post-remodel cleaning', 'Drywall dust and debris removal', 'Pre-sale cleaning', 'Fast turnaround', 'Repeat-partner friendly'],
+    cta: 'Get a Trade Quote',
+  },
+];
+const signCols = [
+  { t: 'Air Ducts', items: ['Excess dust', 'Musty odor', 'Allergy flare-ups', 'Weak airflow', 'Recent remodel'] },
+  { t: 'Dryer Vents', items: ['Clothes taking longer to dry', 'Dryer running hot', 'Burning smell', 'Lint around the vent opening'] },
+];
+const steps = [
+  { t: 'Call for an upfront quote', d: 'Tell us about your home and get a clear price before any work starts.' },
+  { t: 'We schedule fast', d: 'Often next-day service across the Kansas City metro.' },
+  { t: 'Thorough cleaning', d: 'Cleaned to NADCA standards, with before & after photos of the job.' },
+  { t: 'Walkthrough and tips', d: 'We show you the result and share simple maintenance tips.' },
+];
+---
+<Base
+  page="services"
+  title="Air Duct & Dryer Vent Cleaning Services in Kansas City | Duct Hunt"
+  description="Air duct cleaning, dryer vent cleaning, and duct repair & sealing in Kansas City and North Kansas City. Honest upfront pricing from a local owner-operator."
+  schema={graph(
+    localBusiness(),
+    service('Air Duct Cleaning', 'Air duct cleaning'),
+    service('Dryer Vent Cleaning', 'Dryer vent cleaning'),
+    service('Duct Repair & Sealing', 'Duct repair and sealing'),
+    faqPage(servicesFaqs),
+  )}
+>
+  <PhotoHero
+    lead="Air Duct & Dryer Vent Cleaning Services in"
+    accent="Kansas City"
+    narrow
+    h1Size="clamp(34px,6vw,76px)"
+    pad="clamp(56px,9vw,112px) var(--gutter)"
+    shade="linear-gradient(90deg,rgba(20,18,17,.86) 0%,rgba(20,18,17,.62) 55%,rgba(20,18,17,.3) 100%)"
+    alt="Duct Hunt trailer and air duct cleaning equipment outside a Kansas City home"
+  >
+    <p class="lead" style="max-width:36em">Cleaner air in your home, a safer dryer vent, and honest upfront pricing from a local owner-operator in North Kansas City. Call Derek and get a straight answer.</p>
+    <HeroButtons quoteHref="/quote/" />
+    <Chips items={['4.9★ Google', 'Locally Owned', 'All Work Guaranteed', 'NADCA Standards']} />
+  </PhotoHero>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Our Services" sub="in Kansas City" center />
+      <div class="grid grid-300" style="margin-top:48px;gap:22px">
+        {services.map((s) => (
+          <article class="scard">
+            <div class="scard__img"><Image src={s.img} alt={s.photo} width={640} loading="lazy" style={`object-position:${s.pos}`} /></div>
+            <div class="scard__body">
+              <span class="tag">{s.num}</span>
+              <h3>{s.name}</h3>
+              <p>{s.blurb}</p>
+              <ul>{s.bullets.map((b) => <li><span aria-hidden="true">✓</span><span>{b}</span></li>)}</ul>
+              <a href={s.href} class="scard__more">Learn More<span class="sr-only"> about {s.name}</span> →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap price">
+      <div>
+        <H2 lead="How Pricing Works" sub="for Kansas City Homes" tone="stone" />
+        <p class="body-lg" style="margin:20px 0 0;max-width:32em">Upfront pricing based on your vent count and the size of your home. The price we quote is the price you pay.</p>
+        <ul class="price__list">
+          {priceItems.map((p) => <li><span aria-hidden="true">✓</span><span>{p}</span></li>)}
+        </ul>
+        <a href={business.tel} class="btn btn--white mt32">Call for Your Quote</a>
+      </div>
+      <Placeholder label="Derek on the job in a Kansas City home" light />
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Who We Serve" sub="in Kansas City" center />
+      <div class="grid grid-340" style="margin-top:48px;gap:22px">
+        {whoPanels.map((w) => (
+          <div class="panel">
+            <h3>{w.t}</h3>
+            <p>{w.d}</p>
+            <ul class="ticks">{w.items.map((i) => <li><span aria-hidden="true">✓</span><span>{i}</span></li>)}</ul>
+            <a href="/#hero-quote" class="btn btn--ink btn--sm" style="align-self:flex-start;font-size:inherit;padding:0 26px">{w.cta}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="Signs You Need Service" sub="in Kansas City" tone="stone" center />
+      <div class="grid grid-340" style="margin-top:48px;gap:22px">
+        {signCols.map((c) => (
+          <div class="panel on-paper">
+            <h3 style="margin-bottom:0;font-size:26px">{c.t}</h3>
+            <ul class="lined">{c.items.map((i) => <li><span aria-hidden="true">→</span><span>{i}</span></li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Our Process" sub="in Kansas City" center />
+      <Steps items={steps} card="white" arrow="ink" big />
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="What Kansas City Customers" sub="Say About Duct Hunt" tone="stone" center />
+      <ReviewStrip reviews={servicesReviews} on="dark" />
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap-960">
+      <H2 lead="Services FAQ" sub="for Kansas City" center />
+      <FaqList faqs={servicesFaqs} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .scard { background: #fff; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(32, 30, 29, 0.08); }
+  .scard__img { height: 240px; overflow: hidden; background: var(--soft); }
+  .scard__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .scard__body { padding: 32px 32px 36px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .scard__body h3 { margin: 0; font-weight: 800; font-size: 26px; line-height: 1.1; }
+  .scard__body p { margin: 0; color: var(--mute); }
+  .scard__body ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; flex: 1; align-content: start; }
+  .scard__body li { display: grid; grid-template-columns: 28px 1fr; font-size: 16px; }
+  .scard__body li span:first-child { font-weight: 900; }
+  .scard__more {
+    align-self: flex-start; background: var(--ink); color: #fff; text-decoration: none; font-weight: 800;
+    min-height: 48px; padding: 0 24px; border-radius: 8px; display: inline-flex; align-items: center; transition: background-color 0.15s;
+  }
+  .scard__more:hover { background: var(--mute); color: #fff; }
+
+  .price { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .price__list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+  .price__list li { display: grid; grid-template-columns: 36px 1fr; gap: 4px; font-size: 19px; }
+  .price__list li span:first-child { font-weight: 900; color: var(--stone); }
+
+  .panel { background: #fff; border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 16px; }
+  .panel h3 { margin: 0; font-weight: 900; font-size: 28px; line-height: 1.1; }
+  .panel p { margin: 0; color: var(--mute); }
+  .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; flex: 1; align-content: start; }
+  .ticks li { display: grid; grid-template-columns: 28px 1fr; }
+  .ticks li span:first-child, .lined li span:first-child { font-weight: 900; }
+  .lined { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .lined li { padding: 14px 0; border-bottom: 2px solid var(--ink); display: grid; grid-template-columns: 32px 1fr; font-weight: 600; }
+</style>

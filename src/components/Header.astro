@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import logoBlack from '../assets/logo-black.png';
+import { business, services, type PageKey } from '../data/site';
+
+interface Props {
+  page: PageKey;
+  /** Link for "Free Quote" (keeps the service pre-selected on service pages) */
+  quoteHref: string;
+}
+const { page, quoteHref } = Astro.props;
+const simple = page === 'quote';
+const svcPages: PageKey[] = ['services', 'duct', 'dryer', 'repair'];
+const cur = (on: boolean) => (on ? 'page' : undefined);
+
+const nav = [
+  { label: 'Reviews', href: '/reviews/', on: page === 'reviews' },
+  { label: 'Why Duct Hunt', href: '/why-duct-hunt/', on: page === 'why' },
+  { label: 'Service Area', href: '/service-area/', on: page === 'area' },
+  { label: 'FAQ', href: '/faq/', on: page === 'faq' },
+];
+---
+{!simple && (
+  <div class="topbar dnav">
+    <div class="topbar__in">
+      <a href={business.tel} class="topbar__item topbar__item--first"><span aria-hidden="true">✆</span>{business.phone}</a>
+      <a href={`mailto:${business.email}`} class="topbar__item"><span aria-hidden="true">✉</span>{business.email}</a>
+      <span class="topbar__area">Serving the Kansas City metro</span>
+    </div>
+  </div>
+)}
+<header class="hdr">
+  <div class="hdr__in">
+    <a href="/" aria-label="Duct Hunt LLC home" class="hdr__logo">
+      <Image src={logoBlack} alt="Duct Hunt LLC" width={184} densities={[1, 2]} loading="eager" />
+    </a>
+    {!simple && (
+      <nav class="dnav hdr__nav" aria-label="Main">
+        <a href="/" aria-current={cur(page === 'home')}>Home</a>
+        <div class="dd">
+          <a href="/services/" aria-haspopup="true" aria-current={cur(svcPages.includes(page))} class="dd__top">
+            Services <span aria-hidden="true" class="dd__caret">▾</span>
+          </a>
+          <div class="dd__menu">
+            <div class="dd__panel">
+              <a href="/services/" class="dd__all" data-cur={page === 'services' || undefined}>All Services</a>
+              {services.map((s) => (
+                <a href={s.href} data-cur={page === s.key || undefined}>{s.name}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+        {nav.map((n) => <a href={n.href} aria-current={cur(n.on)}>{n.label}</a>)}
+      </nav>
+    )}
+    <div class="hdr__cta">
+      {!simple && <a class="hphone hdr__quote" href={quoteHref}>Free Quote</a>}
+      <a href={business.tel} class="hdr__call">Call {business.phone}</a>
+    </div>
+  </div>
+  {!simple && (
+    <div class="mnav">
+      <a href="/" aria-current={cur(page === 'home')}>Home</a>
+      <a href="/services/" aria-current={cur(svcPages.includes(page))}>Services</a>
+      <a href={quoteHref}>Free Quote</a>
+    </div>
+  )}
+</header>
+
+<style>
+  .topbar { background: var(--ink); color: #fff; font-size: 15px; }
+  .topbar__in { max-width: 1280px; margin: auto; padding: 0 clamp(16px, 4vw, 48px); display: flex; align-items: stretch; }
+  .topbar__item {
+    display: flex; align-items: center; gap: 10px; padding: 0 24px; min-height: 48px;
+    color: #fff; text-decoration: none; border-right: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .topbar__item--first { padding-left: 0; font-weight: 600; }
+  .topbar__area { margin-left: auto; align-self: center; }
+
+  .hdr {
+    position: sticky; top: 0; z-index: 50; background: #fff; color: var(--ink);
+    border-bottom: 1px solid var(--ink); backdrop-filter: blur(8px);
+  }
+  .hdr__in {
+    max-width: 1280px; margin: auto; padding: 0 clamp(16px, 4vw, 48px); min-height: 72px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .hdr__logo { display: flex; align-items: center; }
+  .hdr__logo img { height: 56px; width: auto; display: block; }
+  .hdr__nav { display: flex; gap: 28px; align-items: center; font-weight: 600; font-size: 16px; }
+  .hdr__nav a, .hphone { white-space: nowrap; }
+  .hdr__nav > a, .dd__top { color: var(--ink); text-decoration: none; padding: 12px 0; }
+  .hdr__nav [aria-current='page'], .mnav [aria-current='page'] { box-shadow: inset 0 -3px 0 var(--ink); }
+  .dd { position: relative; }
+  .dd__top { display: inline-flex; align-items: center; gap: 6px; }
+  .dd__caret { font-size: 11px; }
+  .dd__menu { display: none; position: absolute; left: -16px; top: 100%; padding-top: 8px; min-width: 280px; z-index: 70; }
+  .dd:hover .dd__menu, .dd:focus-within .dd__menu { display: block; }
+  .dd__panel {
+    background: #fff; color: var(--ink); border: 1px solid var(--ink); border-radius: 12px; padding: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18); display: grid; gap: 2px;
+  }
+  .dd__panel a { color: var(--ink); text-decoration: none; font-weight: 600; padding: 12px 14px; border-radius: 8px; }
+  .dd__panel a:hover { background: var(--paper); }
+  .dd__panel a[data-cur] { background: #e6e5e4; }
+  .dd__panel .dd__all { font-weight: 800; border-bottom: 1px solid #e1dfde; }
+  .hdr__cta { display: flex; gap: 10px; align-items: center; }
+  .hdr__quote { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; padding: 12px 4px; }
+  .hdr__call {
+    background: var(--ink); color: #fff; text-decoration: none; font-weight: 800; min-height: 48px; border-radius: 8px;
+    padding: 0 20px; display: inline-flex; align-items: center; white-space: nowrap; transition: background-color 0.15s;
+  }
+  .hdr__call:hover { background: var(--mute); }
+  .mnav { display: flex; border-top: 1px solid var(--ink); font-weight: 700; font-size: 15px; }
+  .mnav a { flex: 1; text-align: center; padding: 12px; color: var(--ink); text-decoration: none; }
+  .mnav a:not(:last-child) { border-right: 1px solid var(--ink); }
+
+  @media (max-width: 1100px) {
+    .dnav, .hphone { display: none !important; }
+  }
+  @media (min-width: 1101px) {
+    .mnav { display: none; }
+  }
+  @media (max-width: 420px) {
+    .hdr__logo img { height: 44px; }
+    .hdr__call { padding: 0 14px; font-size: 15px; }
+  }
+</style>

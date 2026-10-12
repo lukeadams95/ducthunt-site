@@ -1,0 +1,11 @@
+---
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+<ul class="flex3">
+  {items.map((s) => (
+    <li class="arrow-item on-paper"><span aria-hidden="true" style="font-weight:900">→</span><span>{s}</span></li>
+  ))}
+</ul>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  /** Main part of the heading */
+  lead: string;
+  /** Second part, shown in a softer color */
+  sub?: string;
+  /** gray: light sections · gray-d: homepage dark sections · stone: interior dark sections */
+  tone?: 'gray' | 'gray-d' | 'stone';
+  center?: boolean;
+  maxw?: string;
+  class?: string;
+}
+const { lead, sub, tone = 'gray', center = false, maxw = '17em', class: cls } = Astro.props;
+---
+<h2 class:list={['h2', { 'is-center': center }, cls]} style={center ? `max-width:${maxw}` : undefined}>
+  {lead}{sub && <> <span class={`t-${tone}`}>{sub}</span></>}
+</h2>

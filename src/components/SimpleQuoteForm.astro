@@ -1,0 +1,90 @@
+---
+import { business, serviceOptions, customerTypes } from '../data/site';
+
+interface Props {
+  /** row = one slim landscape line · stack = full-width fields */
+  variant: 'row' | 'stack';
+  /** Identifies the form in the submitted payload and analytics */
+  source: string;
+}
+const { variant, source } = Astro.props;
+---
+<div class:list={['sqf', `sqf--${variant}`]} data-quote-wrap>
+  <div data-quote-open>
+    <slot name="head" />
+    <form class="sqf__form" data-source={source}>
+      <input name="name" required aria-label="Name" placeholder="Name" autocomplete="name" />
+      <input name="phone" type="tel" required aria-label="Phone" placeholder="Phone" autocomplete="tel" />
+      <input name="email" type="email" aria-label="Email" placeholder="Email" autocomplete="email" />
+      <select name="service" aria-label="Service needed">{serviceOptions.map((o) => <option>{o}</option>)}</select>
+      <select name="ctype" aria-label="Customer type">{customerTypes.map((o) => <option>{o}</option>)}</select>
+      <input name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="sqf__hp" />
+      <button type="submit" class="sqf__btn">Send Request →</button>
+    </form>
+    <p class="form-error sqf__err" role="alert" hidden>
+      Something went wrong sending your request. Please call <a href={business.tel}>{business.phone}</a>.
+    </p>
+  </div>
+  <div data-quote-done role="status" hidden class="sqf__done">
+    <h3>Thanks. We got your request.</h3>
+    <p>Derek will follow up shortly. Need it sooner? Call {business.phone}.</p>
+  </div>
+</div>
+
+<script>
+  import { sendQuote, formData } from '../scripts/quote';
+
+  document.querySelectorAll<HTMLElement>('[data-quote-wrap]').forEach((wrap) => {
+    const form = wrap.querySelector('form')!;
+    const err = wrap.querySelector<HTMLElement>('.sqf__err')!;
+    const btn = form.querySelector('button')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.hidden = true;
+      btn.disabled = true;
+      try {
+        await sendQuote(formData(form), form.dataset.source ?? 'form');
+        wrap.querySelector<HTMLElement>('[data-quote-open]')!.hidden = true;
+        wrap.querySelector<HTMLElement>('[data-quote-done]')!.hidden = false;
+      } catch {
+        err.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .sqf__form input, .sqf__form select {
+    font: inherit; background: #fff; color: var(--ink); min-width: 0; box-sizing: border-box;
+  }
+  .sqf__hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .sqf__btn {
+    font: inherit; font-weight: 800; border: 0; border-radius: 8px; background: var(--black); color: #fff; cursor: pointer;
+  }
+  .sqf__btn:hover { background: #333; }
+  .sqf__btn:disabled { opacity: 0.6; cursor: progress; }
+  .sqf__err { margin-top: 10px; }
+  .sqf__done h3 { margin: 0 0 6px; font-weight: 900; }
+  .sqf__done p { margin: 0; }
+
+  /* Landscape row */
+  .sqf--row { display: grid; gap: 10px; }
+  .sqf--row [data-quote-open] { display: grid; gap: 10px; }
+  .sqf--row .sqf__form { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .sqf--row .sqf__form input, .sqf--row .sqf__form select {
+    min-height: 46px; padding: 0 12px; border: 1px solid #b5afa3; border-radius: 8px; flex: 1 1 140px;
+  }
+  .sqf--row .sqf__btn { font-size: 17px; min-height: 46px; padding: 0 22px; white-space: nowrap; }
+  .sqf--row .sqf__done { text-align: center; }
+  .sqf--row .sqf__done h3 { font-size: 26px; }
+
+  /* Stacked card */
+  .sqf--stack .sqf__form { display: grid; gap: 12px; }
+  .sqf--stack .sqf__form input, .sqf--stack .sqf__form select {
+    min-height: 56px; padding: 0 16px; border: 1px solid var(--line); border-radius: 10px; width: 100%;
+  }
+  .sqf--stack .sqf__btn { font-size: 19px; min-height: 60px; padding: 0 24px; text-align: center; }
+  .sqf--stack .sqf__done h3 { margin-bottom: 8px; font-size: 28px; }
+</style>

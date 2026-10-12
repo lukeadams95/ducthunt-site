@@ -1,0 +1,18 @@
+---
+import type { Faq } from '../data/faqs';
+
+interface Props {
+  faqs: Faq[];
+  maxw?: string;
+}
+const { faqs, maxw } = Astro.props;
+---
+<div class="faq" style={maxw ? `max-width:${maxw};margin-left:auto;margin-right:auto` : undefined}>
+  {faqs.map((f) => (
+    <details>
+      <summary>{f.q}<span class="pl" aria-hidden="true">+</span></summary>
+      <p>{f.a}</p>
+      {f.link && <p class="faq-link"><a href={f.link.href}>{f.link.label} →</a></p>}
+    </details>
+  ))}
+</div>

@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+  minHeight?: string;
+  light?: boolean;
+}
+const { label, minHeight, light = false } = Astro.props;
+const bg = light ? 'background:repeating-linear-gradient(135deg,#e1dfde 0 12px,#ebeae9 12px 24px);' : '';
+---
+<div class="ph" role="img" aria-label={`Photo placeholder: ${label}`} style={`${bg}${minHeight ? `min-height:${minHeight}` : ''}`}>
+  <span>PHOTO · {label}</span>
+</div>

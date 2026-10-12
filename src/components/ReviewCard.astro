@@ -1,0 +1,32 @@
+---
+import { initials } from '../data/reviews';
+
+interface Props {
+  name: string;
+  text: string;
+}
+const { name, text } = Astro.props;
+---
+<figure class="rcard">
+  <span aria-hidden="true" class="rcard__q">“</span>
+  <span aria-hidden="true" class="rcard__ini">{initials(name)}</span>
+  <figcaption class="rcard__by"><strong>{name}</strong><span>Google review</span></figcaption>
+  <blockquote class="rcard__text">“{text}”</blockquote>
+</figure>
+
+<style>
+  .rcard {
+    margin: 0; position: relative; background: linear-gradient(180deg, #e9e8e7 0%, #fff 70%); color: var(--ink);
+    border-radius: 18px; padding: 28px 26px 30px; display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 8px;
+  }
+  .rcard__q { position: absolute; left: 22px; top: 12px; font-weight: 900; font-size: 56px; line-height: 1; }
+  .rcard__ini {
+    width: 64px; height: 64px; border-radius: 50%; border: 4px solid #fff; background: var(--ink); color: #fff;
+    display: grid; place-items: center; font-weight: 800; font-size: 20px;
+  }
+  .rcard__by { margin-top: 4px; }
+  .rcard__by strong { display: block; font-size: 17px; }
+  .rcard__by span { font-size: 14px; color: var(--mute-2); }
+  .rcard__text { margin: 6px 0 0; color: var(--mute); max-width: 26em; font-size: 17px; }
+</style>

@@ -1,0 +1,221 @@
+---
+import Base from '../layouts/Base.astro';
+import PhotoHero from '../components/PhotoHero.astro';
+import H2 from '../components/H2.astro';
+import GoogleBadge from '../components/GoogleBadge.astro';
+import Steps from '../components/Steps.astro';
+import { business, services, quoteChecks } from '../data/site';
+
+const serviceChoices = [...services.map((s) => ({ value: s.name, slug: s.slug })), { value: 'Not Sure / Need Advice', slug: 'not-sure' }];
+const next = [
+  { t: 'Derek reviews your details' },
+  { t: 'You get an upfront quote, usually the same day' },
+  { t: 'Pick a time that works, often as soon as the next day' },
+];
+---
+<Base
+  page="quote"
+  title="Free Air Duct & Dryer Vent Cleaning Quote | Duct Hunt Kansas City"
+  description="Request a free, upfront quote for air duct cleaning, dryer vent cleaning, or duct repair in Kansas City. Derek will get back to you personally."
+>
+  <PhotoHero lead="Get Your Free" accent="Quote" shade="rgba(20,18,17,.84)" pad="clamp(36px,5vw,64px) var(--gutter)" h1Size="clamp(36px,5.6vw,68px)">
+    <p style="margin:18px 0 0;font-size:clamp(17px,2vw,21px);max-width:36em;text-wrap:pretty">Tell us a little about your home and Derek will get back to you with an upfront price, with no in-home estimate needed in most cases.</p>
+    <p style="margin:14px 0 0;font-size:19px;font-weight:600">Prefer to talk? <a href={business.tel} style="color:#fff;font-weight:800">Call {business.phone}</a></p>
+  </PhotoHero>
+
+  <section class="qwrap">
+    <div class="qgrid">
+      <div id="qform" class="qcard">
+        <div id="q-done" role="status" class="qdone" tabindex="-1" hidden>
+          <span aria-hidden="true" class="qdone__check">✓</span>
+          <h2>Thanks, <span id="q-first">there</span>! Your quote request is in.</h2>
+          <p>Derek will reach out soon. Need it faster? Call {business.phone}.</p>
+          <div class="btn-row is-center mt28">
+            <a href={business.tel} class="btn btn--ink" style="border:0">Call {business.phone}</a>
+            <a href="/" class="btn btn--ghost-ink">Back to Homepage</a>
+          </div>
+        </div>
+
+        <form id="q-form" novalidate class="qf">
+          <h2 class="qf__h">Request your free quote</h2>
+          <p class="qf__sub">Four quick details and Derek will call you back with an upfront price.</p>
+
+          <div class="qf__row">
+            <label for="q-svc">Service needed *</label>
+            <select id="q-svc" name="service" aria-describedby="q-svc-e" class="field" style="padding:0 12px">
+              <option value="">Select</option>
+              {serviceChoices.map((o) => <option value={o.value} data-slug={o.slug}>{o.value}</option>)}
+            </select>
+            <p id="q-svc-e" class="form-error" role="alert" hidden></p>
+          </div>
+          <div class="qf__row">
+            <label for="q-name">Full name *</label>
+            <input id="q-name" name="name" type="text" autocomplete="name" aria-describedby="q-name-e" class="field" />
+            <p id="q-name-e" class="form-error" role="alert" hidden></p>
+          </div>
+          <div class="qf__row">
+            <label for="q-phone">Phone *</label>
+            <input id="q-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="q-phone-e" class="field" />
+            <p id="q-phone-e" class="form-error" role="alert" hidden></p>
+          </div>
+          <div class="qf__row">
+            <label for="q-zip">Property ZIP code *</label>
+            <input id="q-zip" name="zip" type="text" autocomplete="postal-code" inputmode="numeric" aria-describedby="q-zip-e" class="field" />
+            <p id="q-zip-e" class="form-error" role="alert" hidden></p>
+          </div>
+          <div class="qf__row">
+            <label for="q-email">Email (optional)</label>
+            <input id="q-email" name="email" type="email" autocomplete="email" aria-describedby="q-email-e" class="field" />
+            <p id="q-email-e" class="form-error" role="alert" hidden></p>
+          </div>
+          <input name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
+
+          <button type="submit" class="submit" style="border-radius:10px;padding:0 32px;width:100%">Get My Free Quote</button>
+          <p id="q-send-e" class="form-error center" role="alert" hidden>
+            Something went wrong sending your request. Please call <a href={business.tel}>{business.phone}</a>.
+          </p>
+          <p class="qf__fine">No spam, no pressure. Derek will reach out personally.</p>
+        </form>
+      </div>
+
+      <aside class="qside" aria-label="Why request a quote with Duct Hunt">
+        <div class="qside__trust">
+          <GoogleBadge suffix={`· ${business.reviewCount} Reviews`} label={`${business.rating} rating, ${business.reviewCount} Google reviews`} />
+          <ul>{quoteChecks.map((c) => <li><span aria-hidden="true">✓</span><span>{c}</span></li>)}</ul>
+        </div>
+        <figure class="qside__review">
+          <blockquote>“Derek can give you a price based on the number of vents/size of the home. Other companies I called said they would have to come out and estimate the home.”</blockquote>
+          <figcaption><strong>Angela T.</strong> <span>· Google review</span></figcaption>
+        </figure>
+        <div class="qside__call">
+          <p>Rather talk it through?</p>
+          <a href={business.tel}>Call {business.phone}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="What Happens" sub="Next" tone="stone" center maxw="16em" />
+      <div class="next"><Steps items={next} card="paper" arrow="white" /></div>
+      <!-- TODO: confirm same-day quote timing with Derek, then remove this note -->
+      <p class="mono-note center" style="margin:24px auto 0;color:var(--line)">Placeholder: confirm same-day quote timing with Derek.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { sendQuote, formData } from '../scripts/quote';
+
+  const form = document.getElementById('q-form') as HTMLFormElement;
+  const done = document.getElementById('q-done')!;
+  const sendErr = document.getElementById('q-send-e')!;
+  const svc = document.getElementById('q-svc') as HTMLSelectElement;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+  // Pre-select the service when arriving from a service page (?service=dryer-vent)
+  const want = new URLSearchParams(location.search).get('service');
+  const match = [...svc.options].find((o) => o.dataset.slug === want);
+  if (match) svc.value = match.value;
+
+  const rules: Record<string, (v: string) => string | null> = {
+    service: (v) => (v ? null : 'Choose a service.'),
+    name: (v) => (v.split(/\s+/).filter(Boolean).length >= 2 ? null : 'Enter your first and last name.'),
+    phone: (v) => (v.replace(/\D/g, '').length >= 10 ? null : 'Enter a valid 10-digit phone number.'),
+    zip: (v) => (/^\d{5}$/.test(v) ? null : 'Enter a 5-digit ZIP code.'),
+    email: (v) => (!v || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? null : 'Enter a valid email address.'),
+  };
+  const ids: Record<string, string> = { service: 'q-svc', name: 'q-name', phone: 'q-phone', zip: 'q-zip', email: 'q-email' };
+
+  const showError = (key: string, msg: string | null) => {
+    const field = document.getElementById(ids[key])!;
+    const err = document.getElementById(`${ids[key]}-e`)!;
+    field.setAttribute('aria-invalid', String(!!msg));
+    err.hidden = !msg;
+    err.textContent = msg ? `⚠ ${msg}` : '';
+  };
+
+  // Clear a field's error as soon as the visitor edits it
+  Object.entries(ids).forEach(([key, id]) => {
+    const el = document.getElementById(id)!;
+    const clear = () => showError(key, null);
+    el.addEventListener('input', clear);
+    el.addEventListener('change', clear);
+  });
+
+  const scrollToForm = () => {
+    const el = document.getElementById('qform')!;
+    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 100);
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    sendErr.hidden = true;
+    const data = formData(form);
+    let firstBad: string | null = null;
+    for (const key of Object.keys(rules)) {
+      const msg = rules[key](data[key] ?? '');
+      showError(key, msg);
+      if (msg && !firstBad) firstBad = key;
+    }
+    if (firstBad) {
+      document.getElementById(ids[firstBad])!.focus();
+      return;
+    }
+    btn.disabled = true;
+    try {
+      await sendQuote(data, 'quote-page');
+      document.getElementById('q-first')!.textContent = data.name.split(/\s+/)[0] || 'there';
+      form.hidden = true;
+      done.hidden = false;
+      scrollToForm();
+      done.focus({ preventScroll: true });
+    } catch {
+      sendErr.hidden = false;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .qwrap { background: var(--paper); padding: clamp(28px, 5vw, 64px) clamp(16px, 5vw, 64px) clamp(48px, 7vw, 88px); }
+  .qgrid { max-width: 1280px; margin: auto; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; align-items: start; }
+  .qside { position: sticky; top: 96px; display: grid; gap: 16px; }
+  @media (max-width: 1000px) {
+    .qgrid { grid-template-columns: 1fr; }
+    .qside { position: static; }
+  }
+  .qcard { background: #fff; border-radius: 20px; padding: clamp(20px, 3.4vw, 40px); scroll-margin-top: 100px; }
+
+  .qf { display: grid; gap: 20px; }
+  .qf__h { margin: 0; font-weight: 900; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.05; letter-spacing: -0.02em; }
+  .qf__sub { margin: -8px 0 0; color: var(--mute); }
+  .qf__row { display: grid; gap: 6px; }
+  .qf__row label { font-weight: 800; font-size: 17px; }
+  .qf__fine { margin: 0; text-align: center; font-size: 15px; color: var(--mute); }
+  .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  .qdone:focus { outline: none; }
+  .qdone { text-align: center; padding: clamp(16px, 4vw, 48px) 0; }
+  .qdone__check {
+    width: 84px; height: 84px; border-radius: 50%; background: var(--ink); color: #fff;
+    display: inline-grid; place-items: center; font-size: 44px; font-weight: 900;
+  }
+  .qdone h2 { margin: 24px 0 0; font-weight: 900; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; }
+  .qdone p { margin: 16px auto 0; font-size: 20px; max-width: 28em; }
+
+  .qside__trust { background: var(--ink); color: #fff; border-radius: 18px; padding: 24px 26px; display: grid; gap: 16px; justify-items: start; }
+  .qside__trust ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .qside__trust li { display: grid; grid-template-columns: 30px 1fr; font-weight: 600; }
+  .qside__trust li span:first-child { font-weight: 900; color: var(--stone); }
+  .qside__review { margin: 0; background: linear-gradient(180deg, #e9e8e7 0%, #fff 70%); border-radius: 18px; padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 10px; }
+  .qside__review blockquote { margin: 0; color: var(--mute); font-size: 17px; }
+  .qside__review figcaption span { font-size: 14px; color: var(--mute-2); }
+  .qside__call { border: 2px solid var(--ink); border-radius: 18px; padding: 22px 24px; background: #fff; }
+  .qside__call p { margin: 0; font-weight: 700; }
+  .qside__call a { display: inline-flex; align-items: center; min-height: 48px; margin-top: 6px; font-weight: 900; font-size: 24px; color: var(--ink); }
+
+  .next :global(.steps) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+</style>

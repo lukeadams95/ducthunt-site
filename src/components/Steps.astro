@@ -1,0 +1,28 @@
+---
+interface Props {
+  items: { t: string; d?: string }[];
+  /** Card background */
+  card: 'paper' | 'white';
+  /** Color of the arrows between cards (they sit on the section background) */
+  arrow: 'white' | 'ink';
+  /** russo = stone Russo One tag (interior pages) · plain = white Archivo tag (homepage) */
+  tag?: 'russo' | 'plain';
+  big?: boolean;
+}
+const { items, card, arrow, tag = 'russo', big = false } = Astro.props;
+---
+<ol class="steps">
+  {items.map((s, i) => (
+    <li class={card === 'paper' ? 'on-paper' : 'on-white'}>
+      <span class={tag === 'russo' ? 'tag' : 'tag tag--plain'}>Step {i + 1}</span>
+      <h3 class:list={{ 'h3-big': big }}>{s.t}</h3>
+      {s.d && <p>{s.d}</p>}
+      <span aria-hidden="true" class="step-arrow" style={`color:${arrow === 'white' ? '#fff' : 'var(--ink)'}`}>→</span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .tag--plain { color: #fff; font-family: inherit; font-weight: 600; font-size: 15px; }
+  .h3-big { font-size: 24px; line-height: 1.1; }
+</style>

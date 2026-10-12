@@ -1,0 +1,32 @@
+---
+
+interface Props {
+  on: 'light' | 'dark';
+  lead: string;
+  sub?: string;
+  text?: string;
+  cta: string;
+  href: string;
+  /** Width of the centered block */
+  maxw?: string;
+  /** Max width of the heading itself */
+  hmax?: string;
+  pmax?: string;
+  tall?: boolean;
+  h2Size?: string;
+}
+const { on, lead, sub, text, cta, href, maxw = '900px', hmax, pmax = '34em', tall = false, h2Size } = Astro.props;
+---
+<section class:list={[tall ? 'sec--tall' : 'sec--band', on === 'dark' ? 'dark' : 'paper']}>
+  <div class="wrap">
+    <div class="center" style={`max-width:${maxw};margin:auto`}>
+      <h2 class="h2" style={`${hmax ? `max-width:${hmax};margin:0 auto;` : ''}${h2Size ? `font-size:${h2Size};` : ''}`}>
+        {lead}{sub && <> <span class={on === 'dark' ? 't-stone' : 't-gray'}>{sub}</span></>}<slot name="after" />
+      </h2>
+      {text && <p class="body-lg" style={`margin:20px auto 0;max-width:${pmax}`}>{text}</p>}
+      <div class="mt28" style="display:flex;justify-content:center">
+        <a href={href} class:list={['btn', on === 'dark' ? 'btn--white' : 'btn--ink']} style="border:0">{cta}</a>
+      </div>
+    </div>
+  </div>
+</section>

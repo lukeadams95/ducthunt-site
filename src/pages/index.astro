@@ -1,0 +1,354 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import H2 from '../components/H2.astro';
+import CtaPair from '../components/CtaPair.astro';
+import GoogleBadge from '../components/GoogleBadge.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import FaqList from '../components/FaqList.astro';
+import Steps from '../components/Steps.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+import BeforeAfterLens from '../components/BeforeAfterLens.astro';
+import SimpleQuoteForm from '../components/SimpleQuoteForm.astro';
+import hero from '../assets/hero.webp';
+import processBefore from '../assets/process-before.jpg';
+import processAfter from '../assets/process-after.jpg';
+import { business, services, homeCities, quoteChecks } from '../data/site';
+import { allReviews } from '../data/reviews';
+import { homeFaqs } from '../data/faqs';
+import { graph, localBusiness } from '../data/schema';
+
+const why = [
+  { t: 'Locally owned', d: 'A Kansas City small business, not a franchise. Your money stays in the community.' },
+  { t: 'All work guaranteed', d: 'If it is not right, we make it right.' },
+  { t: 'Personal service', d: 'You talk to a real person, get a clear quote, and no pressure.' },
+  { t: 'Owner-operated', d: 'Derek Craig runs the company and stands behind every job. Cleaner air means a healthier home.' },
+];
+const who = [
+  { i: '⌂', t: 'Homeowners', d: 'Breathe easier at home. We clean your ducts and dryer vent, explain what we found, and stand behind the work.', cta: 'Get a Homeowner Quote' },
+  { i: '⚒', t: 'Builders, Remodelers & Flippers', d: 'Pre-sale or post-construction duct cleaning with fast turnaround, before the buyer or inspector walks in.', cta: 'Get a Trade Quote' },
+];
+const signs = [
+  { i: '∴', t: 'Dust buildup', d: 'Dust returns fast, even after you clean.' },
+  { i: '≈', t: 'Musty smells', d: 'Stale or damp odors when the system runs.' },
+  { i: '✳', t: 'Allergies', d: 'More sneezing or irritation at home.' },
+  { i: '◔', t: 'Long dryer times', d: 'Clothes need more than one cycle.' },
+  { i: '≋', t: 'Lint near the vent', d: 'Lint around the dryer or outside vent cap.' },
+];
+const steps = [
+  { t: 'Call or request a quote', d: 'Talk to Derek directly or send the form. You get a clear quote before any work starts.' },
+  { t: 'We look it over', d: 'We inspect your system and explain what we find, in plain language.' },
+  { t: 'We clean it right', d: 'Air duct work is performed to NADCA standards. Dryer vents are cleared end to end.' },
+  { t: 'Final walkthrough', d: 'We show you the result. All work is guaranteed.' },
+];
+// Most recent six reviews, shown three at a time
+const recent = allReviews.slice(0, 6);
+const pages = [recent.slice(0, 3), recent.slice(3, 6)];
+---
+<Base
+  page="home"
+  title="Air Duct & Dryer Vent Cleaning in Kansas City | Duct Hunt LLC"
+  description="Locally owned air duct cleaning, dryer vent cleaning and duct repair in Kansas City. Upfront pricing from owner Derek Craig. Call (816) 655-8105."
+  schema={graph(localBusiness())}
+>
+  <!-- HERO -->
+  <section class="hsplit dark">
+    <div class="hsplit__text">
+      <GoogleBadge size="sm" />
+      <h1 class="hsplit__h1">Air Duct &amp; Dryer Vent Cleaning in <span class="nowrap">Kansas City</span></h1>
+      <p class="hsplit__sub">Cleaner air in your home and a safer dryer vent, from a local small business that answers its own phone. Call Derek and get a straight answer.</p>
+      <div class="btn-row">
+        <a href="/quote/" class="btn btn--white">Get a Free Quote</a>
+        <a href={business.tel} class="btn btn--ghost-light">Call {business.phone}</a>
+      </div>
+    </div>
+    <BeforeAfterLens />
+  </section>
+
+  <!-- QUICK QUOTE -->
+  <section aria-label="Get a free quote" class="qq">
+    <div class="wrap">
+      <SimpleQuoteForm variant="row" source="home-quick">
+        <h2 slot="head" class="qq__h">Get Your Free Quote <span style="color:var(--mute)">· Derek calls back with an upfront price</span></h2>
+      </SimpleQuoteForm>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="sec dark">
+    <div class="wrap">
+      <H2 lead="Air Duct Cleaning, Dryer Vent Cleaning & Duct Repair" sub="in Kansas City" tone="gray-d" center maxw="18em" />
+      <div class="grid grid-300" style="margin-top:40px;gap:22px">
+        {services.map((s) => (
+          <article class="svc">
+            <div class="svc__img">
+              <Image src={s.img} alt={s.photo} width={640} loading="lazy" style={`object-position:${s.pos}`} />
+            </div>
+            <div class="svc__body">
+              <h3>{s.name}</h3>
+              <p>{s.blurb}</p>
+              <a href={s.href} class="svc__more">Read more<span class="sr-only"> about {s.name}</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <CtaPair on="dark" class="mt44" />
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why" class="sec">
+    <div class="wrap why">
+      <div class="why__img">
+        <Image src={hero} alt="Duct Hunt trailer outside a Kansas City home" widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+      <div>
+        <H2 lead="Why Kansas City Homeowners" sub="Call Duct Hunt" />
+        <p style="margin:20px 0 0;max-width:34em">We're a small, family-owned company, not a franchise. When you call, you reach the owner, and the person who quotes your job is the person who shows up.</p>
+        <ul class="why__list">
+          {why.map((w) => (
+            <li><span aria-hidden="true" class="why__check">✓</span><div><h3>{w.t}</h3><p>{w.d}</p></div></li>
+          ))}
+        </ul>
+        <CtaPair on="light" center={false} class="mt36" />
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO -->
+  <section class="sec dark rule">
+    <div class="wrap">
+      <H2 lead="Duct Cleaning for Kansas City" sub="Homeowners and Builders" tone="gray-d" center maxw="16em" />
+      <div class="who">
+        {who.map((w) => (
+          <div class="who__col">
+            <div class="who__box">
+              <span aria-hidden="true" class="icon-ring">{w.i}</span>
+              <div><h3>{w.t}</h3><p>{w.d}</p></div>
+            </div>
+            <div style="display:flex;justify-content:center">
+              <a href="#hero-quote" class="btn btn--white who__cta">{w.cta}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <CtaPair on="dark" class="mt44" />
+    </div>
+  </section>
+
+  <!-- SIGNS -->
+  <section class="sec">
+    <div class="wrap">
+      <H2 lead="Signs You Need Air Duct or Dryer Vent Cleaning" sub="in Kansas City" center maxw="16em" />
+      <ul class="signs">
+        {signs.map((g) => (
+          <li>
+            <span aria-hidden="true" class="signs__icon">{g.i}</span>
+            <h3>{g.t}</h3>
+            <p>{g.d}</p>
+          </li>
+        ))}
+      </ul>
+      <CtaPair on="light" class="mt44" />
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="sec dark rule">
+    <div class="wrap">
+      <H2 lead="Our Duct Cleaning Process" sub="in Kansas City" tone="gray-d" center maxw="16em" />
+      <Steps items={steps} card="paper" arrow="white" tag="plain" big />
+      <div class="ba-pair">
+        <figure>
+          <Image src={processBefore} alt="Air duct before cleaning, with debris" width={720} />
+          <figcaption class="russo ba-pair__b">BEFORE</figcaption>
+        </figure>
+        <figure>
+          <Image src={processAfter} alt="Same air duct after cleaning" width={720} />
+          <figcaption class="russo ba-pair__a">AFTER</figcaption>
+        </figure>
+      </div>
+      <CtaPair on="dark" class="mt44" />
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="sec rule paper">
+    <div class="wrap">
+      <h2 class="h2 is-center" style="max-width:16em;letter-spacing:-.01em">Reviews from Kansas City Customers</h2>
+      <div style="margin-top:20px;display:flex;justify-content:center"><GoogleBadge /></div>
+      {pages.map((p, i) => (
+        <div class="grid grid-300 rv-page" style="margin-top:40px" data-rv-page={i} hidden={i > 0}>
+          {p.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+        </div>
+      ))}
+      <div class="rv-dots">
+        {pages.map((_, i) => (
+          <button type="button" aria-label={`Reviews page ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'} data-rv-dot={i}><span></span></button>
+        ))}
+      </div>
+      <div style="margin-top:20px;display:flex;justify-content:center">
+        <a href={business.googleUrl} target="_blank" rel="noopener" class="btn btn--sm btn--ghost-ink">Read all customer reviews</a>
+      </div>
+      <CtaPair on="light" class="mt44" />
+    </div>
+  </section>
+
+  <!-- AREA -->
+  <section id="area" class="sec--tall dark area">
+    <Image src={hero} alt="" widths={[768, 1280, 1920]} sizes="100vw" class="area__bg" />
+    <div aria-hidden="true" class="area__shade"></div>
+    <div class="area__in split">
+      <div>
+        <H2 lead="Air Duct & Dryer Vent Cleaning Across the" sub="Kansas City Metro" tone="gray-d" />
+        <p class="area__p">Based in North Kansas City and serving homes on both sides of the state line. Don't see your town? Call and ask.</p>
+        <ul class="area__cities">
+          {homeCities.map((c) => <li><span aria-hidden="true"></span>{c}</li>)}
+        </ul>
+        <CtaPair on="dark" center={false} class="mt36" />
+        <!-- TODO: confirm city list with Derek, then remove this note -->
+        <p class="mono-note" style="margin:20px 0 0;color:var(--line)">Placeholder list. Confirm cities with Derek.</p>
+      </div>
+      <MapEmbed minHeight="clamp(340px,42vw,560px)" radius={12} shadow />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="sec rule">
+    <div class="wrap-960">
+      <H2 lead="Duct Cleaning FAQ" sub="for Kansas City Homeowners" center maxw="16em" />
+      <FaqList faqs={homeFaqs} />
+      <CtaPair on="light" class="mt44" />
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section id="hero-quote" class="sec white rule">
+    <div class="wrap-1100 hq">
+      <div>
+        <H2 lead="Get Your Free Quote" sub="in Kansas City" />
+        <p style="margin:20px 0 0;font-size:20px;max-width:28em;text-wrap:pretty">Tell us what you need and Derek will call you back with an upfront price. Often no in-home estimate needed.</p>
+        <ul class="checks">
+          {quoteChecks.map((c) => <li><span aria-hidden="true">✓</span><span>{c}</span></li>)}
+        </ul>
+      </div>
+      <div class="hq__card">
+        <SimpleQuoteForm variant="stack" source="home-form" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const dots = document.querySelectorAll<HTMLButtonElement>('[data-rv-dot]');
+  const pages = document.querySelectorAll<HTMLElement>('[data-rv-page]');
+  dots.forEach((dot) =>
+    dot.addEventListener('click', () => {
+      const n = dot.dataset.rvDot;
+      pages.forEach((p) => (p.hidden = p.dataset.rvPage !== n));
+      dots.forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
+    }),
+  );
+</script>
+
+<style>
+  /* Hero */
+  .hsplit { display: grid; grid-template-columns: 55fr 45fr; background: var(--black); }
+  .hsplit__text {
+    background: var(--black); padding: clamp(40px, 6vw, 88px) clamp(20px, 5vw, 72px);
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: clamp(18px, 2.6vw, 28px);
+  }
+  .hsplit__h1 { margin: 0; font-weight: 900; font-size: clamp(36px, 5.4vw, 76px); line-height: 0.98; letter-spacing: -0.03em; text-wrap: balance; }
+  .hsplit__sub { margin: 0; font-size: clamp(17px, 1.8vw, 22px); max-width: 30em; color: #e6e5e4; text-wrap: pretty; }
+  .hsplit .btn--white { color: var(--black); }
+  .hsplit .btn--ghost-light:hover { color: var(--black); }
+  @media (max-width: 900px) { .hsplit { grid-template-columns: 1fr; } }
+
+  /* Quick quote band */
+  .qq { background: var(--stone); color: var(--ink); padding: 18px var(--gutter); }
+  .qq__h { margin: 0; font-weight: 900; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.01em; }
+
+  /* Services */
+  .svc { background: var(--paper); color: var(--ink); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
+  .svc__img { height: 240px; overflow: hidden; background: var(--soft); }
+  .svc__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .svc__body { padding: 32px 32px 36px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .svc__body h3 { margin: 0; font-weight: 800; font-size: 26px; line-height: 1.1; }
+  .svc__body p { margin: 0; flex: 1; color: var(--mute); }
+  .svc__more {
+    align-self: flex-start; background: #e6e5e4; color: var(--ink); text-decoration: none; font-weight: 800;
+    min-height: 48px; padding: 0 24px; border-radius: 8px; display: inline-flex; align-items: center; transition: background-color 0.15s, color 0.15s;
+  }
+  .svc__more:hover { background: var(--ink); color: #fff; }
+
+  /* Why */
+  .why { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(32px, 6vw, 88px); align-items: center; }
+  .why__img { min-height: clamp(360px, 48vw, 600px); overflow: hidden; position: relative; background: var(--soft); }
+  .why__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
+  .why__list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 20px; }
+  .why__list li { display: grid; grid-template-columns: 32px 1fr; gap: 6px; }
+  .why__check { font-weight: 900; font-size: 22px; line-height: 1.2; }
+  .why__list h3 { margin: 0 0 2px; font-weight: 800; font-size: 20px; }
+  .why__list p { margin: 0; font-size: 16px; color: var(--mute); }
+
+  /* Who */
+  .who { margin: 40px auto 0; max-width: 980px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+  .who__col { display: grid; gap: 16px; align-content: start; }
+  .who__box {
+    background: var(--paper); color: var(--ink); border-radius: 14px; padding: 18px 22px;
+    display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: center;
+  }
+  .who__box h3 { margin: 0; font-weight: 900; font-size: 21px; line-height: 1.15; }
+  .who__box p { margin: 4px 0 0; font-size: 15px; line-height: 1.4; }
+  .who__cta { font-size: 18px; min-height: 52px; padding: 0 26px; border: 0; }
+
+  /* Signs */
+  .signs {
+    list-style: none; margin: 48px 0 0; padding: 0; display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); row-gap: 36px; border-right: 2px dotted #b5b2af;
+  }
+  .signs li {
+    padding: 4px 22px; text-align: center; border-left: 2px dotted #b5b2af;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .signs__icon {
+    width: 72px; height: 72px; border: 2px solid var(--ink); border-radius: 50%;
+    display: grid; place-items: center; font-size: 30px; line-height: 1;
+  }
+  .signs h3 { margin: 4px 0 0; font-weight: 800; font-size: 20px; line-height: 1.15; }
+  .signs p { margin: 0; font-size: 16px; color: var(--mute); }
+
+  /* Process photos */
+  .ba-pair { margin: 48px auto 0; max-width: 1000px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+  .ba-pair figure { margin: 0; position: relative; }
+  .ba-pair img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; display: block; }
+  .ba-pair figcaption { position: absolute; left: 14px; top: 14px; font-size: 14px; letter-spacing: 0.08em; padding: 6px 12px; border-radius: 6px; }
+  .ba-pair__b { background: var(--black); color: #fff; }
+  .ba-pair__a { background: var(--stone); color: var(--ink); }
+
+  /* Reviews */
+  .rv-dots { margin-top: 28px; display: flex; justify-content: center; gap: 4px; }
+  .rv-dots button { width: 28px; height: 28px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; padding: 0; }
+  .rv-dots span { width: 10px; height: 10px; border-radius: 50%; background: #bdbbb9; }
+  .rv-dots [aria-pressed='true'] span { background: var(--ink); }
+
+  /* Area */
+  .area { position: relative; overflow: hidden; }
+  .area__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
+  .area__shade { position: absolute; inset: 0; background: rgba(20, 18, 17, 0.78); }
+  .area__in { position: relative; max-width: 1400px; margin: auto; }
+  .area__p { margin: 24px 0 0; font-size: clamp(18px, 1.6vw, 22px); color: #e6e5e4; max-width: 34em; text-wrap: pretty; }
+  .area__cities { list-style: none; margin: 32px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+  .area__cities li {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.35); font-weight: 700; font-size: 17px;
+  }
+  .area__cities li span { width: 9px; height: 9px; border-radius: 50%; border: 2px solid #fff; }
+
+  /* Bottom quote form */
+  .hq { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .hq__card { background: var(--paper); border-radius: 18px; padding: clamp(20px, 3vw, 32px); }
+  .checks { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 10px; }
+  .checks li { display: grid; grid-template-columns: 30px 1fr; font-weight: 600; }
+  .checks li span:first-child { font-weight: 900; }
+</style>

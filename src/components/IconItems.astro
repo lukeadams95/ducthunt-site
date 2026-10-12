@@ -1,0 +1,15 @@
+---
+interface Props {
+  items: { i: string; t: string }[];
+  card: 'paper' | 'white';
+}
+const { items, card } = Astro.props;
+---
+<ul class="flex3">
+  {items.map((x) => (
+    <li class:list={['icon-item', card === 'paper' ? 'on-paper' : 'on-white']} style={card === 'white' ? 'box-shadow:0 1px 0 rgba(32,30,29,.08)' : undefined}>
+      <span aria-hidden="true" class="icon-ring">{x.i}</span>
+      <span class="icon-item__t">{x.t}</span>
+    </li>
+  ))}
+</ul>

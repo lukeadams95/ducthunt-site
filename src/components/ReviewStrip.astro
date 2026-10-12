@@ -1,0 +1,18 @@
+---
+import ReviewCard from './ReviewCard.astro';
+import { business } from '../data/site';
+import type { Review } from '../data/reviews';
+
+interface Props {
+  reviews: Review[];
+  on: 'dark' | 'light';
+  linkLabel?: string;
+}
+const { reviews, on, linkLabel = `Read all ${business.reviewCount} reviews on Google` } = Astro.props;
+---
+<div class="grid grid-300" style="margin-top:48px">
+  {reviews.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+</div>
+<div style="margin-top:32px;display:flex;justify-content:center">
+  <a href={business.googleUrl} target="_blank" rel="noopener" class:list={['btn btn--sm', on === 'dark' ? 'btn--ghost-light' : 'btn--ghost-ink']}>{linkLabel}</a>
+</div>

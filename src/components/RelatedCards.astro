@@ -1,0 +1,26 @@
+---
+import type { Service } from '../data/site';
+
+interface Props {
+  items: Service[];
+  /** paper = cards on a dark section · white = cards on a light section (invert on hover) */
+  card: 'paper' | 'white';
+  min?: number;
+}
+const { items, card, min = 320 } = Astro.props;
+---
+<div class="grid" style={`margin-top:40px;grid-template-columns:repeat(auto-fit,minmax(min(100%,${min}px),1fr))`}>
+  {items.map((s) => (
+    <a href={s.href} class:list={['link-card', card === 'paper' ? 'rc-paper' : 'rc-white']}>
+      <span><strong>{s.name}</strong><span>{s.blurb}</span></span>
+      <span aria-hidden="true">→</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .rc-paper { background: var(--paper); }
+  .rc-paper:hover { background: #fff; color: var(--ink); }
+  .rc-white { background: #fff; }
+  .rc-white:hover { background: var(--ink); color: #fff; }
+</style>

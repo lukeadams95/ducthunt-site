@@ -1,0 +1,18 @@
+---
+import { business } from '../data/site';
+
+interface Props {
+  /** dark = white buttons for dark sections, light = ink buttons for light sections */
+  on: 'dark' | 'light';
+  quoteHref?: string;
+  center?: boolean;
+  class?: string;
+}
+const { on, quoteHref = '#hero-quote', center = true, class: cls } = Astro.props;
+const solid = on === 'dark' ? 'btn--white' : 'btn--ink';
+const ghost = on === 'dark' ? 'btn--ghost-light' : 'btn--ghost-ink';
+---
+<div class:list={['btn-row', { 'is-center': center }, cls]}>
+  <a href={quoteHref} class:list={['btn', solid]}>Request a Quote</a>
+  <a href={business.tel} class:list={['btn', ghost]}>Call {business.phone}</a>
+</div>

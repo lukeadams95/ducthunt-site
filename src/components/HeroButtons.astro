@@ -1,0 +1,13 @@
+---
+import { business } from '../data/site';
+
+interface Props {
+  quoteHref: string;
+}
+const { quoteHref } = Astro.props;
+---
+<div class="btn-row" style="margin-top:32px">
+  <a href={business.tel} class="btn btn--white">Call {business.phone}</a>
+  <a href={quoteHref} class="btn btn--ghost-light">Get a Free Quote</a>
+  <slot />
+</div>

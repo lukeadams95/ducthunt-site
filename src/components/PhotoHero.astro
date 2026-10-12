@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import hero from '../assets/hero.webp';
+
+interface Props {
+  lead: string;
+  /** Last words of the H1, shown in stone */
+  accent: string;
+  /** CSS background for the shade over the photo */
+  shade?: string;
+  pad?: string;
+  h1Size?: string;
+  /** Limit the H1 width (single-column heroes) */
+  narrow?: boolean;
+  alt?: string;
+}
+const {
+  lead,
+  accent,
+  shade = 'rgba(20,18,17,.82)',
+  pad = 'clamp(40px,6vw,88px) var(--gutter) clamp(48px,8vw,104px)',
+  h1Size,
+  narrow = false,
+  alt = '',
+} = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+<section class="phero dark" style={`padding:${pad}`}>
+  <Image src={hero} alt={alt} widths={[768, 1280, 1920]} sizes="100vw" loading="eager" class="phero__bg" />
+  <div aria-hidden="true" class="phero__shade" style={`background:${shade}`}></div>
+  <div class:list={['phero__in', { 'phero__in--split': hasAside }]}>
+    <div>
+      <h1 class="h1" style={`${narrow ? 'max-width:14em;' : ''}${h1Size ? `font-size:${h1Size};` : ''}`}>
+        {lead} <span class="t-stone">{accent}</span>
+      </h1>
+      <slot />
+    </div>
+    {hasAside && <slot name="aside" />}
+  </div>
+</section>
+
+<style>
+  .phero { position: relative; overflow: hidden; }
+  .phero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+  .phero__shade { position: absolute; inset: 0; }
+  .phero__in { position: relative; max-width: 1280px; margin: auto; }
+  .phero__in--split {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: clamp(32px, 5vw, 64px); align-items: center;
+  }
+</style>

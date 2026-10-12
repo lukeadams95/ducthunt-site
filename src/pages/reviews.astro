@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PhotoHero from '../components/PhotoHero.astro';
+import HeroButtons from '../components/HeroButtons.astro';
+import GoogleBadge from '../components/GoogleBadge.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import { business } from '../data/site';
+import { allReviews } from '../data/reviews';
+import { graph, localBusiness } from '../data/schema';
+---
+<Base
+  page="reviews"
+  title="Duct Cleaning Reviews from Kansas City Customers | Duct Hunt"
+  description={`Rated ${business.rating} on Google. Honest feedback from homeowners and builders across the Kansas City metro about Duct Hunt's air duct and dryer vent cleaning.`}
+  schema={graph(localBusiness())}
+>
+  <PhotoHero lead="Duct Cleaning Reviews from" accent="Kansas City Customers" narrow>
+    <p class="lead">Honest feedback from homeowners and builders across the Kansas City metro, straight from Google.</p>
+    <div class="mt28" style="display:flex"><GoogleBadge /></div>
+    <HeroButtons quoteHref="/quote/">
+      <a href={business.googleUrl} target="_blank" rel="noopener" class="btn btn--ghost-light">Write a Review</a>
+    </HeroButtons>
+  </PhotoHero>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <div class="grid grid-320" style="align-items:start">
+        {allReviews.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+      </div>
+    </div>
+  </section>
+</Base>

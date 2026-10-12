@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import HeroButtons from '../../components/HeroButtons.astro';
+import Chips from '../../components/Chips.astro';
+import H2 from '../../components/H2.astro';
+import IconItems from '../../components/IconItems.astro';
+import ArrowItems from '../../components/ArrowItems.astro';
+import NumberCards from '../../components/NumberCards.astro';
+import Steps from '../../components/Steps.astro';
+import ReviewStrip from '../../components/ReviewStrip.astro';
+import FaqList from '../../components/FaqList.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import Callout from '../../components/Callout.astro';
+import { business, serviceByKey } from '../../data/site';
+import { repairReviews } from '../../data/reviews';
+import { repairFaqs } from '../../data/faqs';
+import { graph, localBusiness, service, faqPage } from '../../data/schema';
+
+const fixes = [
+  ['⇹', 'Disconnected or separated duct sections'],
+  ['▨', 'Crushed, torn, or damaged ductwork'],
+  ['≈', 'Air leaks at joints and seams'],
+  ['⊕', 'Loose or failing duct connections'],
+  ['∿', 'Damaged flex duct runs'],
+  ['⌕', 'Problems found during a duct cleaning'],
+].map(([i, t]) => ({ i, t }));
+const benefits = [
+  'More even temperatures room to room',
+  'Stronger airflow from your vents',
+  'Less wasted energy',
+  'Less dust pulled in from attics and crawl spaces',
+].map((t) => ({ t }));
+const signs = [
+  'Some rooms are always hotter or colder than others',
+  'Weak airflow from certain vents',
+  'Higher-than-usual energy bills',
+  'Visible gaps, tears, or loose sections in exposed ductwork',
+  'Excess dust even after cleaning',
+  'Whistling or rattling sounds from ducts',
+];
+const steps = [
+  { t: 'Call to describe the issue or schedule an inspection' },
+  { t: 'Inspection with photos of any damage or leaks' },
+  { t: 'Upfront quote, then repair and sealing' },
+  { t: 'Walkthrough of the finished work with before & after photos' },
+];
+const quoteHref = '/quote/?service=duct-repair';
+---
+<Base
+  page="repair"
+  title="Duct Repair & Sealing in Kansas City | Duct Hunt LLC"
+  description="Duct repair and duct sealing in Kansas City and North Kansas City. We find leaky, damaged, or disconnected ductwork and fix it, with honest upfront pricing."
+  schema={graph(localBusiness(), service('Duct Repair & Sealing', 'Duct repair and sealing'), faqPage(repairFaqs))}
+>
+  <PhotoHero lead="Duct Repair & Sealing in" accent="Kansas City">
+    <p class="lead">Leaky, damaged, or disconnected ductwork wastes the air you pay to heat and cool. We find the problem and fix it, with honest pricing from a local owner-operator.</p>
+    <HeroButtons quoteHref={quoteHref} />
+    <Chips items={['4.9★ Google', 'All Work Guaranteed', 'Upfront Pricing', 'Locally Owned']} />
+    <Placeholder slot="aside" label="Damaged or disconnected duct section in a basement or attic" />
+  </PhotoHero>
+
+  <section class="sec paper">
+    <div class="wrap-880 center">
+      <H2 lead="Duct Repair & Sealing for Homes in" sub="North Kansas City and Beyond" center />
+      <p class="body-lg" style="margin:28px 0 0">Ductwork carries every bit of heated and cooled air through your home. When sections come loose, crack, or develop gaps, that air leaks into attics, crawl spaces, and walls instead of reaching your rooms. The result is uneven temperatures, weak airflow, and an HVAC system that runs longer than it should.</p>
+      <p class="body-lg" style="margin:18px 0 0">Duct Hunt inspects your ductwork, repairs damaged sections, and seals leaks so the air goes where it's supposed to.</p>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="What We Fix with Duct Repair & Sealing" sub="in Kansas City" tone="stone" center />
+      <IconItems items={fixes} card="paper" />
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Benefits of Duct Repair & Sealing" sub="for Your Home" center />
+      <NumberCards items={benefits} card="white" />
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="Signs Your Ducts Need Repair or Sealing" sub="in Kansas City" tone="stone" center />
+      <ArrowItems items={signs} />
+    </div>
+  </section>
+
+  <Callout
+    on="light"
+    lead="Spotted During Cleaning"
+    sub="Repairs Explained, Not Pushed"
+    text="Many duct problems are found during a routine cleaning. If Derek sees damage or leaks, he'll show you photos, explain what's going on, and give you an upfront price. No pressure, and you decide what's best."
+    cta="See Air Duct Cleaning →"
+    href="/services/air-duct-cleaning/"
+  />
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="Our Duct Repair & Sealing Process" sub="in Kansas City" tone="stone" center />
+      <Steps items={steps} card="paper" arrow="white" />
+    </div>
+  </section>
+
+  <Callout
+    on="light"
+    lead="Builders, Remodelers & House Flippers"
+    sub="in Kansas City"
+    text="Ductwork disturbed during a remodel? We'll reconnect, repair, and seal it before drywall goes up or the house hits the market."
+    cta="Call About a Project"
+    href={business.tel}
+  />
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="What Kansas City Customers Say" sub="About Our Work" tone="stone" center />
+      <ReviewStrip reviews={repairReviews} on="dark" />
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="Duct Repair & Sealing FAQ" sub="for Kansas City" center />
+      <FaqList faqs={repairFaqs} maxw="960px" />
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <H2 lead="Related Services" sub="in Kansas City" tone="stone" center />
+      <RelatedCards items={[serviceByKey('duct'), serviceByKey('dryer')]} card="paper" />
+    </div>
+  </section>
+</Base>

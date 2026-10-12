@@ -1,0 +1,189 @@
+---
+import Base from '../layouts/Base.astro';
+import PhotoHero from '../components/PhotoHero.astro';
+import H2 from '../components/H2.astro';
+import ReviewCard from '../components/ReviewCard.astro';
+import { business } from '../data/site';
+import { faqCategories, slug } from '../data/faqs';
+import { faqReviews } from '../data/reviews';
+import { graph, faqPage } from '../data/schema';
+---
+<Base
+  page="faq"
+  title="Duct Cleaning FAQ | Duct Hunt Kansas City"
+  description="Straight answers about air duct cleaning, dryer vent cleaning, and duct repair in Kansas City: pricing, scheduling, service area, and what to expect."
+  schema={graph(faqPage(faqCategories.flatMap((c) => c.items)))}
+>
+  <script is:inline slot="head">document.documentElement.classList.add('js')</script>
+
+  <PhotoHero lead="Frequently Asked" accent="Questions" narrow shade="rgba(20,18,17,.84)" pad="clamp(48px,7vw,96px) var(--gutter)">
+    <p class="lead" style="max-width:34em">Straight answers about air duct cleaning, dryer vent cleaning, and duct repair in Kansas City. Don't see your question? Just call Derek.</p>
+    <div class="mt32"><a href={business.tel} class="btn btn--white">Call {business.phone}</a></div>
+  </PhotoHero>
+
+  <div class="ftabs">
+    <div class="ftabs__in">
+      <nav aria-label="FAQ categories" class="ftabs__nav">
+        {faqCategories.map((c) => <a href={`#${c.id}`}>{c.title}</a>)}
+      </nav>
+      <label class="ftabs__search">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" id="faq-search" aria-label="Search questions" placeholder="Search questions" autocomplete="off" />
+      </label>
+    </div>
+  </div>
+
+  <section class="sec paper">
+    <div class="wrap-960">
+      <p id="faq-none" class="center" style="font-size:20px;margin:0" hidden>
+        No matching questions. Call <a href={business.tel} style="font-weight:800">{business.phone}</a> and ask Derek.
+      </p>
+      {faqCategories.map((c) => (
+        <div id={c.id} class="cat" data-cat>
+          <h2 class="cat__h">{c.title}</h2>
+          <div class="cat__list">
+            {c.items.map((f) => {
+              const qid = `q-${slug(f.q)}`;
+              return (
+                <div id={qid} class="acc" data-acc data-text={`${f.q} ${f.a}`.toLowerCase()}>
+                  <h3>
+                    <button type="button" aria-expanded="false" aria-controls={`${qid}-a`} class="acc__btn">
+                      {f.q}<span aria-hidden="true" class="acc__sign">+</span>
+                    </button>
+                  </h3>
+                  <div id={`${qid}-a`} role="region" class="acc__panel">
+                    <div>
+                      <p class="acc__a">{f.a}</p>
+                      {f.link && <p class="acc__more"><a href={f.link.href}>{f.link.label} →</a></p>}
+                      <p class="acc__self"><a href={`#${qid}`} data-self>Link to this question</a></p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap-900 center">
+      <H2 lead="Still Have Questions?" sub="Talk to Derek Directly." tone="stone" />
+      <p class="body-lg" style="margin:20px auto 0;max-width:30em">No call center, just straight answers.</p>
+      <div class="btn-row is-center mt28">
+        <a href={business.tel} class="btn btn--white">Call {business.phone}</a>
+        <a href={`mailto:${business.email}`} class="btn btn--ghost-light">Send a Message</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="wrap">
+      <H2 lead="What Customers Ask" sub="Before They Book" center />
+      <div class="grid grid-320" style="margin:48px auto 0;max-width:960px">
+        {faqReviews.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLElement>('[data-acc]')];
+  const cats = [...document.querySelectorAll<HTMLElement>('[data-cat]')];
+  const none = document.getElementById('faq-none')!;
+  const search = document.getElementById('faq-search') as HTMLInputElement;
+
+  const setOpen = (item: HTMLElement, open: boolean) => {
+    item.classList.toggle('is-open', open);
+    const btn = item.querySelector('button')!;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.querySelector('.acc__sign')!.textContent = open ? '−' : '+';
+  };
+
+  // One open question per category
+  const open = (item: HTMLElement) => {
+    item.closest('[data-cat]')!.querySelectorAll<HTMLElement>('[data-acc].is-open').forEach((o) => o !== item && setOpen(o, false));
+    setOpen(item, true);
+  };
+
+  const scrollTo = (el: HTMLElement) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 160);
+
+  items.forEach((item) => {
+    item.querySelector('button')!.addEventListener('click', () =>
+      item.classList.contains('is-open') ? setOpen(item, false) : open(item),
+    );
+    item.querySelector<HTMLAnchorElement>('[data-self]')!.addEventListener('click', (e) => {
+      e.preventDefault();
+      history.replaceState(null, '', `#${item.id}`);
+      open(item);
+      scrollTo(item);
+    });
+  });
+
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    items.forEach((i) => (i.hidden = !!q && !i.dataset.text!.includes(q)));
+    cats.forEach((c) => (c.hidden = !c.querySelector('[data-acc]:not([hidden])')));
+    none.hidden = cats.some((c) => !c.hidden);
+  });
+
+  // Deep link straight to a question, on load or when the hash changes
+  const openFromHash = () => {
+    const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target || !target.matches('[data-acc]')) return;
+    if (target.hidden) {
+      search.value = '';
+      search.dispatchEvent(new Event('input'));
+    }
+    open(target);
+    requestAnimationFrame(() => scrollTo(target));
+  };
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+</script>
+
+<style>
+  .ftabs { position: sticky; top: 73px; z-index: 40; background: #fff; border-bottom: 2px solid var(--ink); }
+  @media (max-width: 1100px) { .ftabs { top: 119px; } }
+  .ftabs__in {
+    max-width: 1280px; margin: auto; padding: 12px clamp(16px, 4vw, 48px);
+    display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between;
+  }
+  .ftabs__nav { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding: 2px 0; scrollbar-width: thin; }
+  .ftabs__nav a {
+    flex: none; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+    border: 2px solid var(--ink); border-radius: 999px; color: var(--ink); font-weight: 700; font-size: 15px; text-decoration: none;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .ftabs__nav a:hover { background: var(--ink); color: #fff; }
+  .ftabs__search {
+    display: flex; align-items: center; gap: 8px; flex: 1 1 260px; max-width: 360px; min-height: 48px;
+    border: 2px solid var(--ink); border-radius: 999px; padding: 0 16px; background: #fff;
+  }
+  .ftabs__search span { font-size: 18px; }
+  .ftabs__search input { font: inherit; border: 0; outline: 0; background: transparent; width: 100%; min-height: 44px; color: var(--ink); }
+  .ftabs__search:focus-within { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  .cat { scroll-margin-top: 150px; margin-bottom: clamp(40px, 6vw, 72px); }
+  .cat__h { margin: 0; text-align: center; font-weight: 900; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; }
+  .cat__list { margin-top: 28px; border-top: 2px solid var(--ink); }
+  .acc { border-bottom: 2px solid var(--ink); scroll-margin-top: 160px; }
+  .acc h3 { margin: 0; }
+  .acc__btn {
+    all: unset; box-sizing: border-box; cursor: pointer; width: 100%; padding: 20px 0; min-height: 56px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    font-family: inherit; font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--ink);
+  }
+  .acc__btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .acc__sign { font-size: 32px; line-height: 1; flex: none; width: 28px; text-align: center; }
+  .acc__panel { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.28s ease, visibility 0.28s; }
+  .acc__panel > div { overflow: hidden; }
+  /* Collapsed only once JS is running, so answers stay readable without it */
+  :global(.js) .acc:not(.is-open) .acc__panel { grid-template-rows: 0fr; visibility: hidden; }
+  .acc__a { margin: 0 0 12px; max-width: 40em; }
+  .acc__more { margin: 0 0 12px; }
+  .acc__more a { font-weight: 800; }
+  .acc__self { margin: 0 0 24px; font-size: 14px; }
+  .acc__self a { color: var(--mute-2); }
+</style>

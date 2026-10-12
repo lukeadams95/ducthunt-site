@@ -175,7 +175,7 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
   <!-- REVIEWS -->
   <section id="reviews" class="sec rule paper">
     <div class="wrap">
-      <h2 class="h2 is-center" style="max-width:16em;letter-spacing:-.01em">Reviews from Kansas City Customers</h2>
+      <H2 lead="Reviews from Kansas City Customers" center maxw="16em" />
       <div style="margin-top:20px;display:flex;justify-content:center"><GoogleBadge /></div>
       {pages.map((p, i) => (
         <div class="grid grid-300 rv-page" style="margin-top:40px" data-rv-page={i} hidden={i > 0}>

@@ -53,16 +53,18 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
 >
   <!-- HERO -->
   <section class="hsplit dark">
-    <div class="hsplit__text">
-      <GoogleBadge size="sm" />
-      <h1 class="hsplit__h1">Air Duct &amp; Dryer Vent Cleaning in <span class="nowrap">Kansas City</span></h1>
-      <p class="hsplit__sub">Cleaner air in your home and a safer dryer vent, from a local small business that answers its own phone. Call Derek and get a straight answer.</p>
-      <div class="btn-row">
-        <a href="/quote/" class="btn btn--white">Get a Free Quote</a>
-        <a href={business.tel} class="btn btn--ghost-light">Call {business.phone}</a>
+    <div class="hsplit__in">
+      <div class="hsplit__text">
+        <GoogleBadge size="sm" />
+        <h1 class="hsplit__h1">Air Duct &amp; Dryer Vent Cleaning in <span class="nowrap">Kansas City</span></h1>
+        <p class="hsplit__sub">Cleaner air in your home and a safer dryer vent, from a local small business that answers its own phone. Call Derek and get a straight answer.</p>
+        <div class="btn-row">
+          <a href="/quote/" class="btn btn--white">Get a Free Quote</a>
+          <a href={business.tel} class="btn btn--ghost-light">Call {business.phone}</a>
+        </div>
       </div>
+      <BeforeAfterLens />
     </div>
-    <BeforeAfterLens />
   </section>
 
   <!-- QUICK QUOTE -->
@@ -253,16 +255,23 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
 
 <style>
   /* Hero */
-  .hsplit { display: grid; grid-template-columns: 55fr 45fr; background: var(--black); }
+  .hsplit { background: var(--black); padding: 0 var(--gutter); overflow: hidden; }
+  .hsplit__in { max-width: 1280px; margin: auto; display: grid; grid-template-columns: 55fr 45fr; }
   .hsplit__text {
-    background: var(--black); padding: clamp(40px, 6vw, 88px) clamp(20px, 5vw, 72px);
+    padding: clamp(40px, 6vw, 88px) clamp(24px, 4vw, 56px) clamp(40px, 6vw, 88px) 0;
     display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: clamp(18px, 2.6vw, 28px);
   }
   .hsplit__h1 { margin: 0; font-weight: 900; font-size: clamp(36px, 5.4vw, 76px); line-height: 0.98; letter-spacing: -0.03em; text-wrap: balance; }
   .hsplit__sub { margin: 0; font-size: clamp(17px, 1.8vw, 22px); max-width: 30em; color: #e6e5e4; text-wrap: pretty; }
   .hsplit .btn--white { color: var(--black); }
   .hsplit .btn--ghost-light:hover { color: var(--black); }
-  @media (max-width: 900px) { .hsplit { grid-template-columns: 1fr; } }
+  /* Carry the lens panel's background out to the viewport edge */
+  .hsplit :global(.ba) { box-shadow: 0 0 0 100vmax #1c1a19; clip-path: inset(0 -100vmax 0 0); }
+  @media (max-width: 900px) {
+    .hsplit__in { grid-template-columns: 1fr; }
+    .hsplit__text { padding-right: 0; }
+    .hsplit :global(.ba) { clip-path: inset(0 -100vmax); }
+  }
 
   /* Quick quote band */
   .qq { background: var(--stone); color: var(--ink); padding: 18px var(--gutter); }

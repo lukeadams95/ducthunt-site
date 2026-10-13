@@ -18,20 +18,20 @@ const { suffix = 'on Google', label = `${business.rating} rating on Google. Read
 
 <style>
   .gbadge {
-    display: inline-flex; flex-wrap: wrap; white-space: nowrap; align-items: center; gap: 10px; background: #fff; color: var(--ink);
+    display: inline-flex; flex-wrap: wrap; white-space: nowrap; align-items: center; gap: 10px; background: var(--white); color: var(--slate);
     text-decoration: none; padding: 6px 18px 6px 6px; border-radius: 999px; font-weight: 700;
     transition: background-color 0.15s;
   }
-  .gbadge:hover { background: #f1f0ef; color: var(--ink); }
+  .gbadge:hover { background: var(--mist); color: var(--slate); }
   .gbadge--sm { padding: 6px 16px 6px 6px; font-size: 15px; }
   .gbadge--sm .gbadge__suffix { font-weight: 600; }
   .gbadge__g {
-    width: 30px; height: 30px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px #dadce0;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--white); box-shadow: inset 0 0 0 1px var(--line);
     display: grid; place-items: center; font-weight: 900; font-size: 19px; font-family: Arial, Helvetica, sans-serif;
   }
   .gbadge__g span {
     background: conic-gradient(from -45deg, #ea4335 0 25%, #fbbc05 0 50%, #34a853 0 75%, #4285f4 0);
     -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1;
   }
-  .gbadge__stars { letter-spacing: 1px; color: #fbbc05; }
+  .gbadge__stars { letter-spacing: 1px; color: var(--sun); }
 </style>

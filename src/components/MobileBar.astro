@@ -14,14 +14,14 @@ const { quoteHref } = Astro.props;
 <style>
   .mbar {
     display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    grid-template-columns: 2fr 1fr; border-top: 2px solid var(--ink);
+    grid-template-columns: 2fr 1fr; border-top: 2px solid var(--line);
   }
   .mbar a {
     font-weight: 800; font-size: 18px; text-decoration: none; min-height: 64px;
     display: flex; align-items: center; justify-content: center;
   }
-  .mbar__call { background: var(--ink); color: #fff; }
-  .mbar__quote { background: #fff; color: var(--ink); }
+  .mbar__call { background: var(--blue); color: var(--white); }
+  .mbar__quote { background: var(--white); color: var(--blue-deep); }
   @media (max-width: 820px) {
     .mbar { display: grid; }
     :global(body) { padding-bottom: 64px; }

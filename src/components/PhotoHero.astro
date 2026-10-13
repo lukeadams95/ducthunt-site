@@ -4,7 +4,7 @@ import hero from '../assets/hero.webp';
 
 interface Props {
   lead: string;
-  /** Last words of the H1, shown in stone */
+  /** Last words of the H1, shown in blue-soft */
   accent: string;
   /** CSS background for the shade over the photo */
   shade?: string;
@@ -17,7 +17,7 @@ interface Props {
 const {
   lead,
   accent,
-  shade = 'rgba(20,18,17,.82)',
+  shade = 'linear-gradient(135deg, color-mix(in srgb, var(--blue) 95%, transparent), color-mix(in srgb, var(--blue-deep) 95%, transparent))',
   pad = 'clamp(40px,6vw,88px) var(--gutter) clamp(48px,8vw,104px)',
   h1Size,
   narrow = false,

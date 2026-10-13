@@ -62,7 +62,7 @@ const steps = [
     narrow
     h1Size="clamp(34px,6vw,76px)"
     pad="clamp(56px,9vw,112px) var(--gutter)"
-    shade="linear-gradient(90deg,rgba(20,18,17,.86) 0%,rgba(20,18,17,.62) 55%,rgba(20,18,17,.3) 100%)"
+    shade="linear-gradient(135deg,color-mix(in srgb, var(--blue) 95%, transparent) 0%,color-mix(in srgb, var(--blue-deep) 88%, transparent) 55%,color-mix(in srgb, var(--blue-deep) 65%, transparent) 100%)"
     alt="Duct Hunt trailer and air duct cleaning equipment outside a Kansas City home"
   >
     <p class="lead" style="max-width:36em">Cleaner air in your home, a safer dryer vent, and honest upfront pricing from a local owner-operator in North Kansas City. Call Derek and get a straight answer.</p>
@@ -157,32 +157,32 @@ const steps = [
 </Base>
 
 <style>
-  .scard { background: #fff; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(32, 30, 29, 0.08); }
-  .scard__img { height: 240px; overflow: hidden; background: var(--soft); }
+  .scard { background: var(--white); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 0 color-mix(in srgb, var(--slate) 8%, transparent); }
+  .scard__img { height: 240px; overflow: hidden; background: var(--mist); }
   .scard__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .scard__body { padding: 32px 32px 36px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
   .scard__body h3 { margin: 0; font-weight: 800; font-size: 26px; line-height: 1.1; }
-  .scard__body p { margin: 0; color: var(--mute); }
+  .scard__body p { margin: 0; color: var(--text-muted); }
   .scard__body ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; flex: 1; align-content: start; }
   .scard__body li { display: grid; grid-template-columns: 28px 1fr; font-size: 16px; }
-  .scard__body li span:first-child { font-weight: 900; }
+  .scard__body li span:first-child { color: var(--blue); font-weight: 900; }
   .scard__more {
-    align-self: flex-start; background: var(--ink); color: #fff; text-decoration: none; font-weight: 800;
+    align-self: flex-start; background: var(--blue); color: var(--white); text-decoration: none; font-weight: 800;
     min-height: 48px; padding: 0 24px; border-radius: 8px; display: inline-flex; align-items: center; transition: background-color 0.15s;
   }
-  .scard__more:hover { background: var(--mute); color: #fff; }
+  .scard__more:hover { background: var(--blue-deep); color: var(--white); }
 
   .price { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
   .price__list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
   .price__list li { display: grid; grid-template-columns: 36px 1fr; gap: 4px; font-size: 19px; }
-  .price__list li span:first-child { font-weight: 900; color: var(--stone); }
+  .price__list li span:first-child { font-weight: 900; color: var(--blue-soft); }
 
-  .panel { background: #fff; border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 16px; }
+  .panel { background: var(--white); border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 16px; }
   .panel h3 { margin: 0; font-weight: 900; font-size: 28px; line-height: 1.1; }
-  .panel p { margin: 0; color: var(--mute); }
+  .panel p { margin: 0; color: var(--text-muted); }
   .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; flex: 1; align-content: start; }
   .ticks li { display: grid; grid-template-columns: 28px 1fr; }
-  .ticks li span:first-child, .lined li span:first-child { font-weight: 900; }
-  .lined { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
-  .lined li { padding: 14px 0; border-bottom: 2px solid var(--ink); display: grid; grid-template-columns: 32px 1fr; font-weight: 600; }
+  .ticks li span:first-child, .lined li span:first-child { color: var(--blue); font-weight: 900; }
+  .lined { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--line); }
+  .lined li { padding: 14px 0; border-bottom: 2px solid var(--line); display: grid; grid-template-columns: 32px 1fr; font-weight: 600; }
 </style>

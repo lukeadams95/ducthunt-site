@@ -24,11 +24,11 @@ const { quoteHref } = Astro.props;
 
 <style>
   .banner {
-    position: relative; overflow: hidden; border-top: 2px solid var(--ink);
+    position: relative; overflow: hidden; border-top: 2px solid var(--line);
     padding: clamp(36px, 5vw, 64px) var(--gutter);
   }
   .banner__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
-  .banner__shade { position: absolute; inset: 0; background: rgba(20, 18, 17, 0.74); }
+  .banner__shade { position: absolute; inset: 0; background: color-mix(in srgb, var(--blue-deep) 94%, transparent); }
   .banner__in { position: relative; max-width: 960px; margin: auto; text-align: center; }
   .banner__h {
     margin: 0 auto; max-width: 16em; font-weight: 900; font-size: clamp(34px, 5vw, 64px);
@@ -37,5 +37,5 @@ const { quoteHref } = Astro.props;
   .banner__p { margin: 14px auto 0; font-size: 20px; font-weight: 500; max-width: 30em; text-wrap: pretty; }
   .banner__btns { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
   .banner__btn { font-size: 22px; min-height: 64px; padding: 0 36px; border-radius: 8px; }
-  .banner__btn--call:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+  .banner__btn--call:hover { background: color-mix(in srgb, var(--white) 14%, transparent); color: var(--white); }
 </style>

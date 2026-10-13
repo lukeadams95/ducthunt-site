@@ -18,9 +18,9 @@ const next = [
   title="Free Air Duct & Dryer Vent Cleaning Quote | Duct Hunt Kansas City"
   description="Request a free, upfront quote for air duct cleaning, dryer vent cleaning, or duct repair in Kansas City. Derek will get back to you personally."
 >
-  <PhotoHero lead="Get Your Free" accent="Quote" shade="rgba(20,18,17,.84)" pad="clamp(36px,5vw,64px) var(--gutter)" h1Size="clamp(36px,5.6vw,68px)">
+  <PhotoHero lead="Get Your Free" accent="Quote" shade="linear-gradient(135deg, color-mix(in srgb, var(--blue) 95%, transparent), color-mix(in srgb, var(--blue-deep) 95%, transparent))" pad="clamp(36px,5vw,64px) var(--gutter)" h1Size="clamp(36px,5.6vw,68px)">
     <p style="margin:18px 0 0;font-size:clamp(17px,2vw,21px);max-width:36em;text-wrap:pretty">Tell us a little about your home and Derek will get back to you with an upfront price, with no in-home estimate needed in most cases.</p>
-    <p style="margin:14px 0 0;font-size:19px;font-weight:600">Prefer to talk? <a href={business.tel} style="color:#fff;font-weight:800">Call {business.phone}</a></p>
+    <p style="margin:14px 0 0;font-size:19px;font-weight:600">Prefer to talk? <a href={business.tel} style="color:var(--white);font-weight:800">Call {business.phone}</a></p>
   </PhotoHero>
 
   <section class="qwrap">
@@ -100,7 +100,7 @@ const next = [
       <H2 lead="What Happens" sub="Next" tone="stone" center maxw="16em" />
       <div class="next"><Steps items={next} card="paper" arrow="white" /></div>
       <!-- TODO: confirm same-day quote timing with Derek, then remove this note -->
-      <p class="mono-note center" style="margin:24px auto 0;color:var(--line)">Placeholder: confirm same-day quote timing with Derek.</p>
+      <p class="mono-note center" style="margin:24px auto 0;color:color-mix(in srgb, var(--white) 85%, transparent)">Placeholder: confirm same-day quote timing with Derek.</p>
     </div>
   </section>
 </Base>
@@ -180,42 +180,42 @@ const next = [
 </script>
 
 <style>
-  .qwrap { background: var(--paper); padding: clamp(28px, 5vw, 64px) clamp(16px, 5vw, 64px) clamp(48px, 7vw, 88px); }
+  .qwrap { background: var(--mist); padding: clamp(28px, 5vw, 64px) clamp(16px, 5vw, 64px) clamp(48px, 7vw, 88px); }
   .qgrid { max-width: 1280px; margin: auto; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; align-items: start; }
   .qside { position: sticky; top: 96px; display: grid; gap: 16px; }
   @media (max-width: 1000px) {
     .qgrid { grid-template-columns: 1fr; }
     .qside { position: static; }
   }
-  .qcard { background: #fff; border-radius: 20px; padding: clamp(20px, 3.4vw, 40px); scroll-margin-top: 100px; }
+  .qcard { background: var(--white); border-radius: 20px; padding: clamp(20px, 3.4vw, 40px); scroll-margin-top: 100px; }
 
   .qf { display: grid; gap: 20px; }
   .qf__h { margin: 0; font-weight: 900; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.05; letter-spacing: -0.02em; }
-  .qf__sub { margin: -8px 0 0; color: var(--mute); }
+  .qf__sub { margin: -8px 0 0; color: var(--text-muted); }
   .qf__row { display: grid; gap: 6px; }
   .qf__row label { font-weight: 800; font-size: 17px; }
-  .qf__fine { margin: 0; text-align: center; font-size: 15px; color: var(--mute); }
+  .qf__fine { margin: 0; text-align: center; font-size: 15px; color: var(--text-muted); }
   .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
   .qdone:focus { outline: none; }
   .qdone { text-align: center; padding: clamp(16px, 4vw, 48px) 0; }
   .qdone__check {
-    width: 84px; height: 84px; border-radius: 50%; background: var(--ink); color: #fff;
+    width: 84px; height: 84px; border-radius: 50%; background: var(--blue); color: var(--white);
     display: inline-grid; place-items: center; font-size: 44px; font-weight: 900;
   }
   .qdone h2 { margin: 24px 0 0; font-weight: 900; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; }
   .qdone p { margin: 16px auto 0; font-size: 20px; max-width: 28em; }
 
-  .qside__trust { background: var(--ink); color: #fff; border-radius: 18px; padding: 24px 26px; display: grid; gap: 16px; justify-items: start; }
+  .qside__trust { background: var(--blue-deep); color: var(--white); border-radius: 18px; padding: 24px 26px; display: grid; gap: 16px; justify-items: start; }
   .qside__trust ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
   .qside__trust li { display: grid; grid-template-columns: 30px 1fr; font-weight: 600; }
-  .qside__trust li span:first-child { font-weight: 900; color: var(--stone); }
-  .qside__review { margin: 0; background: linear-gradient(180deg, #e9e8e7 0%, #fff 70%); border-radius: 18px; padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 10px; }
-  .qside__review blockquote { margin: 0; color: var(--mute); font-size: 17px; }
-  .qside__review figcaption span { font-size: 14px; color: var(--mute-2); }
-  .qside__call { border: 2px solid var(--ink); border-radius: 18px; padding: 22px 24px; background: #fff; }
+  .qside__trust li span:first-child { font-weight: 900; color: var(--blue-soft); }
+  .qside__review { margin: 0; background: linear-gradient(180deg, var(--mist) 0%, var(--white) 70%); border-radius: 18px; padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 10px; }
+  .qside__review blockquote { margin: 0; color: var(--text-muted); font-size: 17px; }
+  .qside__review figcaption span { font-size: 14px; color: var(--text-muted); }
+  .qside__call { border: 2px solid var(--line); border-radius: 18px; padding: 22px 24px; background: var(--white); }
   .qside__call p { margin: 0; font-weight: 700; }
-  .qside__call a { display: inline-flex; align-items: center; min-height: 48px; margin-top: 6px; font-weight: 900; font-size: 24px; color: var(--ink); }
+  .qside__call a { display: inline-flex; align-items: center; min-height: 48px; margin-top: 6px; font-weight: 900; font-size: 24px; color: var(--blue); }
 
   .next :global(.steps) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
 </style>

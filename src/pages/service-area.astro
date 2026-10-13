@@ -60,7 +60,7 @@ const local = [
         <ul>{areaCounties.map((c) => <li>{c}</li>)}</ul>
       </div>
       <p class="center body-lg" style="margin:32px auto 0;max-width:30em;text-wrap:balance">
-        Don't see your city? Call <a href={business.tel} style="color:#fff;font-weight:800">{business.phone}</a>, and we may still be able to help.
+        Don't see your city? Call <a href={business.tel} style="color:var(--white);font-weight:800">{business.phone}</a>, and we may still be able to help.
       </p>
     </div>
   </section>
@@ -95,12 +95,12 @@ const local = [
 </Base>
 
 <style>
-  .group { background: var(--paper); color: var(--ink); border-radius: 18px; padding: 28px; }
+  .group { background: var(--mist); color: var(--slate); border-radius: 18px; padding: 28px; }
   .group h3 { margin: 0 0 16px; font-weight: 900; font-size: 24px; line-height: 1.1; }
   .counties { margin: 40px auto 0; max-width: 900px; text-align: center; }
   .counties h3 { margin: 0 0 16px; font-weight: 900; font-size: 24px; }
   .counties ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-  .counties li { padding: 10px 18px; border-radius: 999px; border: 2px solid var(--stone); font-weight: 700; font-size: 16px; }
+  .counties li { padding: 10px 18px; border-radius: 999px; border: 2px solid var(--blue-soft); font-weight: 700; font-size: 16px; }
   /* "Why local" cards are 300px min with body text (shared cards default to 240px) */
   .local :global(.grid) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 </style>

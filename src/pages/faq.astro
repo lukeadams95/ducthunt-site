@@ -16,7 +16,7 @@ import { graph, faqPage } from '../data/schema';
 >
   <script is:inline slot="head">document.documentElement.classList.add('js')</script>
 
-  <PhotoHero lead="Frequently Asked" accent="Questions" narrow shade="rgba(20,18,17,.84)" pad="clamp(48px,7vw,96px) var(--gutter)">
+  <PhotoHero lead="Frequently Asked" accent="Questions" narrow shade="linear-gradient(135deg, color-mix(in srgb, var(--blue) 95%, transparent), color-mix(in srgb, var(--blue-deep) 95%, transparent))" pad="clamp(48px,7vw,96px) var(--gutter)">
     <p class="lead" style="max-width:34em">Straight answers about air duct cleaning, dryer vent cleaning, and duct repair in Kansas City. Don't see your question? Just call Derek.</p>
     <div class="mt32"><a href={business.tel} class="btn btn--white">Call {business.phone}</a></div>
   </PhotoHero>
@@ -144,7 +144,7 @@ import { graph, faqPage } from '../data/schema';
 </script>
 
 <style>
-  .ftabs { position: sticky; top: 73px; z-index: 40; background: #fff; border-bottom: 2px solid var(--ink); }
+  .ftabs { position: sticky; top: 73px; z-index: 40; background: var(--white); border-bottom: 2px solid var(--line); }
   @media (max-width: 1100px) { .ftabs { top: 119px; } }
   .ftabs__in {
     max-width: 1280px; margin: auto; padding: 12px clamp(16px, 4vw, 48px);
@@ -153,37 +153,37 @@ import { graph, faqPage } from '../data/schema';
   .ftabs__nav { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding: 2px 0; scrollbar-width: thin; }
   .ftabs__nav a {
     flex: none; white-space: nowrap; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
-    border: 2px solid var(--ink); border-radius: 999px; color: var(--ink); font-weight: 700; font-size: 15px; text-decoration: none;
+    border: 2px solid var(--blue); border-radius: 999px; color: var(--blue); font-weight: 700; font-size: 15px; text-decoration: none;
     transition: background-color 0.15s, color 0.15s;
   }
-  .ftabs__nav a:hover { background: var(--ink); color: #fff; }
+  .ftabs__nav a:hover { background: var(--blue); color: var(--white); }
   .ftabs__search {
     display: flex; align-items: center; gap: 8px; flex: 1 1 260px; max-width: 360px; min-height: 48px;
-    border: 2px solid var(--ink); border-radius: 999px; padding: 0 16px; background: #fff;
+    border: 2px solid var(--line-field); border-radius: 999px; padding: 0 16px; background: var(--white);
   }
   .ftabs__search span { font-size: 18px; }
-  .ftabs__search input { font: inherit; border: 0; outline: 0; background: transparent; width: 100%; min-height: 44px; color: var(--ink); }
-  .ftabs__search:focus-within { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .ftabs__search input { font: inherit; border: 0; outline: 0; background: transparent; width: 100%; min-height: 44px; color: var(--slate); }
+  .ftabs__search:focus-within { outline: 3px solid var(--blue); outline-offset: 2px; }
 
   .cat { scroll-margin-top: 150px; margin-bottom: clamp(40px, 6vw, 72px); }
   .cat__h { margin: 0; text-align: center; font-weight: 900; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; }
-  .cat__list { margin-top: 28px; border-top: 2px solid var(--ink); }
-  .acc { border-bottom: 2px solid var(--ink); scroll-margin-top: 160px; }
+  .cat__list { margin-top: 28px; border-top: 2px solid var(--line); }
+  .acc { border-bottom: 2px solid var(--line); scroll-margin-top: 160px; }
   .acc h3 { margin: 0; }
   .acc__btn {
     all: unset; box-sizing: border-box; cursor: pointer; width: 100%; padding: 20px 0; min-height: 56px;
     display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    font-family: inherit; font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--ink);
+    font-family: inherit; font-weight: 800; font-size: 20px; line-height: 1.25; color: var(--slate);
   }
-  .acc__btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-  .acc__sign { font-size: 32px; line-height: 1; flex: none; width: 28px; text-align: center; }
+  .acc__btn:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .acc__sign { color: var(--blue); font-size: 32px; line-height: 1; flex: none; width: 28px; text-align: center; }
   .acc__panel { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.28s ease, visibility 0.28s; }
   .acc__panel > div { overflow: hidden; }
   /* Collapsed only once JS is running, so answers stay readable without it */
   :global(.js) .acc:not(.is-open) .acc__panel { grid-template-rows: 0fr; visibility: hidden; }
   .acc__a { margin: 0 0 12px; max-width: 40em; }
   .acc__more { margin: 0 0 12px; }
-  .acc__more a { font-weight: 800; }
+  .acc__more a { color: var(--blue-deep); font-weight: 800; }
   .acc__self { margin: 0 0 24px; font-size: 14px; }
-  .acc__self a { color: var(--mute-2); }
+  .acc__self a { color: var(--text-muted); }
 </style>

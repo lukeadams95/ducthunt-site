@@ -77,9 +77,9 @@ const serve = [
   <section class="sec--tall dark">
     <div class="wrap">
       <div class="center wrap-960">
-        <span class="tag" style="display:inline-block;background:var(--stone);color:var(--ink)">Real customer</span>
+        <span class="tag" style="display:inline-block;background:var(--blue-soft);color:var(--slate)">Real customer</span>
         <blockquote class="big-quote">“He noticed I was still installing some drywall and needed to sand the floors. He turned my money down and recommended that I finish first, then get my duct work cleaned. I appreciate the up front honesty.”</blockquote>
-        <p style="margin:24px 0 0;font-size:20px;font-weight:700;color:var(--stone)">— Romond H.</p>
+        <p style="margin:24px 0 0;font-size:20px;font-weight:700;color:var(--blue-soft)">— Romond H.</p>
         <p style="margin:28px 0 0;font-weight:900;font-size:clamp(24px,3vw,36px)">That's how we do business.</p>
       </div>
     </div>
@@ -105,7 +105,7 @@ const serve = [
         <h2 class="h2" style="font-size:clamp(34px,5.4vw,72px);line-height:1;letter-spacing:-.03em">All Work <span class="t-stone">Guaranteed</span></h2>
         <p style="margin:20px auto 0;font-size:clamp(20px,2.2vw,26px);font-weight:600">If something isn't right, Derek will make it right.</p>
         <!-- TODO: replace with the guarantee terms once Derek confirms them -->
-        <p class="mono-note" style="margin:28px auto 0;display:inline-block;background:var(--paper);color:var(--ink);padding:10px 14px;border-radius:6px">PLACEHOLDER · Guarantee details to be confirmed by Derek</p>
+        <p class="mono-note" style="margin:28px auto 0;display:inline-block;background:var(--mist);color:var(--slate);padding:10px 14px;border-radius:6px">PLACEHOLDER · Guarantee details to be confirmed by Derek</p>
       </div>
     </div>
   </section>
@@ -145,7 +145,7 @@ const serve = [
           {homeCities.map((c) => <li class="pill">{c}</li>)}
         </ul>
         <!-- TODO: confirm city list with Derek, then remove this note -->
-        <p class="mono-note" style="margin:20px 0 0;color:var(--mute-2)">Placeholder list. Confirm cities with Derek.</p>
+        <p class="mono-note" style="margin:20px 0 0;color:var(--text-muted)">Placeholder list. Confirm cities with Derek.</p>
       </div>
       <MapEmbed minHeight="clamp(320px,38vw,500px)" />
     </div>
@@ -154,21 +154,21 @@ const serve = [
 
 <style>
   .derek { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
-  .reason { background: var(--paper); border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 12px; }
-  .reason__icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center; font-size: 24px; line-height: 1; }
+  .reason { background: var(--mist); border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 12px; }
+  .reason__icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--blue); color: var(--blue); display: grid; place-items: center; font-size: 24px; line-height: 1; }
   .reason h3 { margin: 6px 0 0; font-weight: 800; font-size: 24px; line-height: 1.1; }
-  .reason__d { margin: 0; color: var(--mute); flex: 1; }
-  .reason__q { margin: 8px 0 0; padding-top: 16px; border-top: 2px solid var(--ink); font-size: 16px; font-weight: 600; }
-  .reason__q span { color: var(--mute-2); font-weight: 500; }
+  .reason__d { margin: 0; color: var(--text-muted); flex: 1; }
+  .reason__q { margin: 8px 0 0; padding-top: 16px; border-top: 2px solid var(--line); font-size: 16px; font-weight: 600; }
+  .reason__q span { color: var(--text-muted); font-weight: 500; }
   .big-quote { margin: 28px 0 0; font-weight: 800; font-size: clamp(24px, 3.4vw, 42px); line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
-  .cmp { margin: 48px auto 0; max-width: 960px; width: 100%; background: #fff; border-radius: 18px; overflow: hidden; border-collapse: collapse; table-layout: fixed; }
-  .cmp th { background: var(--ink); color: #fff; font-weight: 800; font-size: 18px; padding: 18px 24px; text-align: left; }
-  .cmp th + th { color: var(--stone); }
-  .cmp td { padding: 18px 24px; border-top: 1px solid #d6d4d2; vertical-align: top; }
+  .cmp { margin: 48px auto 0; max-width: 960px; width: 100%; background: var(--white); border-radius: 18px; overflow: hidden; border-collapse: collapse; table-layout: fixed; }
+  .cmp th { background: var(--blue-deep); color: var(--white); font-weight: 800; font-size: 18px; padding: 18px 24px; text-align: left; }
+  .cmp th + th { color: color-mix(in srgb, var(--white) 80%, transparent); }
+  .cmp td { padding: 18px 24px; border-top: 1px solid var(--line); vertical-align: top; }
   .cmp td:first-child { font-weight: 700; display: grid; grid-template-columns: 28px 1fr; }
-  .cmp td:first-child span:first-child { font-weight: 900; }
-  .cmp td + td { color: var(--mute); border-left: 1px solid #d6d4d2; }
-  .serve { background: #fff; border-radius: 18px; padding: 30px 28px; display: flex; flex-direction: column; gap: 12px; }
+  .cmp td:first-child span:first-child { color: var(--blue); font-weight: 900; }
+  .cmp td + td { color: var(--text-muted); border-left: 1px solid var(--line); }
+  .serve { background: var(--white); border-radius: 18px; padding: 30px 28px; display: flex; flex-direction: column; gap: 12px; }
   .serve h3 { margin: 0; font-weight: 900; font-size: 26px; line-height: 1.1; }
-  .serve p { margin: 0; color: var(--mute); }
+  .serve p { margin: 0; color: var(--text-muted); }
 </style>

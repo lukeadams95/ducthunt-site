@@ -43,6 +43,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
     <slot name="head" />
+    <!-- Feedbucket feedback widget: staging domain only, never the live site -->
+    <script is:inline type="text/javascript">
+      (function (k) {
+        if (location.hostname !== 'ducthunt-site.pages.dev') return;
+        let s = document.createElement('script'); s.defer = true;
+        s.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
+        s.dataset.feedbucket = k; document.head.appendChild(s);
+      })('xZ4S7xfzJBamUHfibWaW');
+    </script>
   </head>
   <body>
     <div id="top">

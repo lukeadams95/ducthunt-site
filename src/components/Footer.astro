@@ -26,8 +26,9 @@ import { business, services, footerCities } from '../data/site';
     </div>
     <div>
       <h2 class="ftr__h">Hours</h2>
-      <!-- TODO: replace with Derek's confirmed hours -->
-      <p class="ftr__p">[Mon–Fri hours placeholder]<br />[Sat hours placeholder]</p>
+      <dl class="ftr__hours">
+        {business.hours.map((h) => <div><dt>{h.days}</dt><dd>{h.time}</dd></div>)}
+      </dl>
     </div>
   </div>
   <p class="ftr__legal">© Duct Hunt LLC. Locally owned and operated · All work guaranteed.</p>
@@ -44,6 +45,9 @@ import { business, services, footerCities } from '../data/site';
   .ftr__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
   .ftr__list a { color: var(--paper); display: inline-block; padding: 8px 0; }
   .ftr__p { margin: 0; }
+  .ftr__hours { margin: 0; display: grid; gap: 10px; }
+  .ftr__hours dt { font-weight: 700; }
+  .ftr__hours dd { margin: 0; }
   .ftr__small { margin: 12px 0 0; font-size: 15px; color: var(--line); }
   .ftr__legal { max-width: 1280px; margin: 56px auto 0; padding-top: 24px; border-top: 2px solid var(--mute); font-size: 15px; }
 </style>

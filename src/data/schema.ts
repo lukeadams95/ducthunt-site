@@ -19,6 +19,9 @@ export const localBusiness = (extra: Record<string, unknown> = {}) => ({
   email: business.email,
   address,
   areaServed: 'Kansas City metro',
+  openingHoursSpecification: business.hours.flatMap((h) =>
+    'opens' in h ? [{ '@type': 'OpeningHoursSpecification', dayOfWeek: h.schemaDays, opens: h.opens, closes: h.closes }] : [],
+  ),
   aggregateRating: { '@type': 'AggregateRating', ratingValue: business.rating, reviewCount: String(business.reviewCount) },
   ...extra,
 });

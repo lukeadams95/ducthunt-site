@@ -17,6 +17,11 @@ export const business = {
   rating: '4.9',
   reviewCount: 54,
   googleUrl: 'https://maps.app.goo.gl/PBD3ime9AN7Ch6dj8',
+  /** Weekly hours, shown in the footer and in schema.org data */
+  hours: [
+    { days: 'Monday – Friday', time: '8 AM – 7 PM', schemaDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '19:00' },
+    { days: 'Saturday – Sunday', time: 'Closed' },
+  ],
   mapEmbed:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3094.193352238411!2d-94.5787695206543!3d39.147583700000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c0f0b3325532b3%3A0xd07e34f6a63d6ef6!2sDuct%20Hunt!5e0!3m2!1sen!2sph!4v1791612120683!5m2!1sen!2sph',
 };

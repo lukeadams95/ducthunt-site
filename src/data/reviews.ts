@@ -30,12 +30,6 @@ export const dryerReviews = [
   r('Cathy J.', 'His price was very reasonable and he did a fantastic job cleaning all of the ducts and the dryer vent. I would definitely recommend him and will call him again when needed.'),
 ];
 
-export const repairReviews = [
-  r('Romond H.', "You're talking about a person with integrity... He turned my money down and recommended that I finish first, then get my duct work cleaned. I appreciate the up front honesty."),
-  r('Noah U.', "Phenomenal work. Professional, considerate, efficient, timely, and honest. Not to mention beating all local competitors and larger HVAC/specialty companies' price by hundreds of dollars."),
-  r('John S.', 'We spoke often during his work and he answered my questions without hesitation and was very knowledgeable.'),
-];
-
 export const whyWall = [
   r('Noah U.', 'Phenomenal work. Professional, considerate, efficient, timely, and honest.'),
   r('Rachel B.', 'Derek is great! Communicates well and prompt. I recommend him to my real estate clients, friends, and family!'),

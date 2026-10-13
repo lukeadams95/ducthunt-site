@@ -22,11 +22,11 @@ npm run check    # type-checks .astro and .ts files
 | `/services/` | Services overview |
 | `/services/air-duct-cleaning/` | Air Duct Cleaning |
 | `/services/dryer-vent-cleaning/` | Dryer Vent Cleaning |
-| `/services/duct-repair-sealing/` | Duct Repair & Sealing |
+| `/services/duct-repair-sealing/` | Redirects to the Light Duct Repair section of Air Duct Cleaning |
 | `/why-duct-hunt/` | Why Duct Hunt |
 | `/service-area/` | Service Area |
 | `/faq/` | FAQ (search, one-open-per-category accordions, `#q-…` deep links) |
-| `/quote/` | Free quote form. `?service=air-duct`, `dryer-vent` or `duct-repair` pre-selects the service. |
+| `/quote/` | Free quote form. `?service=air-duct` or `dryer-vent` pre-selects the service. |
 | `/reviews/` | All Google reviews |
 
 ## Where things live
@@ -36,7 +36,7 @@ npm run check    # type-checks .astro and .ts files
 - `src/data/schema.ts`: JSON-LD builders. FAQ schema is generated from the same FAQ data shown on the page, so the two always match.
 - `src/layouts/Base.astro`: shared head/SEO tags, top bar, sticky header, CTA banner, footer and mobile call bar.
 - `src/components/`: section building blocks (headings, buttons, review cards, steps, FAQ list, heroes, quote forms, before/after slider).
-- `src/styles/global.css`: design tokens and shared classes. The palette is black/white/neutral with `#D6D1C7` (warm stone) accents, Archivo for text, and Russo One for small labels only.
+- `src/styles/global.css`: design tokens and shared classes. All colors are tokens at the top of the file (`--blue`, `--blue-deep`, `--blue-soft`, `--mist`, `--slate`, `--white`, `--sun`), Archivo for text, and Russo One for small labels only.
 
 ## Quote forms (Resend: not connected yet)
 

@@ -10,7 +10,7 @@ interface Props {
 }
 const { page, quoteHref } = Astro.props;
 const simple = page === 'quote';
-const svcPages: PageKey[] = ['services', 'duct', 'dryer', 'repair'];
+const svcPages: PageKey[] = ['services', 'duct', 'dryer'];
 const cur = (on: boolean) => (on ? 'page' : undefined);
 
 const nav = [

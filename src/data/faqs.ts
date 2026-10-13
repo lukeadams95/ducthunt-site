@@ -42,14 +42,6 @@ export const dryerFaqs: Faq[] = [
   { q: 'Why is my dryer taking so long to dry clothes?', a: 'A clogged vent is one of the most common causes.' },
 ];
 
-export const repairFaqs: Faq[] = [
-  { q: 'How do I know if my ducts are leaking?', a: 'Uneven temperatures, weak airflow, high bills, or visible damage are common signs. Call and we will take a look.' },
-  { q: 'How much does duct repair cost?', a: 'It depends on the damage. You will get an upfront quote before any work begins.' },
-  { q: 'Can you repair ducts during a cleaning visit?', a: 'Often yes, depending on the repair.' },
-  { q: 'Do you replace entire duct systems?', a: 'Call (816) 655-8105 and describe your system. Derek will confirm what he can take on.' },
-  { q: 'Does sealing ducts really make a difference?', a: 'Sealing leaks helps more of your heated and cooled air reach your living spaces.' },
-];
-
 export const areaFaqs: Faq[] = [
   { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides. See the city list above, and call if yours is not listed.' },
   { q: 'Do you charge a trip fee?', a: 'Call (816) 655-8105 and we will confirm for your address.' },

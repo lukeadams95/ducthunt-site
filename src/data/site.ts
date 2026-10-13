@@ -1,7 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import svcAirDuct from '../assets/svc-air-duct.jpg';
 import svcDryerVent from '../assets/svc-dryer-vent.webp';
-import svcDuctRepair from '../assets/svc-duct-repair.webp';
 
 export const business = {
   name: 'Duct Hunt LLC',
@@ -31,7 +30,6 @@ export type PageKey =
   | 'services'
   | 'duct'
   | 'dryer'
-  | 'repair'
   | 'reviews'
   | 'why'
   | 'area'
@@ -39,7 +37,7 @@ export type PageKey =
   | 'quote';
 
 export interface Service {
-  key: 'duct' | 'dryer' | 'repair';
+  key: 'duct' | 'dryer';
   /** Value used in ?service= on the quote page */
   slug: string;
   num: string;
@@ -77,24 +75,12 @@ export const services: Service[] = [
     pos: '50% 45%',
     bullets: ['Full vent line and dryer duct', 'Lint buildup removal', 'Flat-fee pricing', 'Helps your dryer run faster and safer'],
   },
-  {
-    key: 'repair',
-    slug: 'duct-repair',
-    num: '03',
-    name: 'Duct Repair & Sealing',
-    href: '/services/duct-repair-sealing/',
-    blurb: 'Fix leaks and damaged sections so air goes where you want it.',
-    photo: 'Technician sealing a metal duct joint',
-    img: svcDuctRepair,
-    pos: '50% 50%',
-    bullets: ['Damaged or disconnected ductwork fixed', 'Leaks sealed', 'Improved airflow and efficiency'],
-  },
 ];
 
 export const serviceByKey = (k: Service['key']) => services.find((s) => s.key === k)!;
 
 /** Options for the "Service needed" field on every quote form. */
-export const serviceOptions = ['Air Duct Cleaning', 'Dryer Vent Cleaning', 'Duct Repair & Sealing', 'Not sure yet'];
+export const serviceOptions = ['Air Duct Cleaning', 'Dryer Vent Cleaning', 'Not sure yet'];
 export const customerTypes = ['Homeowner', 'Builder', 'Remodeler', 'Flipper'];
 
 export const quoteChecks = [

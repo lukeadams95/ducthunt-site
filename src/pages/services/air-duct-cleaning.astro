@@ -81,10 +81,25 @@ const quoteHref = '/quote/?service=air-duct';
   </section>
 
   <section id="light-duct-repair" class="sec white">
-    <div class="wrap-880">
-      <H2 lead="Light Duct Repair" />
-      <p class="body-lg" style="margin:28px 0 0">Derek handles minor duct repairs during air duct cleaning services, such as taping small holes or fixing loose or disconnected ductwork when the repair can be easily completed on the spot.</p>
-      <p class="body-lg" style="margin:18px 0 0">For major duct repairs, he refers customers to another company.</p>
+    <div class="wrap-1100">
+      <H2 lead="Light Duct Repair" sub="During Your Cleaning" center />
+      <p class="body-lg center" style="margin:20px auto 0;max-width:36em">Derek handles minor duct repairs during air duct cleaning services, such as taping small holes or fixing loose or disconnected ductwork when the repair can be easily completed on the spot.</p>
+      <div class="repair">
+        <div class="repair__card on-paper">
+          <span aria-hidden="true" class="icon-ring">✓</span>
+          <h3>Fixed on the spot</h3>
+          <ul>
+            <li><span aria-hidden="true">✓</span><span>Small holes taped</span></li>
+            <li><span aria-hidden="true">✓</span><span>Loose ductwork secured</span></li>
+            <li><span aria-hidden="true">✓</span><span>Disconnected ductwork reattached</span></li>
+          </ul>
+        </div>
+        <div class="repair__card repair__card--ref">
+          <span aria-hidden="true" class="icon-ring">→</span>
+          <h3>Major repairs</h3>
+          <p>For major duct repairs, he refers customers to another company.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -166,6 +181,14 @@ const quoteHref = '/quote/?service=air-duct';
   .gallery figure { margin: 0; background: var(--white); border-radius: 16px; overflow: hidden; }
   .gallery img { display: block; width: 100%; height: auto; }
   .gallery figcaption { padding: 12px 16px; font-size: 15px; font-weight: 600; }
+  .repair { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 22px; }
+  .repair__card { border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 14px; }
+  .repair__card--ref { background: var(--white); border: 2px solid var(--line); }
+  .repair__card h3 { margin: 0; font-weight: 800; font-size: 24px; line-height: 1.1; }
+  .repair__card p { margin: 0; color: var(--text-muted); }
+  .repair__card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .repair__card li { display: grid; grid-template-columns: 28px 1fr; font-weight: 600; }
+  .repair__card li span:first-child { color: var(--blue); font-weight: 900; }
   .caption { margin: 32px auto 0; text-align: center; font-size: 20px; font-weight: 600; max-width: 30em; text-wrap: balance; }
   .sign-cols { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 0 48px; }
   .sign-cols ul { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--line); align-self: start; }

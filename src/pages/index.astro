@@ -70,7 +70,7 @@ const firstShown = 6;
   <section aria-label="Get a free quote" class="qq">
     <div class="wrap">
       <SimpleQuoteForm variant="row" source="home-quick">
-        <h2 slot="head" class="qq__h">Get Your Free Quote <span style="color:var(--mute)">· Derek calls back with an upfront price</span></h2>
+        <h2 slot="head" class="qq__h">Get Your Free Quote <span class="qq__sub"><span class="qq__dot">· </span>Derek calls back with an upfront price</span></h2>
       </SimpleQuoteForm>
     </div>
   </section>
@@ -292,6 +292,12 @@ const firstShown = 6;
   /* Quick quote band */
   .qq { background: var(--stone); color: var(--ink); padding: 18px var(--gutter); }
   .qq__h { margin: 0; font-weight: 900; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.01em; }
+  .qq__sub { color: var(--mute); }
+  @media (max-width: 640px) {
+    .qq { padding-top: 28px; padding-bottom: 28px; }
+    .qq__dot { display: none; }
+    .qq__sub { display: block; margin-top: 6px; font-size: 17px; font-weight: 600; letter-spacing: 0; }
+  }
 
   /* Services */
   .svc { background: var(--paper); color: var(--ink); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }

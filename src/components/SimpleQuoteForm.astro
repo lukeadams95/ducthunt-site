@@ -79,6 +79,12 @@ const { variant, source } = Astro.props;
   .sqf--row .sqf__btn { font-size: 17px; min-height: 46px; padding: 0 22px; white-space: nowrap; }
   .sqf--row .sqf__done { text-align: center; }
   .sqf--row .sqf__done h3 { font-size: 26px; }
+  /* Phones: stack the row into full-width fields */
+  @media (max-width: 640px) {
+    .sqf--row .sqf__form { flex-direction: column; align-items: stretch; }
+    .sqf--row .sqf__form input, .sqf--row .sqf__form select { flex: none; width: 100%; min-height: 54px; padding: 0 16px; font-size: 17px; }
+    .sqf--row .sqf__btn { min-height: 56px; font-size: 18px; }
+  }
 
   /* Stacked card */
   .sqf--stack .sqf__form { display: grid; gap: 12px; }

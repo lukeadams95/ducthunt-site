@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import H2 from '../components/H2.astro';
 import CtaPair from '../components/CtaPair.astro';
 import GoogleBadge from '../components/GoogleBadge.astro';
-import ReviewCard from '../components/ReviewCard.astro';
+import GoogleG from '../components/GoogleG.astro';
 import FaqList from '../components/FaqList.astro';
 import Steps from '../components/Steps.astro';
 import MapEmbed from '../components/MapEmbed.astro';
@@ -41,9 +41,8 @@ const steps = [
   { t: 'We clean it right', d: 'Air duct work is performed to NADCA standards. Dryer vents are cleared end to end.' },
   { t: 'Final walkthrough', d: 'We show you the result. All work is guaranteed.' },
 ];
-// Most recent six reviews, shown three at a time
-const recent = allReviews.slice(0, 6);
-const pages = [recent.slice(0, 3), recent.slice(3, 6)];
+// Reviews wall: the first few show, "Show more" reveals the rest
+const firstShown = 9;
 ---
 <Base
   page="home"
@@ -177,20 +176,39 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
   <!-- REVIEWS -->
   <section id="reviews" class="sec rule paper">
     <div class="wrap">
-      <H2 lead="Reviews from Kansas City Customers" center maxw="16em" />
-      <div style="margin-top:20px;display:flex;justify-content:center"><GoogleBadge /></div>
-      {pages.map((p, i) => (
-        <div class="grid grid-300 rv-page" style="margin-top:40px" data-rv-page={i} hidden={i > 0}>
-          {p.map((r) => <ReviewCard name={r.name} text={r.text} />)}
+      <div class="rv-head">
+        <div class="rv-head__text">
+          <p class="rv-eyebrow">Our Reviews</p>
+          <H2 lead="Reviews from Kansas City Customers" maxw="16em" />
+          <p class="rv-intro">Every job gets the same care, whether it's <a href="/services/air-duct-cleaning/">air duct cleaning</a> or a <a href="/services/dryer-vent-cleaning/">dryer vent cleaning</a>. See what Kansas City homeowners have to say about Duct Hunt.</p>
         </div>
-      ))}
-      <div class="rv-dots">
-        {pages.map((_, i) => (
-          <button type="button" aria-label={`Reviews page ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'} data-rv-dot={i}><span></span></button>
+        <a href={business.googleUrl} target="_blank" rel="noopener" class="rv-badge" aria-label={`${business.rating} rating from ${business.reviewCount} Google reviews. Read them on Google`}>
+          <GoogleG size={34} />
+          <span aria-hidden="true" class="rv-stars rv-stars--lg">★★★★★</span>
+          <span class="rv-badge__t">{business.reviewCount} Google Reviews</span>
+          <span class="rv-badge__n">{business.rating} Rating</span>
+        </a>
+      </div>
+
+      <div class="rv-wall is-collapsed" id="rv-wall">
+        {allReviews.map((r, i) => (
+          <figure class:list={['rv', { 'rv--more': i >= firstShown }]}>
+            <figcaption class="rv__top">
+              <strong>{r.name}</strong>
+              <GoogleG label="Google review" />
+            </figcaption>
+            <div class="rv__rate">
+              <span class="rv-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+              <svg aria-hidden="true" class="rv__ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <blockquote class="rv__text">{r.text}</blockquote>
+          </figure>
         ))}
       </div>
-      <div style="margin-top:20px;display:flex;justify-content:center">
-        <a href={business.googleUrl} target="_blank" rel="noopener" class="btn btn--sm btn--ghost-ink">Read all customer reviews</a>
+
+      <div class="rv-actions">
+        <button type="button" class="btn btn--sm btn--ink" id="rv-more" aria-controls="rv-wall" aria-expanded="false">Show more reviews</button>
+        <a href={business.googleUrl} target="_blank" rel="noopener" class="btn btn--sm btn--ghost-ink">Read all reviews on Google</a>
       </div>
       <CtaPair on="light" class="mt44" />
     </div>
@@ -242,15 +260,13 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
 </Base>
 
 <script>
-  const dots = document.querySelectorAll<HTMLButtonElement>('[data-rv-dot]');
-  const pages = document.querySelectorAll<HTMLElement>('[data-rv-page]');
-  dots.forEach((dot) =>
-    dot.addEventListener('click', () => {
-      const n = dot.dataset.rvDot;
-      pages.forEach((p) => (p.hidden = p.dataset.rvPage !== n));
-      dots.forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
-    }),
-  );
+  const wall = document.getElementById('rv-wall');
+  const more = document.getElementById('rv-more');
+  more?.addEventListener('click', () => {
+    wall?.classList.remove('is-collapsed');
+    more.setAttribute('aria-expanded', 'true');
+    more.hidden = true;
+  });
 </script>
 
 <style>
@@ -336,10 +352,35 @@ const pages = [recent.slice(0, 3), recent.slice(3, 6)];
   .ba-pair__a { background: var(--stone); color: var(--ink); }
 
   /* Reviews */
-  .rv-dots { margin-top: 28px; display: flex; justify-content: center; gap: 4px; }
-  .rv-dots button { width: 28px; height: 28px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; padding: 0; }
-  .rv-dots span { width: 10px; height: 10px; border-radius: 50%; background: #bdbbb9; }
-  .rv-dots [aria-pressed='true'] span { background: var(--ink); }
+  .rv-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px 48px; }
+  .rv-head__text { flex: 1 1 520px; max-width: 640px; }
+  .rv-eyebrow { margin: 0 0 14px; font-weight: 700; font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute-2); }
+  .rv-intro { margin: 20px 0 0; max-width: 34em; color: var(--mute); text-wrap: pretty; }
+  .rv-intro a { color: var(--ink); font-weight: 700; }
+  .rv-badge {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 16px 22px; background: #fff; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 12px; text-decoration: none; transition: border-color 0.15s;
+  }
+  .rv-badge:hover { border-color: var(--ink); color: var(--ink); }
+  .rv-badge__t { font-weight: 800; padding-left: 16px; border-left: 1px solid var(--line); }
+  @media (max-width: 480px) { .rv-badge__t { padding-left: 0; border-left: 0; } }
+  .rv-badge__n { font-weight: 700; font-size: 14px; background: var(--soft); padding: 4px 12px; border-radius: 999px; }
+  .rv-stars { color: #fbbc05; letter-spacing: 2px; font-size: 19px; line-height: 1; }
+  .rv-stars--lg { font-size: 22px; }
+
+  /* Masonry: CSS columns let cards of any height stack without row gaps */
+  .rv-wall { margin-top: 44px; columns: 3 300px; column-gap: 22px; }
+  .rv {
+    margin: 0 0 22px; break-inside: avoid; background: #fff; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 12px; padding: 24px 26px 26px;
+  }
+  .rv-wall.is-collapsed .rv--more { display: none; }
+  .rv__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .rv__top strong { font-size: 18px; font-weight: 800; }
+  .rv__rate { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  .rv__ok { width: 18px; height: 18px; color: #4285f4; }
+  .rv__text { margin: 14px 0 0; color: var(--mute); font-size: 16px; line-height: 1.65; }
+  .rv-actions { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
   /* Area */
   .area { position: relative; overflow: hidden; }

@@ -6,6 +6,8 @@ import H2 from '../components/H2.astro';
 import GoogleBadge from '../components/GoogleBadge.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import Placeholder from '../components/Placeholder.astro';
+import { Image } from 'astro:assets';
+import whyHero from '../assets/why-hero-truck.webp';
 import MapEmbed from '../components/MapEmbed.astro';
 import { business, homeCities } from '../data/site';
 import { whyWall } from '../data/reviews';
@@ -41,7 +43,7 @@ const serve = [
   <PhotoHero lead="Why Kansas City Chooses" accent="Duct Hunt" pad="clamp(48px,7vw,96px) var(--gutter) clamp(48px,8vw,104px)">
     <p class="lead">No call centers. No surprise fees. No pressure. Just honest, thorough work from a local owner who shows up himself.</p>
     <HeroButtons quoteHref="/quote/" />
-    <Placeholder slot="aside" label="Derek with the Duct Hunt work van" />
+    <Image slot="aside" src={whyHero} alt="Duct Hunt truck and branded air duct cleaning trailer outside a Kansas City home" width={960} loading="eager" class="whero" />
   </PhotoHero>
 
   <section class="sec paper">
@@ -153,6 +155,7 @@ const serve = [
 </Base>
 
 <style>
+  .whero { width: 100%; height: auto; border-radius: 16px; min-height: clamp(300px, 36vw, 460px); max-height: 520px; object-fit: cover; display: block; }
   .derek { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
   .reason { background: var(--mist); border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 12px; }
   .reason__icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--blue); color: var(--blue); display: grid; place-items: center; font-size: 24px; line-height: 1; }

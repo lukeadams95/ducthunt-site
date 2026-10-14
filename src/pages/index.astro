@@ -16,7 +16,6 @@ import processAfter from '../assets/process-after.jpg';
 import { business, services, homeCities, quoteChecks } from '../data/site';
 import { allReviews } from '../data/reviews';
 import { homeFaqs } from '../data/faqs';
-import { graph, localBusiness } from '../data/schema';
 
 const why = [
   { t: 'Locally owned', d: 'A Kansas City small business, not a franchise. Your money stays in the community.' },
@@ -46,10 +45,11 @@ const firstShown = 6;
 ---
 <Base
   page="home"
-  title="Air Duct & Dryer Vent Cleaning in Kansas City | Duct Hunt LLC"
-  description="Locally owned air duct cleaning, dryer vent cleaning and duct repair in Kansas City. Upfront pricing from owner Derek Craig. Call (816) 655-8105."
-  schema={graph(localBusiness())}
+  title="Air Duct & Dryer Vent Cleaning in Kansas City | Duct Hunt"
+  description="Locally owned air duct and dryer vent cleaning in Kansas City. Upfront pricing from owner Derek Craig, who does every job. Call (816) 655-8105."
+  faqs={homeFaqs}
 >
+  <link slot="head" rel="preload" as="image" href="/videos/dryer-vent-poster.jpg" fetchpriority="high" />
   <!-- HERO -->
   <section class="hsplit dark">
     <div class="hsplit__in">
@@ -101,7 +101,7 @@ const firstShown = 6;
   <section id="why" class="sec">
     <div class="wrap why">
       <div class="why__img">
-        <Image src={hero} alt="Duct Hunt trailer outside a Kansas City home" widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" />
+        <Image src={hero} alt="Duct Hunt air duct cleaning trailer and duct vacuum outside a Kansas City home" widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" />
       </div>
       <div>
         <H2 lead="Why Kansas City Homeowners" sub="Call Duct Hunt" />

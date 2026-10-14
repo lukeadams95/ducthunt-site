@@ -2,6 +2,14 @@
 import { Image } from 'astro:assets';
 import logoWhite from '../assets/logo-white.png';
 import { business, services, footerCities } from '../data/site';
+
+const company = [
+  { name: 'Why Duct Hunt', href: '/why-duct-hunt/' },
+  { name: 'Reviews', href: '/reviews/' },
+  { name: 'Service Area', href: '/service-area/' },
+  { name: 'FAQ', href: '/faq/' },
+  { name: 'Free Quote', href: '/quote/' },
+];
 ---
 <footer class="ftr">
   <div class="ftr__grid">
@@ -16,13 +24,20 @@ import { business, services, footerCities } from '../data/site';
     <div>
       <h2 class="ftr__h">Services</h2>
       <ul class="ftr__list">
+        <li><a href="/services/">All Services</a></li>
         {services.map((s) => <li><a href={s.href}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="ftr__h">Company</h2>
+      <ul class="ftr__list">
+        {company.map((c) => <li><a href={c.href}>{c.name}</a></li>)}
       </ul>
     </div>
     <div>
       <h2 class="ftr__h">Service Area</h2>
       <p class="ftr__p">Kansas City metro, Missouri &amp; Kansas.</p>
-      <p class="ftr__small">Serving: {footerCities}</p>
+      <p class="ftr__small">Serving: {footerCities} <a href="/service-area/">See all cities</a></p>
     </div>
     <div>
       <h2 class="ftr__h">Hours</h2>
@@ -36,7 +51,7 @@ import { business, services, footerCities } from '../data/site';
 
 <style>
   .ftr { background: var(--blue-deep); color: var(--white); padding: clamp(56px, 8vw, 96px) var(--gutter) 40px; font-size: 18px; }
-  .ftr__grid { max-width: 1280px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 40px; }
+  .ftr__grid { max-width: 1280px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 32px; }
   .ftr__logo { height: 120px; width: auto; display: block; margin: -8px 0 4px -6px; }
   .ftr__addr { font-style: normal; margin-top: 12px; line-height: 1.8; }
   .ftr__addr a { color: var(--white); }
@@ -49,6 +64,7 @@ import { business, services, footerCities } from '../data/site';
   .ftr__hours { margin: 0; display: grid; gap: 10px; }
   .ftr__hours dt { font-weight: 700; }
   .ftr__hours dd { margin: 0; }
+  .ftr__small a { color: var(--white); font-weight: 700; }
   .ftr__small { margin: 12px 0 0; font-size: 15px; color: color-mix(in srgb, var(--white) 85%, transparent); }
   .ftr__legal { max-width: 1280px; margin: 56px auto 0; padding-top: 24px; border-top: 2px solid var(--line-on-dark); font-size: 15px; }
 </style>

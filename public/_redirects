@@ -1,0 +1,4 @@
+# Cloudflare Pages: real 301s (Astro's static `redirects` only emits meta-refresh pages).
+# The Duct Repair & Sealing page was removed; send old links to the light repair section.
+/services/duct-repair-sealing   /services/air-duct-cleaning/#light-duct-repair   301
+/services/duct-repair-sealing/  /services/air-duct-cleaning/#light-duct-repair   301

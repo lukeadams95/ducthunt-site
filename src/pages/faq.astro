@@ -6,17 +6,16 @@ import ReviewCard from '../components/ReviewCard.astro';
 import { business } from '../data/site';
 import { faqCategories, slug } from '../data/faqs';
 import { faqReviews } from '../data/reviews';
-import { graph, faqPage } from '../data/schema';
 ---
 <Base
   page="faq"
   title="Duct Cleaning FAQ | Duct Hunt Kansas City"
-  description="Straight answers about air duct cleaning, dryer vent cleaning, and duct repair in Kansas City: pricing, scheduling, service area, and what to expect."
-  schema={graph(faqPage(faqCategories.flatMap((c) => c.items)))}
+  description="Straight answers about air duct cleaning, dryer vent cleaning and duct repair in Kansas City: pricing, scheduling, service area and what to expect."
+  faqs={faqCategories.flatMap((c) => c.items)}
 >
   <script is:inline slot="head">document.documentElement.classList.add('js')</script>
 
-  <PhotoHero lead="Frequently Asked" accent="Questions" narrow shade="linear-gradient(135deg, color-mix(in srgb, var(--blue) 95%, transparent), color-mix(in srgb, var(--blue-deep) 95%, transparent))" pad="clamp(48px,7vw,96px) var(--gutter)">
+  <PhotoHero lead="Air Duct & Dryer Vent Cleaning" accent="FAQ" narrow shade="linear-gradient(135deg, color-mix(in srgb, var(--blue) 95%, transparent), color-mix(in srgb, var(--blue-deep) 95%, transparent))" pad="clamp(48px,7vw,96px) var(--gutter)">
     <p class="lead" style="max-width:34em">Straight answers about air duct cleaning, dryer vent cleaning, and duct repair in Kansas City. Don't see your question? Just call Derek.</p>
     <div class="mt32"><a href={business.tel} class="btn btn--white">Call {business.phone}</a></div>
   </PhotoHero>

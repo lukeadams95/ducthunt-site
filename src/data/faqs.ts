@@ -55,7 +55,7 @@ export interface FaqCategory {
   items: Faq[];
 }
 
-/** Full FAQ page. Answers in [brackets] are still waiting on Derek. */
+/** Full FAQ page. Every answer here is rendered verbatim and mirrored in FAQPage schema, so never publish placeholder text. */
 export const faqCategories: FaqCategory[] = [
   {
     id: 'faq-pricing',
@@ -65,7 +65,7 @@ export const faqCategories: FaqCategory[] = [
       { q: 'How much does dryer vent cleaning cost?', a: 'Dryer vent cleaning is a flat fee. Call for a quote.' },
       { q: 'Are there any hidden fees?', a: "No. The price you're quoted is the price you pay." },
       { q: 'Will you try to upsell me?', a: "No. If there are optional add-ons that might help your home, Derek will explain them and let you decide. There's never any pressure." },
-      { q: 'Is your work guaranteed?', a: 'Yes, all work is guaranteed. [guarantee details to be confirmed]' },
+      { q: 'Is your work guaranteed?', a: "Yes, all work is guaranteed. If something isn't right, Derek will make it right." },
     ],
   },
   {
@@ -87,7 +87,7 @@ export const faqCategories: FaqCategory[] = [
       { q: 'How often should I clean my dryer vent?', a: 'Generally once a year. More often for large households or long vent runs.' },
       { q: 'Why is my dryer taking so long to dry clothes?', a: 'A clogged dryer vent is one of the most common causes. Lint buildup restricts airflow, so the dryer runs longer and hotter.' },
       { q: 'Is a clogged dryer vent dangerous?', a: 'Yes. Lint is highly flammable, and a clogged vent traps heat. Regular cleaning is one of the simplest ways to reduce fire risk.' },
-      { q: 'Do you clean roof-exit dryer vents?', a: '[to be confirmed]' },
+      { q: 'Do you clean roof-exit dryer vents?', a: 'Call (816) 655-8105 and tell us where your vent exits. We will confirm with you.' },
       { q: 'Can you clean my dryer vent and air ducts in the same visit?', a: 'Yes, and many customers do both at once.' },
     ],
   },
@@ -117,7 +117,7 @@ export const faqCategories: FaqCategory[] = [
     title: 'Service Area',
     items: [
       { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides. See the Service Area page for the full list.', link: { href: '/service-area/', label: 'See the Service Area page' } },
-      { q: 'Do you charge a trip fee?', a: '[to be confirmed]' },
+      { q: 'Do you charge a trip fee?', a: 'Call (816) 655-8105 and we will confirm for your address.' },
     ],
   },
   {

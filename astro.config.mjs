@@ -5,6 +5,7 @@ import { copyFile } from 'node:fs/promises';
 
 // @astrojs/sitemap writes sitemap-index.xml + sitemap-0.xml; also publish the
 // URL list at the conventional /sitemap.xml. Must run after sitemap().
+/** @type {import('astro').AstroIntegration} */
 const sitemapXml = {
   name: 'sitemap-xml',
   hooks: {
@@ -19,8 +20,4 @@ export default defineConfig({
   site: 'https://www.ducthunt.com',
   trailingSlash: 'ignore',
   integrations: [sitemap(), sitemapXml],
-  // The Duct Repair & Sealing page was removed; send old links to the light repair section
-  redirects: {
-    '/services/duct-repair-sealing': '/services/air-duct-cleaning/#light-duct-repair',
-  },
 });

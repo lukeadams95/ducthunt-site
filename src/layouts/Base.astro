@@ -1,24 +1,58 @@
 ---
 import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Header from '../components/Header.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
-import { services, type PageKey } from '../data/site';
+import heroPhoto from '../assets/hero.webp';
+import logoBlack from '../assets/logo-black.png';
+import { SITE, services, crumbsFor, type PageKey, type Service } from '../data/site';
+import type { Faq } from '../data/faqs';
+import { businessNode, websiteNode, webPageNode, breadcrumbNode, serviceNode, faqPage } from '../data/schema';
 
 interface Props {
   title: string;
   description: string;
   page: PageKey;
-  /** JSON-LD object for this page */
-  schema?: object;
+  /** Social share image (cropped to 1.91:1). Defaults to the trailer photo. */
+  ogImage?: ImageMetadata;
+  ogAlt?: string;
+  /** FAQs rendered verbatim on this page, for FAQPage schema */
+  faqs?: Faq[];
+  /** Services this page is about, for Service schema */
+  pageServices?: Service[];
+  noindex?: boolean;
 }
-const { title, description, page, schema } = Astro.props;
+const { title, description, page, ogImage = heroPhoto, ogAlt = 'Duct Hunt trailer outside a Kansas City home', faqs, pageServices = [], noindex = false } = Astro.props;
 
 const svc = services.find((s) => s.key === page);
 const quoteHref = svc ? `/quote/?service=${svc.slug}` : '/quote/';
 const bannerQuoteHref = page === 'home' ? '#hero-quote' : page === 'quote' ? '#qform' : '/#hero-quote';
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const url = `${SITE}${Astro.url.pathname}`;
+const crumbs = crumbsFor(page);
+
+// Social image: 1.91:1, never upscaled past the source width
+const ogW = Math.min(1200, ogImage.width);
+const og = await getImage({ src: ogImage, width: ogW, height: Math.round(ogW / 1.91), fit: 'cover', format: 'jpg' });
+const ogUrl = new URL(og.src, SITE).href;
+// The business entity keeps one image on every page
+const bizPhoto = ogImage === heroPhoto ? og : await getImage({ src: heroPhoto, width: 1200, height: 628, fit: 'cover', format: 'jpg' });
+const logo = await getImage({ src: logoBlack, width: 512, format: 'png' });
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    businessNode({ logo: { src: new URL(logo.src, SITE).href, width: 512, height: Math.round((512 * logoBlack.height) / logoBlack.width) }, photo: new URL(bizPhoto.src, SITE).href }),
+    websiteNode(),
+    webPageNode(url, title, description, ogUrl, crumbs),
+    ...(crumbs.length > 1 ? [breadcrumbNode(url, crumbs)] : []),
+    ...pageServices.map(serviceNode),
+    ...(faqs?.length ? [faqPage(url, faqs)] : []),
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -36,21 +70,31 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Duct Hunt LLC" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content={String(og.attributes.width)} />
+    <meta property="og:image:height" content={String(og.attributes.height)} />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     <meta name="theme-color" content="#1f3a52" /><!-- --slate (meta tags cannot read CSS variables) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Russo+One&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Russo+One&display=swap"
       rel="stylesheet"
     />
-    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
     <slot name="head" />
     <!-- Feedbucket feedback widget: staging domain only, never the live site -->
     <script is:inline type="text/javascript">
@@ -63,9 +107,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <a href="#main" class="skip">Skip to content</a>
     <div id="top">
       <Header page={page} quoteHref={quoteHref} />
-      <main>
+      <main id="main" tabindex="-1">
+        {crumbs.length > 1 && <Breadcrumbs crumbs={crumbs} />}
         <slot />
       </main>
       <CtaBanner quoteHref={bannerQuoteHref} />

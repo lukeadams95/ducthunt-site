@@ -6,13 +6,11 @@ import GoogleBadge from '../components/GoogleBadge.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import { business } from '../data/site';
 import { allReviews } from '../data/reviews';
-import { graph, localBusiness } from '../data/schema';
 ---
 <Base
   page="reviews"
   title="Duct Cleaning Reviews from Kansas City Customers | Duct Hunt"
   description={`Rated ${business.rating} on Google. Honest feedback from homeowners and builders across the Kansas City metro about Duct Hunt's air duct and dryer vent cleaning.`}
-  schema={graph(localBusiness())}
 >
   <PhotoHero lead="Duct Cleaning Reviews from" accent="Kansas City Customers" narrow>
     <p class="lead">Honest feedback from homeowners and builders across the Kansas City metro, straight from Google.</p>

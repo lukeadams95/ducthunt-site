@@ -17,7 +17,6 @@ import dryerHero from '../../assets/dryer-hero.webp';
 import { business, serviceByKey } from '../../data/site';
 import { dryerReviews } from '../../data/reviews';
 import { dryerFaqs } from '../../data/faqs';
-import { graph, localBusiness, service, faqPage } from '../../data/schema';
 
 const included = [
   ['⇉', 'Full vent line cleaned from the dryer to the exterior'],
@@ -48,7 +47,10 @@ const quoteHref = '/quote/?service=dryer-vent';
   page="dryer"
   title="Dryer Vent Cleaning in Kansas City | Duct Hunt LLC"
   description="Flat-fee dryer vent cleaning in Kansas City and North Kansas City, often available next day. Faster drying, lower fire risk, before & after photos."
-  schema={graph(localBusiness(), service('Dryer Vent Cleaning', 'Dryer vent cleaning'), faqPage(dryerFaqs))}
+  faqs={dryerFaqs}
+  pageServices={[serviceByKey('dryer')]}
+  ogImage={dryerHero}
+  ogAlt="Exterior dryer vent hood packed with lint"
 >
   <PhotoHero lead="Dryer Vent Cleaning in" accent="Kansas City">
     <p class="lead">Faster drying, safer home. Flat-fee dryer vent cleaning from a local owner-operator, often available next day.</p>

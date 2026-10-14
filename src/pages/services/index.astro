@@ -8,11 +8,10 @@ import H2 from '../../components/H2.astro';
 import Steps from '../../components/Steps.astro';
 import ReviewStrip from '../../components/ReviewStrip.astro';
 import FaqList from '../../components/FaqList.astro';
-import Placeholder from '../../components/Placeholder.astro';
+import whyHero from '../../assets/why-hero-truck.webp';
 import { business, services } from '../../data/site';
 import { servicesReviews } from '../../data/reviews';
 import { servicesFaqs } from '../../data/faqs';
-import { graph, localBusiness, service, faqPage } from '../../data/schema';
 
 const priceItems = [
   'Call for a quote. In most cases no in-home estimate is needed.',
@@ -46,18 +45,14 @@ const steps = [
 ---
 <Base
   page="services"
-  title="Air Duct & Dryer Vent Cleaning Services in Kansas City | Duct Hunt"
-  description="Air duct cleaning, dryer vent cleaning, and duct repair & sealing in Kansas City and North Kansas City. Honest upfront pricing from a local owner-operator."
-  schema={graph(
-    localBusiness(),
-    service('Air Duct Cleaning', 'Air duct cleaning'),
-    service('Dryer Vent Cleaning', 'Dryer vent cleaning'),
-    faqPage(servicesFaqs),
-  )}
+  title="Air Duct & Dryer Vent Services in Kansas City | Duct Hunt"
+  description="Air duct cleaning, dryer vent cleaning and light duct repair across Kansas City. Honest upfront pricing from a local owner-operator in North Kansas City."
+  faqs={servicesFaqs}
+  pageServices={services}
 >
   <PhotoHero
-    lead="Air Duct & Dryer Vent Cleaning Services in"
-    accent="Kansas City"
+    lead="Duct Cleaning Services for"
+    accent="Kansas City Homes"
     narrow
     h1Size="clamp(34px,6vw,76px)"
     pad="clamp(56px,9vw,112px) var(--gutter)"
@@ -99,7 +94,7 @@ const steps = [
         </ul>
         <a href={business.tel} class="btn btn--white mt32">Call for Your Quote</a>
       </div>
-      <Placeholder label="Derek on the job in a Kansas City home" light />
+      <Image src={whyHero} alt="Duct Hunt truck and branded air duct cleaning trailer outside a Kansas City home" width={960} class="price__img" />
     </div>
   </section>
 
@@ -172,6 +167,7 @@ const steps = [
   .scard__more:hover { background: var(--blue-deep); color: var(--white); }
 
   .price { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  .price__img { width: 100%; height: auto; border-radius: 16px; display: block; }
   .price__list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
   .price__list li { display: grid; grid-template-columns: 36px 1fr; gap: 4px; font-size: 19px; }
   .price__list li span:first-child { font-weight: 900; color: var(--blue-soft); }

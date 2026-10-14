@@ -5,13 +5,11 @@ import HeroButtons from '../components/HeroButtons.astro';
 import H2 from '../components/H2.astro';
 import GoogleBadge from '../components/GoogleBadge.astro';
 import ReviewCard from '../components/ReviewCard.astro';
-import Placeholder from '../components/Placeholder.astro';
 import { Image } from 'astro:assets';
 import whyHero from '../assets/why-hero-truck.webp';
 import MapEmbed from '../components/MapEmbed.astro';
 import { business, homeCities } from '../data/site';
 import { whyWall } from '../data/reviews';
-import { graph, localBusiness } from '../data/schema';
 
 const reasons = [
   ['$', 'Upfront, honest pricing', 'Priced by vent count and home size, often over the phone with no in-home estimate needed.', 'The price he quoted me was the price I paid.', 'John S.'],
@@ -36,9 +34,10 @@ const serve = [
 ---
 <Base
   page="why"
-  title="Why Kansas City Chooses Duct Hunt | Locally Owned Air Duct Cleaning"
-  description="No call centers, no surprise fees, no pressure. Locally owned air duct cleaning in Kansas City from North Kansas City owner Derek Craig, who does every job himself."
-  schema={graph(localBusiness())}
+  title="Why Choose Duct Hunt | Locally Owned KC Duct Cleaning"
+  description="No call centers, no surprise fees, no pressure. Locally owned Kansas City air duct cleaning from owner Derek Craig, who does every job himself."
+  ogImage={whyHero}
+  ogAlt="Duct Hunt truck and branded air duct cleaning trailer outside a Kansas City home"
 >
   <PhotoHero lead="Why Kansas City Chooses" accent="Duct Hunt" pad="clamp(48px,7vw,96px) var(--gutter) clamp(48px,8vw,104px)">
     <p class="lead">No call centers. No surprise fees. No pressure. Just honest, thorough work from a local owner who shows up himself.</p>
@@ -49,7 +48,6 @@ const serve = [
   <section class="sec paper">
     <div class="wrap">
       <div class="derek">
-        <Placeholder label="Portrait of Derek Craig, owner" minHeight="clamp(360px,44vw,560px)" />
         <div>
           <H2 lead="Meet Derek," sub="Your Kansas City Duct Cleaner" />
           <p class="body-lg" style="margin:24px 0 0">Duct Hunt is a family-owned Kansas City business, and when you call, you talk to the owner. Derek Craig answers the phone, gives you the quote, and does the work himself.</p>
@@ -106,8 +104,6 @@ const serve = [
       <div class="center" style="max-width:860px;margin:auto">
         <h2 class="h2" style="font-size:clamp(34px,5.4vw,72px);line-height:1;letter-spacing:-.03em">All Work <span class="t-stone">Guaranteed</span></h2>
         <p style="margin:20px auto 0;font-size:clamp(20px,2.2vw,26px);font-weight:600">If something isn't right, Derek will make it right.</p>
-        <!-- TODO: replace with the guarantee terms once Derek confirms them -->
-        <p class="mono-note" style="margin:28px auto 0;display:inline-block;background:var(--mist);color:var(--slate);padding:10px 14px;border-radius:6px">PLACEHOLDER · Guarantee details to be confirmed by Derek</p>
       </div>
     </div>
   </section>
@@ -154,7 +150,8 @@ const serve = [
 
 <style>
   .whero { width: 100%; height: auto; border-radius: 16px; min-height: clamp(300px, 36vw, 460px); max-height: 520px; object-fit: cover; display: block; }
-  .derek { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 6vw, 80px); align-items: center; }
+  /* Text only until a real portrait of Derek is available */
+  .derek { max-width: 880px; }
   .reason { background: var(--mist); border-radius: 18px; padding: 28px 28px 30px; display: flex; flex-direction: column; gap: 12px; }
   .reason__icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--blue); color: var(--blue); display: grid; place-items: center; font-size: 24px; line-height: 1; }
   .reason h3 { margin: 6px 0 0; font-weight: 800; font-size: 24px; line-height: 1.1; }

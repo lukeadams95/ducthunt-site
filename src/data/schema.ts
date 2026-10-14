@@ -3,10 +3,8 @@ import type { Faq } from './faqs';
 
 const address = {
   '@type': 'PostalAddress',
-  streetAddress: business.street,
   addressLocality: business.city,
   addressRegion: business.region,
-  postalCode: business.zip,
   addressCountry: 'US',
 };
 

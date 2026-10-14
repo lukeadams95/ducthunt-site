@@ -8,7 +8,7 @@ import { business, services, footerCities } from '../data/site';
     <div>
       <Image src={logoWhite} alt="Duct Hunt LLC" width={196} densities={[1, 2]} class="ftr__logo" />
       <address class="ftr__addr">
-        {business.street}<br />{business.city}, {business.region} {business.zip}<br />
+        Based in {business.city}, {business.region}<br />
         <a href={business.tel} class="ftr__tel">{business.phone}</a><br />
         <a href={`mailto:${business.email}`}>{business.email}</a>
       </address>

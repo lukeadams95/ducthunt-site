@@ -90,7 +90,7 @@
   - −10: the removed `/services/duct-repair-sealing/` page was an HTML meta-refresh redirect returning 200, not a 301.
   - −5: no custom 404 page.
 - After:
-  - −5: the 301 goes to a `#fragment` URL. Cloudflare's handling of that is only confirmed after deploy (see "What I could not verify").
+  - −5: the old URL is a 301 to a section of another page (`#light-duct-repair`), which passes less relevance than a dedicated page. That's fine for a removed service, but it's the only remaining deduction.
 - Already correct before this change:
   - URLs are clean and lowercase.
   - The trailing slash is consistent everywhere: Cloudflare 308s `/faq` to `/faq/`, and canonicals, the sitemap and every internal link already use the slash form. No custom slash rules were added.
@@ -236,12 +236,20 @@ Pages no longer build schema themselves. They pass `faqs={…}` and `pageService
 3. **Social and directory profiles** for `sameAs`. See P1-10.
 4. **Core Web Vitals field data** (LCP, INP, CLS from CrUX or Search Console) and Lighthouse lab scores. The performance findings above come from reading the code only.
 5. **Color contrast** wasn't measured. The palette uses white on `--blue` and `--blue-deep`, which looks fine, but run axe or Lighthouse.
-6. **Whether Cloudflare keeps the `#fragment` in the `_redirects` target:** checked after deploy (results below).
+6. ~~Whether Cloudflare keeps the `#fragment` in the `_redirects` target~~: confirmed after deploy (see below).
 7. **Search Console:** indexing state, the old `sitemap-index.xml` submission, and any manual actions.
 
-## Post-deploy checks
+## Post-deploy checks (live, after commit `e6a5a08` deployed)
 
-_Filled in after the push to `main` deployed. See the bottom of this file._
+| Check | Result |
+|---|---|
+| `GET /this-page-does-not-exist` | **404** (was 200 + homepage) |
+| `GET /services/duct-repair-sealing` and `…/` | **301** → `/services/air-duct-cleaning/#light-duct-repair`. Cloudflare keeps the fragment, which settles item 6 under "What I could not verify". |
+| `GET /faq` | 308 → `/faq/` (Cloudflare's own slash handling; no custom slash rules) |
+| `og:image` URL on `/` | 200 `image/jpeg` |
+| Schema `logo` URL | 200 |
+| `/` JSON-LD | `HVACBusiness` graph present |
+| `robots.txt` | `Sitemap: https://www.ducthunt.com/sitemap.xml` |
 
 ## Running the audit
 

@@ -1,11 +1,28 @@
 /**
  * Shared quote submission. Every form on the site posts through here.
  *
- * Set PUBLIC_QUOTE_ENDPOINT to the URL of the (future) Resend-backed endpoint.
- * Until then, requests are NOT delivered anywhere; the visitor still sees the
- * thank-you state, so do not launch without it.
+ * Each submission does two independent things in parallel:
+ * 1. POSTs to PUBLIC_QUOTE_ENDPOINT (the webhook), if it is set. A failure here
+ *    shows the visitor an error, as before.
+ * 2. POSTs to /send-lead-notification (Cloudflare Pages Function that emails
+ *    the lead via Resend). Failures are only logged and never affect the visitor.
  */
 const endpoint = import.meta.env.PUBLIC_QUOTE_ENDPOINT as string | undefined;
+const notifyEndpoint = '/send-lead-notification';
+
+/** Fire-and-forget email notification. Never throws, never blocks. */
+function notifyByEmail(payload: Record<string, string>): void {
+  fetch(notifyEndpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  })
+    .then(async (res) => {
+      if (!res.ok) console.error('[quote] Email notification failed:', res.status, await res.text().catch(() => ''));
+    })
+    .catch((err) => console.error('[quote] Email notification failed:', err));
+}
 
 export type QuotePayload = Record<string, string>;
 
@@ -27,6 +44,9 @@ export async function sendQuote(data: QuotePayload, source: string): Promise<voi
   } catch {
     /* analytics must never block the lead */
   }
+
+  // Started before (and not awaited by) the webhook below, so neither blocks the other.
+  notifyByEmail(payload);
 
   if (!endpoint) {
     console.warn('[quote] PUBLIC_QUOTE_ENDPOINT is not set, so this request was not sent.', payload);

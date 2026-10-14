@@ -4,3 +4,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Cloudflare Pages Functions local secrets
+.dev.vars

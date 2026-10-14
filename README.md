@@ -38,24 +38,33 @@ npm run check    # type-checks .astro and .ts files
 - `src/components/`: section building blocks (headings, buttons, review cards, steps, FAQ list, heroes, quote forms, before/after slider).
 - `src/styles/global.css`: design tokens and shared classes. All colors are tokens at the top of the file (`--blue`, `--blue-deep`, `--blue-soft`, `--mist`, `--slate`, `--white`, `--sun`), Archivo for text, and Russo One for small labels only.
 
-## Quote forms (Resend: not connected yet)
+## Quote forms
 
 Every form submits through `src/scripts/quote.ts`, which:
 
 1. pushes a `quote_request_submitted` event to `window.dataLayer` and dispatches a matching DOM event (for analytics/ads conversion tracking),
-2. POSTs JSON to `PUBLIC_QUOTE_ENDPOINT`, if it is set.
+2. POSTs JSON to `/send-lead-notification` (email notification, below),
+3. POSTs JSON to `PUBLIC_QUOTE_ENDPOINT` (webhook), if it is set.
 
-To wire up Resend, create an endpoint (for example an Astro API route with a server adapter, or a Netlify/Vercel/Cloudflare function) that accepts the JSON below and sends the email with your Resend API key. Then set `PUBLIC_QUOTE_ENDPOINT` to its URL (see `.env.example`). Keep the Resend key server-side only.
+Steps 2 and 3 run in parallel. A webhook failure shows the visitor an error; an email failure is only logged to the console and never affects the visitor.
 
 Payload fields: `name`, `phone`, `email`, `service`, plus `ctype` (homepage forms) or `zip` (quote page), and `source` and `page`. A hidden `company` honeypot field is dropped before sending.
 
-**Until the endpoint exists, visitors still see the thank-you message but nothing is delivered.** A warning is logged to the browser console.
+If `PUBLIC_QUOTE_ENDPOINT` is unset, the webhook is skipped and a warning is logged (see `.env.example`).
+
+### Email notification (Resend)
+
+`functions/send-lead-notification.ts` is a Cloudflare Pages Function served at `/send-lead-notification`. It emails each lead from `Duct Hunt <leads@newleadrelay.com>` to `ducthuntllc@gmail.com` with Reply-To set to the lead's email, a "Contact this lead" block (tap-to-email / tap-to-call), and a table of every submitted field.
+
+- **Secret:** set `RESEND_API_KEY` in Cloudflare (**Workers & Pages → ducthunt-site → Settings → Variables and Secrets**, type *Secret*, Production and Preview), then redeploy. For local testing with `npx wrangler pages dev dist`, put it in `.dev.vars` (git-ignored).
+- **Sender domain:** `newleadrelay.com` must be verified in the Resend account that owns the key, or Resend rejects the send.
+- `npm run dev` (Astro only) does not run Pages Functions, so the email call 404s there; that is expected and only logged.
 
 ## Before launch
 
 These are placeholders carried over from the design, waiting on Derek:
 
-- [ ] Connect the quote endpoint (above).
+- [ ] Set `RESEND_API_KEY` in Cloudflare and send a test lead (above).
 - [ ] Business hours: footer (`src/components/Footer.astro`).
 - [ ] Guarantee terms: Why Duct Hunt page "All Work Guaranteed" band, and the FAQ answer "Is your work guaranteed?".
 - [ ] FAQ answers marked `[to be confirmed]`: roof-exit dryer vents, trip fee (`src/data/faqs.ts`).

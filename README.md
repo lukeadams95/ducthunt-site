@@ -68,7 +68,7 @@ These are placeholders carried over from the design, waiting on Derek:
 - [ ] Business hours: footer (`src/components/Footer.astro`).
 - [ ] Guarantee terms: Why Duct Hunt page "All Work Guaranteed" band, and the FAQ answer "Is your work guaranteed?".
 - [ ] FAQ answers marked `[to be confirmed]`: roof-exit dryer vents, trip fee (`src/data/faqs.ts`).
-- [ ] City lists: homepage Service Area and Why Duct Hunt page show "Placeholder list. Confirm cities with Derek."
+- [ ] City lists: homepage Service Area and Why Duct Hunt page still use the unconfirmed placeholder list in `src/data/site.ts` (`homeCities`). The public note was removed; confirm cities with Derek.
 - [ ] Same-day quote timing note on `/quote/`.
 - [ ] Photos still shown as labeled placeholders: Air Duct hero (Derek cleaning a supply vent), Duct Repair hero, Why Duct Hunt hero and Derek's portrait, Services "How Pricing Works" photo, and the two remaining Dryer Vent before/after pairs.
 - [ ] The Dryer Vent gallery's first photo is a stopgap and may be an HVAC duct, not a dryer vent.

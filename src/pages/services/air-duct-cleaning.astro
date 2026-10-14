@@ -11,8 +11,8 @@ import Steps from '../../components/Steps.astro';
 import ReviewStrip from '../../components/ReviewStrip.astro';
 import FaqList from '../../components/FaqList.astro';
 import RelatedCards from '../../components/RelatedCards.astro';
-import Placeholder from '../../components/Placeholder.astro';
 import Callout from '../../components/Callout.astro';
+import BeforeAfterLens from '../../components/BeforeAfterLens.astro';
 import ba1 from '../../assets/ba-duct-1.jpg';
 import ba2 from '../../assets/ba-duct-2.jpg';
 import ba3 from '../../assets/ba-duct-3.jpg';
@@ -62,7 +62,7 @@ const quoteHref = '/quote/?service=air-duct';
     <p class="lead">Thorough, honest duct cleaning from a local owner-operator. Upfront pricing, before &amp; after photos, and no hidden fees.</p>
     <HeroButtons quoteHref={quoteHref} />
     <Chips items={['4.9★ Google', 'NADCA Standards', 'All Work Guaranteed', 'Locally Owned']} />
-    <Placeholder slot="aside" label="Derek cleaning a supply vent" />
+    <BeforeAfterLens slot="aside" />
   </PhotoHero>
 
   <section class="sec paper">

@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "audit:seo": "node scripts/seo-audit.mjs"
+    "audit:seo": "node scripts/seo-audit.mjs",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

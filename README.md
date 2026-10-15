@@ -50,6 +50,8 @@ Every form submits through `src/scripts/quote.ts`, which:
 
 Steps 2 and 3 run in parallel. A webhook failure shows the visitor an error; an email failure is only logged to the console and never affects the visitor.
 
+After the notification returns success — and only then — the same submit fires GA4 `gtag('event', 'generate_lead', { form_name, page_path })` once. `form_name` is the form id passed as `source` (`quote-page` on `/quote/`, `home-quick` and `home-form` on `/`). `page_path` is the current path. A failed notification, a failed webhook, or a honeypot does not fire it. There is no thank-you URL; the inline confirmation is not replayed on refresh. The GA4 tag `G-J47KQV5GP8` is already in `src/layouts/Base.astro`.
+
 Payload fields: `name`, `phone`, `email`, `service`, plus `ctype` (homepage forms) or `zip` (quote page), and `source` and `page`. A hidden `company` honeypot field is dropped before sending.
 
 If `PUBLIC_QUOTE_ENDPOINT` is unset, the webhook is skipped and a warning is logged (see `.env.example`).

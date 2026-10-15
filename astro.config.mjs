@@ -19,5 +19,6 @@ export default defineConfig({
   // www is the live host (the apex 301s to it), so canonicals and the sitemap use it
   site: 'https://www.ducthunt.com',
   trailingSlash: 'ignore',
-  integrations: [sitemap({ xslURL: '/sitemap.xsl' }), sitemapXml],
+  // Plain urlset: only the namespace the URLs use
+  integrations: [sitemap({ namespaces: { news: false, xhtml: false, image: false, video: false } }), sitemapXml],
 });

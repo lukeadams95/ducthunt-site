@@ -32,7 +32,7 @@ const nav = [
 <header class="hdr">
   <div class="hdr__in">
     <a href="/" aria-label="Duct Hunt LLC home" class="hdr__logo">
-      <Image src={logoBlack} alt="Duct Hunt LLC" width={184} densities={[1, 2]} loading="eager" />
+      <Image src={logoBlack} alt="Duct Hunt LLC" width={184} densities={[1, 2]} loading="eager" fetchpriority="low" />
     </a>
     {!simple && (
       <nav class="dnav hdr__nav" aria-label="Main">

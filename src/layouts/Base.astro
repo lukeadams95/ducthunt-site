@@ -57,17 +57,48 @@ const schema = {
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-J47KQV5GP8"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- LCP image preload from the page, before the rest of the head. -->
+    <slot name="head" />
+    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin fetchpriority="low" />
+    <!--
+      GA4 G-J47KQV5GP8. The stub queues events (including generate_lead) immediately.
+      gtag.js and other third-party scripts load on the first interaction, or on idle
+      after a 15s fallback, so they stay off the first paint.
+    -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-J47KQV5GP8');
+      (function () {
+        var started = false;
+        var events = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+        function load() {
+          if (started) return;
+          started = true;
+          events.forEach(function (type) { removeEventListener(type, load, true); });
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-J47KQV5GP8';
+          document.head.appendChild(s);
+          if (location.hostname === 'ducthunt-site.pages.dev') {
+            var f = document.createElement('script');
+            f.defer = true;
+            f.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
+            f.dataset.feedbucket = 'xZ4S7xfzJBamUHfibWaW';
+            document.head.appendChild(f);
+          }
+        }
+        events.forEach(function (type) {
+          addEventListener(type, load, { capture: true, passive: true });
+        });
+        var idle = window.requestIdleCallback;
+        if (idle) setTimeout(function () { idle(load, { timeout: 1 }); }, 15000);
+        else setTimeout(load, 15000);
+      })();
     </script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
@@ -88,23 +119,7 @@ const schema = {
     <meta name="twitter:image" content={ogUrl} />
     <meta name="twitter:image:alt" content={ogAlt} />
     <meta name="theme-color" content="#1f3a52" /><!-- --slate (meta tags cannot read CSS variables) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Russo+One&display=swap"
-      rel="stylesheet"
-    />
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
-    <slot name="head" />
-    <!-- Feedbucket feedback widget: staging domain only, never the live site -->
-    <script is:inline type="text/javascript">
-      (function (k) {
-        if (location.hostname !== 'ducthunt-site.pages.dev') return;
-        let s = document.createElement('script'); s.defer = true;
-        s.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
-        s.dataset.feedbucket = k; document.head.appendChild(s);
-      })('xZ4S7xfzJBamUHfibWaW');
-    </script>
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>

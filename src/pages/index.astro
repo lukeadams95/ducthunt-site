@@ -11,6 +11,7 @@ import MapEmbed from '../components/MapEmbed.astro';
 import HeroVideoLens from '../components/HeroVideoLens.astro';
 import SimpleQuoteForm from '../components/SimpleQuoteForm.astro';
 import hero from '../assets/hero.webp';
+import { homePoster, posterSizes } from '../lib/responsive-image';
 import processBefore from '../assets/process-before.jpg';
 import processAfter from '../assets/process-after.jpg';
 import { business, services, homeCities, quoteChecks } from '../data/site';
@@ -42,6 +43,7 @@ const steps = [
 ];
 // Reviews wall: the first few show, "Show more" reveals the rest
 const firstShown = 6;
+const lcp = await homePoster();
 ---
 <Base
   page="home"
@@ -49,7 +51,16 @@ const firstShown = 6;
   description="Locally owned air duct and dryer vent cleaning in Kansas City. Upfront pricing from owner Derek Craig, who does every job. Call (816) 655-8105."
   faqs={homeFaqs}
 >
-  <link slot="head" rel="preload" as="image" href="/videos/dryer-vent-poster.jpg" fetchpriority="high" />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    type="image/avif"
+    href={lcp.preloadHref}
+    imagesrcset={lcp.avifSrcset}
+    imagesizes={posterSizes}
+    fetchpriority="high"
+  />
   <!-- HERO -->
   <section class="hsplit dark">
     <div class="hsplit__in">
@@ -83,7 +94,7 @@ const firstShown = 6;
         {services.map((s) => (
           <article class="svc">
             <div class="svc__img">
-              <Image src={s.img} alt={s.photo} width={640} loading="lazy" style={`object-position:${s.pos}`} />
+              <Image src={s.img} alt={s.photo} width={640} loading="lazy" fetchpriority="low" style={`object-position:${s.pos}`} />
             </div>
             <div class="svc__body">
               <h3>{s.name}</h3>
@@ -101,7 +112,7 @@ const firstShown = 6;
   <section id="why" class="sec">
     <div class="wrap why">
       <div class="why__img">
-        <Image src={hero} alt="Duct Hunt air duct cleaning trailer and duct vacuum outside a Kansas City home" widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" />
+        <Image src={hero} alt="Duct Hunt air duct cleaning trailer and duct vacuum outside a Kansas City home" widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" loading="lazy" fetchpriority="low" />
       </div>
       <div>
         <H2 lead="Why Kansas City Homeowners" sub="Call Duct Hunt" />
@@ -161,11 +172,11 @@ const firstShown = 6;
       <Steps items={steps} card="paper" arrow="white" tag="plain" big />
       <div class="ba-pair">
         <figure>
-          <Image src={processBefore} alt="Air duct before cleaning, with debris" width={720} />
+          <Image src={processBefore} alt="Air duct before cleaning, with debris" width={720} loading="lazy" fetchpriority="low" />
           <figcaption class="russo ba-pair__b">BEFORE</figcaption>
         </figure>
         <figure>
-          <Image src={processAfter} alt="Same air duct after cleaning" width={720} />
+          <Image src={processAfter} alt="Same air duct after cleaning" width={720} loading="lazy" fetchpriority="low" />
           <figcaption class="russo ba-pair__a">AFTER</figcaption>
         </figure>
       </div>
@@ -216,7 +227,7 @@ const firstShown = 6;
 
   <!-- AREA -->
   <section id="area" class="sec--tall dark area">
-    <Image src={hero} alt="" widths={[768, 1280, 1920]} sizes="100vw" class="area__bg" />
+    <Image src={hero} alt="" widths={[768, 1280, 1920]} sizes="100vw" class="area__bg" loading="lazy" fetchpriority="low" />
     <div aria-hidden="true" class="area__shade"></div>
     <div class="area__in split">
       <div>

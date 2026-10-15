@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import hero from '../assets/hero.webp';
+import { heroSizes, pageHero } from '../lib/responsive-image';
 
 interface Props {
   lead: string;
@@ -24,9 +23,23 @@ const {
   alt = '',
 } = Astro.props;
 const hasAside = Astro.slots.has('aside');
+const bg = await pageHero();
 ---
 <section class="phero dark" style={`padding:${pad}`}>
-  <Image src={hero} alt={alt} widths={[768, 1280, 1920]} sizes="100vw" loading="eager" class="phero__bg" />
+  <picture class="phero__picture">
+    {bg.sources.map((source) => <source type={source.type} srcset={source.srcset} sizes={heroSizes} />)}
+    <img
+      class="phero__bg"
+      src={bg.src}
+      srcset={bg.sources[1].srcset}
+      sizes={heroSizes}
+      width={bg.width}
+      height={bg.height}
+      alt={alt}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </picture>
   <div aria-hidden="true" class="phero__shade" style={`background:${shade}`}></div>
   <div class:list={['phero__in', { 'phero__in--split': hasAside }]}>
     <div>
@@ -41,7 +54,8 @@ const hasAside = Astro.slots.has('aside');
 
 <style>
   .phero { position: relative; overflow: hidden; }
-  .phero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+  .phero__picture, .phero__bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .phero__bg { object-fit: cover; object-position: 60% 50%; }
   .phero__shade { position: absolute; inset: 0; }
   .phero__in { position: relative; max-width: 1280px; margin: auto; }
   .phero__in--split {

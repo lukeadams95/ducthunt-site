@@ -1,18 +1,58 @@
+---
+import { homePoster, posterSizes } from '../lib/responsive-image';
+
+const still = await homePoster();
+---
 <div class="ba">
   <div aria-hidden="true" class="ba__ring ba__ring--a"></div>
   <div aria-hidden="true" class="ba__ring ba__ring--b"></div>
   <div class="ba__lens">
     <video
+      id="hero-vent"
       class="ba__video"
-      src="/videos/dryer-vent.mp4"
-      poster="/videos/dryer-vent-poster.jpg"
-      autoplay
+      data-src="/videos/dryer-vent-hero.mp4"
       muted
       loop
       playsinline
-      preload="auto"
+      preload="none"
       aria-label="Dryer vent being cleaned from outside the home"
     ></video>
+    <picture class="ba__picture">
+      {still.sources.map((source) => <source type={source.type} srcset={source.srcset} sizes={posterSizes} />)}
+      <img
+        id="hero-vent-poster"
+        class="ba__poster"
+        src={still.src}
+        srcset={still.sources[1].srcset}
+        sizes={posterSizes}
+        width={still.width}
+        height={still.height}
+        alt=""
+        loading="eager"
+        decoding="sync"
+        fetchpriority="high"
+      />
+    </picture>
+    <script is:inline>
+      (function () {
+        var video = document.getElementById('hero-vent');
+        var poster = document.getElementById('hero-vent-poster');
+        if (!video || !poster) return;
+        // The still is the LCP image and matches the opening frame. Hold the clip
+        // until after load (or the first tap) so it does not compete with that image.
+        function start() {
+          if (video.getAttribute('src')) return;
+          video.src = video.getAttribute('data-src');
+          video.addEventListener('playing', function () { poster.hidden = true; }, { once: true });
+          var play = video.play();
+          if (play && play.catch) play.catch(function () {});
+        }
+        addEventListener('pointerdown', start, { once: true, passive: true });
+        function later() { setTimeout(start, 4000); }
+        if (document.readyState === 'complete') later();
+        else addEventListener('load', later, { once: true });
+      })();
+    </script>
   </div>
 </div>
 
@@ -28,7 +68,8 @@
     position: relative; width: min(100%, 560px); aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden;
     border: 6px solid var(--white); box-shadow: 0 20px 60px color-mix(in srgb, var(--slate) 40%, transparent); background: var(--slate);
   }
-  .ba__video {
+  .ba__video, .ba__picture, .ba__poster {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block;
   }
+  .ba__poster { z-index: 1; }
 </style>

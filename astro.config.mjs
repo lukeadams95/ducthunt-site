@@ -19,6 +19,8 @@ export default defineConfig({
   // www is the live host (the apex 301s to it), so canonicals and the sitemap use it
   site: 'https://www.ducthunt.com',
   trailingSlash: 'ignore',
+  // Page CSS is small. Inlining it removes the render-blocking stylesheet.
+  build: { inlineStylesheets: 'always' },
   // Plain urlset: only the namespace the URLs use
   integrations: [sitemap({ namespaces: { news: false, xhtml: false, image: false, video: false } }), sitemapXml],
 });

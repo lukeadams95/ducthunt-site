@@ -5,7 +5,10 @@
  * 1. POSTs to PUBLIC_QUOTE_ENDPOINT (the webhook), if it is set. A failure here
  *    shows the visitor an error, as before.
  * 2. POSTs to /send-lead-notification (Cloudflare Pages Function that emails
- *    the lead via Resend). Failures are only logged and never affect the visitor.
+ *    the lead via Resend, after a Turnstile check). When no webhook is set this
+ *    email is the only lead path, so its failure is a failed submission: the
+ *    visitor sees the "please call" error instead of a false success. When a
+ *    webhook is set, a notification failure is only logged, as before.
  *
  * GA4 `generate_lead` fires once per submission, only after that notification
  * returns success. It does not fire for honeypots, notification failures, or
@@ -72,11 +75,16 @@ declare global {
   }
 }
 
+const TOKEN_FIELD = 'cf-turnstile-response';
+
 export async function sendQuote(data: QuotePayload, source: string, endpoint = quoteEndpoint()): Promise<void> {
   // Honeypot: bots fill every field. Pretend success and drop it.
   if (data.company) return;
   delete data.company;
 
+  // The Turnstile token goes only to our own notification endpoint.
+  const token = data[TOKEN_FIELD];
+  delete data[TOKEN_FIELD];
   const payload = { ...data, source, page: location.pathname };
 
   try {
@@ -87,7 +95,7 @@ export async function sendQuote(data: QuotePayload, source: string, endpoint = q
     /* analytics must never block the lead */
   }
 
-  const notified = notifyByEmail(payload);
+  const notified = notifyByEmail(token ? { ...payload, [TOKEN_FIELD]: token } : payload);
   // Arm only on the visitor-success path. A webhook failure throws below and
   // never reaches this, so a notification that already succeeded cannot emit.
   let armed = false;
@@ -100,8 +108,9 @@ export async function sendQuote(data: QuotePayload, source: string, endpoint = q
   };
 
   if (!endpoint) {
-    console.warn('[quote] PUBLIC_QUOTE_ENDPOINT is not set, so this request was not sent.', payload);
+    // The email is the only lead path: wait for it and surface a failure.
     trackAfterNotification();
+    if (!(await notified)) throw new Error('Lead notification failed');
     return;
   }
   const res = await fetch(endpoint, {

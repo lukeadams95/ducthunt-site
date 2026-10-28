@@ -88,10 +88,12 @@ describe('generate_lead', { concurrency: false }, () => {
       return gate.then(() => jsonResponse({ ok: true, id: 'email_stub' }));
     });
 
-    await sendQuote(leadBody('quote-page'), 'quote-page');
+    const pending = sendQuote(leadBody('quote-page'), 'quote-page');
+    await settle();
     assert.equal(gtagCalls.length, 0, 'must not fire before the API returns');
 
     release();
+    await pending;
     await settle();
 
     assert.equal(gtagCalls.length, 1);
@@ -127,7 +129,7 @@ describe('generate_lead', { concurrency: false }, () => {
     installBrowser('/quote/');
     stubFetch(() => jsonResponse({ ok: false, error: 'stubbed failure' }, 502));
 
-    await sendQuote(leadBody('quote-page'), 'quote-page');
+    await assert.rejects(sendQuote(leadBody('quote-page'), 'quote-page'), /Lead notification failed/);
     await settle();
 
     assert.equal(gtagCalls.length, 0);
@@ -140,7 +142,7 @@ describe('generate_lead', { concurrency: false }, () => {
       throw new Error('offline');
     });
 
-    await sendQuote(leadBody('home-quick'), 'home-quick');
+    await assert.rejects(sendQuote(leadBody('home-quick'), 'home-quick'), /Lead notification failed/);
     await settle();
 
     assert.equal(gtagCalls.length, 0);
@@ -150,7 +152,7 @@ describe('generate_lead', { concurrency: false }, () => {
     installBrowser('/');
     stubFetch(() => jsonResponse({ ok: false, error: 'Email is not configured' }, 200));
 
-    await sendQuote(leadBody('home-form'), 'home-form');
+    await assert.rejects(sendQuote(leadBody('home-form'), 'home-form'), /Lead notification failed/);
     await settle();
 
     assert.equal(gtagCalls.length, 0);
@@ -212,6 +214,29 @@ describe('generate_lead', { concurrency: false }, () => {
     await settle();
 
     assert.equal(gtagCalls.length, 0);
+  });
+
+  test('a Turnstile rejection (403) is a visible failure, not a silent drop', async () => {
+    installBrowser('/quote/');
+    stubFetch(() => jsonResponse({ ok: false, error: 'Spam check failed' }, 403));
+
+    await assert.rejects(sendQuote(leadBody('quote-page'), 'quote-page'), /Lead notification failed/);
+    await settle();
+
+    assert.equal(gtagCalls.length, 0);
+  });
+
+  test('the Turnstile token goes to the notification only, never the webhook', async () => {
+    installBrowser('/quote/');
+    stubFetch((url) => (url === NOTIFY ? jsonResponse({ ok: true, id: 'email_stub' }) : jsonResponse({ ok: true })));
+
+    await sendQuote({ ...leadBody('quote-page'), 'cf-turnstile-response': 'tok_stub' }, 'quote-page', 'https://example.test/webhook');
+    await settle();
+
+    const notify = JSON.parse(fetchCalls.find((c) => c.url === NOTIFY).init.body);
+    const hook = JSON.parse(fetchCalls.find((c) => c.url !== NOTIFY).init.body);
+    assert.equal(notify['cf-turnstile-response'], 'tok_stub');
+    assert.equal(hook['cf-turnstile-response'], undefined);
   });
 
   test('a second successful submission fires a second event', async () => {

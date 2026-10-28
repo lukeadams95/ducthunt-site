@@ -2,6 +2,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { copyFile } from 'node:fs/promises';
+import { readdirSync } from 'node:fs';
+
+// The /blog/ index stays out of the sitemap (and is noindex) until the first post exists.
+const hasPosts = readdirSync(new URL('./src/content/blog/', import.meta.url)).some((f) => f.endsWith('.md') && !f.startsWith('_'));
 
 // @astrojs/sitemap writes sitemap-index.xml + sitemap-0.xml; also publish the
 // URL list at the conventional /sitemap.xml. Must run after sitemap().
@@ -22,5 +26,11 @@ export default defineConfig({
   // Page CSS is small. Inlining it removes the render-blocking stylesheet.
   build: { inlineStylesheets: 'always' },
   // Plain urlset: only the namespace the URLs use
-  integrations: [sitemap({ namespaces: { news: false, xhtml: false, image: false, video: false } }), sitemapXml],
+  integrations: [
+    sitemap({
+      namespaces: { news: false, xhtml: false, image: false, video: false },
+      filter: (page) => hasPosts || page !== 'https://www.ducthunt.com/blog/',
+    }),
+    sitemapXml,
+  ],
 });

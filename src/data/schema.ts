@@ -105,3 +105,49 @@ export const faqPage = (url: string, faqs: Faq[]) => ({
     acceptedAnswer: { '@type': 'Answer', text: f.a },
   })),
 });
+
+/** Derek Craig, owner. One @id so every post points at the same person. */
+export const authorNode = () => ({
+  '@type': 'Person',
+  '@id': `${SITE}/#derek-craig`,
+  name: business.owner,
+  jobTitle: 'Owner',
+  worksFor: ref(ids.business),
+});
+
+const blogId = `${SITE}/blog/#blog`;
+
+export const blogNode = (url: string, posts: { url: string; headline: string; datePublished: string }[]) => ({
+  '@type': 'Blog',
+  '@id': blogId,
+  url,
+  name: 'Duct Hunt Blog',
+  isPartOf: ref(ids.website),
+  publisher: ref(ids.business),
+  mainEntityOfPage: ref(`${url}#webpage`),
+  inLanguage: 'en-US',
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', '@id': `${p.url}#article`, headline: p.headline, url: p.url, datePublished: p.datePublished })),
+});
+
+export const blogPostingNode = (p: {
+  url: string;
+  headline: string;
+  description: string;
+  image: string;
+  datePublished: string;
+  dateModified: string;
+}) => ({
+  '@type': 'BlogPosting',
+  '@id': `${p.url}#article`,
+  headline: p.headline,
+  description: p.description,
+  image: [p.image],
+  datePublished: p.datePublished,
+  dateModified: p.dateModified,
+  author: ref(`${SITE}/#derek-craig`),
+  publisher: ref(ids.business),
+  mainEntityOfPage: ref(`${p.url}#webpage`),
+  isPartOf: { '@type': 'Blog', '@id': blogId, name: 'Duct Hunt Blog', url: `${SITE}/blog/` },
+  url: p.url,
+  inLanguage: 'en-US',
+});

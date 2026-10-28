@@ -3,8 +3,8 @@ import { heroSizes, pageHero } from '../lib/responsive-image';
 
 interface Props {
   lead: string;
-  /** Last words of the H1, shown in blue-soft */
-  accent: string;
+  /** Last words of the H1, shown in blue-soft. Optional (blog post titles have none). */
+  accent?: string;
   /** CSS background for the shade over the photo */
   shade?: string;
   pad?: string;
@@ -44,7 +44,7 @@ const bg = await pageHero();
   <div class:list={['phero__in', { 'phero__in--split': hasAside }]}>
     <div>
       <h1 class="h1" style={`${narrow ? 'max-width:14em;' : ''}${h1Size ? `font-size:${h1Size};` : ''}`}>
-        {lead} <span class="t-stone">{accent}</span>
+        {lead}{accent ? ' ' : ''}{accent && <span class="t-stone">{accent}</span>}
       </h1>
       <slot />
     </div>

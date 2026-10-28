@@ -38,7 +38,8 @@ for (const f of files.sort()) {
   const html = readFileSync(f, 'utf8');
   const route = '/' + relative(DIST, f).replace(/index\.html$/, '');
   if (/http-equiv="refresh"/.test(html)) { rows.push({ route, note: 'redirect stub' }); continue; }
-  const is404 = route === '/404.html';
+  // The empty /blog/ index (no posts yet) is intentionally noindex and out of the sitemap, like the 404 page
+  const is404 = route === '/404.html' || (route === '/blog/' && /<meta name="robots" content="noindex"/.test(html));
 
   if (!/<html lang="en"/.test(html)) err(route, 'missing <html lang="en">');
   if (!/<meta name="viewport" content="width=device-width, initial-scale=1"/.test(html)) err(route, 'viewport meta missing/incorrect');

@@ -40,6 +40,8 @@ export type PageKey =
   | 'area'
   | 'faq'
   | 'quote'
+  | 'blog'
+  | 'post'
   | 'notfound';
 
 export interface Service {
@@ -98,6 +100,7 @@ export const crumbsFor = (page: PageKey): { name: string; href: string }[] => {
     area: [{ name: 'Service Area', href: '/service-area/' }],
     faq: [{ name: 'FAQ', href: '/faq/' }],
     quote: [{ name: 'Free Quote', href: '/quote/' }],
+    blog: [{ name: 'Blog', href: '/blog/' }],
   };
   return page === 'home' || page === 'notfound' ? [] : [home, ...(leaf[page] ?? [])];
 };

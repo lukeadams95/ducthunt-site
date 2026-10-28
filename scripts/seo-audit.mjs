@@ -34,12 +34,14 @@ const descs = new Map();
 const h1s = new Map();
 const rows = [];
 
+let emptyBlog = false;
 for (const f of files.sort()) {
   const html = readFileSync(f, 'utf8');
   const route = '/' + relative(DIST, f).replace(/index\.html$/, '');
   if (/http-equiv="refresh"/.test(html)) { rows.push({ route, note: 'redirect stub' }); continue; }
   // The empty /blog/ index (no posts yet) is intentionally noindex and out of the sitemap, like the 404 page
   const is404 = route === '/404.html' || (route === '/blog/' && /<meta name="robots" content="noindex"/.test(html));
+  if (route === '/blog/' && is404) emptyBlog = true;
 
   if (!/<html lang="en"/.test(html)) err(route, 'missing <html lang="en">');
   if (!/<meta name="viewport" content="width=device-width, initial-scale=1"/.test(html)) err(route, 'viewport meta missing/incorrect');
@@ -127,7 +129,7 @@ if (!/Sitemap: https:\/\/www\.ducthunt\.com\/sitemap\.xml/.test(robotsTxt)) err(
 if (/Disallow:\s*\/(_astro|assets)/.test(robotsTxt)) err('robots.txt', 'blocks asset paths');
 const sm = existsSync(join(DIST, 'sitemap.xml')) ? readFileSync(join(DIST, 'sitemap.xml'), 'utf8') : '';
 const smUrls = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-rows.filter((r) => !r.note && r.route !== '/404.html').forEach((r) => {
+rows.filter((r) => !r.note && r.route !== '/404.html' && !(r.route === '/blog/' && emptyBlog)).forEach((r) => {
   if (!smUrls.includes(SITE + r.route)) err(r.route, 'not in sitemap.xml');
 });
 smUrls.forEach((u) => { if (!rows.some((r) => SITE + r.route === u && !r.note)) err(u, 'sitemap URL has no page'); });

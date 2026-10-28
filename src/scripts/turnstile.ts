@@ -7,7 +7,7 @@
  * click. Tokens are single-use, so a widget is reset after every attempt.
  * The token is checked server-side in functions/send-lead-notification.ts.
  */
-export const TURNSTILE_SITEKEY = '0x4AAAAAAFBOLbH9nLEHWGVh';
+export const TURNSTILE_SITEKEY = '0x4AAAAAAFqPsv2IaObGIDzr';
 export const TURNSTILE_ACTION = 'quote';
 export const TOKEN_FIELD = 'cf-turnstile-response';
 

@@ -4,12 +4,20 @@
  * Emails each quote request to Duct Hunt through Resend. Runs alongside the
  * PUBLIC_QUOTE_ENDPOINT webhook (see src/scripts/quote.ts), not instead of it.
  *
- * Needs the RESEND_API_KEY secret (Cloudflare Pages → Settings → Variables and
- * Secrets; `.dev.vars` for `wrangler pages dev`).
+ * Needs the RESEND_API_KEY and TURNSTILE_SECRET secrets (Cloudflare Pages →
+ * Settings → Variables and Secrets; `.dev.vars` for `wrangler pages dev`).
+ *
+ * Every request must carry a Cloudflare Turnstile token in the
+ * `cf-turnstile-response` field. It is checked with Siteverify (success, the
+ * `quote` action, and a Duct Hunt hostname) before anything else runs. A
+ * missing or failed check returns 403, and the browser then shows the visitor
+ * the "please call" error instead of a false success, so a lead is never
+ * silently dropped.
  */
 
 interface Env {
   RESEND_API_KEY?: string;
+  TURNSTILE_SECRET?: string;
 }
 
 interface Context {
@@ -19,6 +27,42 @@ interface Context {
 
 const FROM = 'Duct Hunt <leads@newleadrelay.com>';
 const TO = ['ducthuntllc@gmail.com'];
+
+const TOKEN_FIELD = 'cf-turnstile-response';
+const TURNSTILE_ACTION = 'quote';
+const SITEVERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+/** Hostnames a token may come from: the live site and its Pages previews. */
+export const isAllowedHostname = (h: unknown): boolean =>
+  typeof h === 'string' &&
+  (h === 'ducthunt.com' || h === 'www.ducthunt.com' || h === 'ducthunt-site.pages.dev' || h.endsWith('.ducthunt-site.pages.dev'));
+
+/** Canonical Siteverify. Fails closed on any error. */
+async function verifyTurnstile(token: unknown, secret: string | undefined, ip: string | null): Promise<boolean> {
+  if (!secret) {
+    console.error('[send-lead-notification] TURNSTILE_SECRET is not set');
+    return false;
+  }
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return false;
+  try {
+    const params = new URLSearchParams({ secret, response: token });
+    if (ip) params.set('remoteip', ip);
+    const r = await fetch(SITEVERIFY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params,
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!r.ok) throw new Error(`siteverify ${r.status}`);
+    const out = (await r.json()) as { success?: boolean; action?: string; hostname?: string; 'error-codes'?: string[] };
+    if (out.success === true && out.action === TURNSTILE_ACTION && isAllowedHostname(out.hostname)) return true;
+    console.warn('[send-lead-notification] Turnstile rejected', out['error-codes'] ?? [], out.action, out.hostname);
+    return false;
+  } catch (err) {
+    console.error('[send-lead-notification] Siteverify request failed', err);
+    return false;
+  }
+}
 
 const MAX_FIELDS = 30;
 const MAX_LEN = 2000;
@@ -91,11 +135,6 @@ function buildHtml(f: Record<string, string>): string {
 export const onRequestOptions = () => new Response(null, { status: 204, headers: CORS });
 
 export const onRequestPost = async ({ request, env }: Context): Promise<Response> => {
-  if (!env.RESEND_API_KEY) {
-    console.error('[send-lead-notification] RESEND_API_KEY is not set');
-    return json({ ok: false, error: 'Email is not configured' }, 500);
-  }
-
   let body: unknown;
   try {
     body = await request.json();
@@ -104,6 +143,18 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return json({ ok: false, error: 'Expected a JSON object' }, 400);
+  }
+
+  // Turnstile first: nothing else runs (and nothing is emailed) without a valid token.
+  const token = (body as Record<string, unknown>)[TOKEN_FIELD];
+  delete (body as Record<string, unknown>)[TOKEN_FIELD];
+  if (!(await verifyTurnstile(token, env.TURNSTILE_SECRET, request.headers.get('CF-Connecting-IP')))) {
+    return json({ ok: false, error: 'Spam check failed' }, 403);
+  }
+
+  if (!env.RESEND_API_KEY) {
+    console.error('[send-lead-notification] RESEND_API_KEY is not set');
+    return json({ ok: false, error: 'Email is not configured' }, 500);
   }
 
   // Keep every field (pass-through), as trimmed strings with sane limits.

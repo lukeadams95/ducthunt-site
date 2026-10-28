@@ -2,3 +2,6 @@
 # The Duct Repair & Sealing page was removed; send old links to the light repair section.
 /services/duct-repair-sealing   /services/air-duct-cleaning/#light-duct-repair   301
 /services/duct-repair-sealing/  /services/air-duct-cleaning/#light-duct-repair   301
+# /contact has no page; the quote page is the contact page (form + phone).
+/contact    /quote/   301
+/contact/   /quote/   301

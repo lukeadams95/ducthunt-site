@@ -21,6 +21,7 @@ const { variant, source } = Astro.props;
       <input name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="sqf__hp" />
       <button type="submit" class="sqf__btn">Send Request →</button>
     </form>
+    <div class="sqf__ts" data-turnstile></div>
     <p class="form-error sqf__err" role="alert" hidden>
       Something went wrong sending your request. Please call <a href={business.tel}>{business.phone}</a>.
     </p>
@@ -33,22 +34,27 @@ const { variant, source } = Astro.props;
 
 <script>
   import { sendQuote, formData } from '../scripts/quote';
+  import { guardForm, TOKEN_FIELD } from '../scripts/turnstile';
 
   document.querySelectorAll<HTMLElement>('[data-quote-wrap]').forEach((wrap) => {
     const form = wrap.querySelector('form')!;
     const err = wrap.querySelector<HTMLElement>('.sqf__err')!;
     const btn = form.querySelector('button')!;
+    const guard = guardForm(form, wrap.querySelector<HTMLElement>('[data-turnstile]')!);
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       err.hidden = true;
       btn.disabled = true;
       try {
-        await sendQuote(formData(form), form.dataset.source ?? 'form');
+        const data = formData(form);
+        if (!data.company) data[TOKEN_FIELD] = await guard.token();
+        await sendQuote(data, form.dataset.source ?? 'form');
         wrap.querySelector<HTMLElement>('[data-quote-open]')!.hidden = true;
         wrap.querySelector<HTMLElement>('[data-quote-done]')!.hidden = false;
       } catch {
         err.hidden = false;
       } finally {
+        guard.reset();
         btn.disabled = false;
       }
     });
@@ -66,6 +72,7 @@ const { variant, source } = Astro.props;
   .sqf__btn:hover { background: var(--blue-deep); }
   .sqf__btn:disabled { opacity: 0.6; cursor: progress; }
   .sqf__err { margin-top: 10px; }
+  .sqf__ts:empty { display: none; }
   .sqf__done h3 { margin: 0 0 6px; font-weight: 900; }
   .sqf__done p { margin: 0; }
 

@@ -83,6 +83,7 @@ const lcp = await pageHero();
           <input name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
 
           <button type="submit" class="submit" style="border-radius:10px;padding:0 32px;width:100%">Get My Free Quote</button>
+          <div class="qf__ts" data-turnstile></div>
           <p id="q-send-e" class="form-error center" role="alert" hidden>
             Something went wrong sending your request. Please call <a href={business.tel}>{business.phone}</a>.
           </p>
@@ -117,12 +118,14 @@ const lcp = await pageHero();
 
 <script>
   import { sendQuote, formData } from '../scripts/quote';
+  import { guardForm, TOKEN_FIELD } from '../scripts/turnstile';
 
   const form = document.getElementById('q-form') as HTMLFormElement;
   const done = document.getElementById('q-done')!;
   const sendErr = document.getElementById('q-send-e')!;
   const svc = document.getElementById('q-svc') as HTMLSelectElement;
   const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const guard = guardForm(form, form.querySelector<HTMLElement>('[data-turnstile]')!);
 
   // Pre-select the service when arriving from a service page (?service=dryer-vent)
   const want = new URLSearchParams(location.search).get('service');
@@ -175,6 +178,7 @@ const lcp = await pageHero();
     }
     btn.disabled = true;
     try {
+      if (!data.company) data[TOKEN_FIELD] = await guard.token();
       await sendQuote(data, 'quote-page');
       document.getElementById('q-first')!.textContent = data.name.split(/\s+/)[0] || 'there';
       form.hidden = true;
@@ -184,6 +188,7 @@ const lcp = await pageHero();
     } catch {
       sendErr.hidden = false;
     } finally {
+      guard.reset();
       btn.disabled = false;
     }
   });
@@ -205,6 +210,7 @@ const lcp = await pageHero();
   .qf__row { display: grid; gap: 6px; }
   .qf__row label { font-weight: 800; font-size: 17px; }
   .qf__fine { margin: 0; text-align: center; font-size: 15px; color: var(--text-muted); }
+  .qf__ts:empty { display: none; }
   .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
   .qdone:focus { outline: none; }

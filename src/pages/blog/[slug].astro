@@ -1,0 +1,78 @@
+---
+import { getImage, Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import HeroButtons from '../../components/HeroButtons.astro';
+import heroPhoto from '../../assets/hero.webp';
+import { SITE, business } from '../../data/site';
+import { authorNode, blogPostingNode } from '../../data/schema';
+import { getPosts, isoDate, displayDate, type Post } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { title, description, date, updated, image, imageAlt } = post.data;
+const { Content } = await render(post);
+
+const url = `${SITE}/blog/${post.id}/`;
+const published = isoDate(date);
+const modified = isoDate(updated ?? date);
+// Article image: the post photo, or the site's default trailer photo
+const imgSrc = image ?? heroPhoto;
+const imgW = Math.min(1200, imgSrc.width);
+const articleImg = await getImage({ src: imgSrc, width: imgW, height: Math.round((imgW * 9) / 16), fit: 'cover', format: 'jpg' });
+const articleImgUrl = new URL(articleImg.src, SITE).href;
+---
+<Base
+  page="post"
+  title={`${title} | Duct Hunt`}
+  description={description}
+  ogImage={image}
+  ogAlt={image ? imageAlt : undefined}
+  crumbs={[{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog/' }, { name: title, href: `/blog/${post.id}/` }]}
+  article={{ published, modified }}
+  extraSchema={[
+    authorNode(),
+    blogPostingNode({ url, headline: title, description, image: articleImgUrl, datePublished: published, dateModified: modified }),
+  ]}
+>
+  <PhotoHero lead={title} narrow h1Size="clamp(32px, 4.8vw, 60px)">
+    <p class="lead byline">
+      By {business.owner}, Owner · <time datetime={published}>{displayDate(date)}</time>
+      {updated && published !== modified && <> · Updated <time datetime={modified}>{displayDate(updated)}</time></>}
+    </p>
+  </PhotoHero>
+
+  <section class="sec paper">
+    <article class="wrap-880 art">
+      {image && <Image src={image} alt={imageAlt ?? ''} widths={[480, 880, 1320]} sizes="(max-width: 960px) 100vw, 880px" class="art__img" />}
+      <div class="prose">
+        <Content />
+      </div>
+      <HeroButtons quoteHref="/quote/" />
+    </article>
+  </section>
+</Base>
+
+<style>
+  .byline { font-size: 18px; }
+  .art { background: var(--white); border: 2px solid var(--line); border-radius: 12px; padding: clamp(20px, 4vw, 56px); }
+  .art__img { display: block; width: 100%; height: auto; border-radius: 8px; margin-bottom: 28px; }
+  .art :global(.btn--white) { background: var(--blue); color: var(--white); border-color: var(--blue); }
+  .art :global(.btn--white:hover) { background: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light) { color: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light:hover) { background: var(--blue-deep); color: var(--white); }
+  .prose { font-size: 19px; line-height: 1.65; }
+  .prose :global(h2) { margin: 1.6em 0 0.5em; font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -0.02em; }
+  .prose :global(h3) { margin: 1.4em 0 0.4em; font-weight: 800; font-size: 23px; line-height: 1.2; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { margin: 0 0 1em; }
+  .prose :global(li) { margin: 0.3em 0; }
+  .prose :global(a) { color: var(--blue-deep); font-weight: 700; }
+  .prose :global(img) { height: auto; border-radius: 8px; }
+  .prose :global(blockquote) { margin: 1.2em 0; padding: 4px 0 4px 20px; border-left: 4px solid var(--blue); color: var(--text-muted); }
+  .prose :global(> :first-child) { margin-top: 0; }
+</style>

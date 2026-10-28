@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import { SITE } from '../../data/site';
+import { blogNode } from '../../data/schema';
+import { getPosts, isoDate, displayDate } from '../../lib/blog';
+
+// Not linked from the nav. While there are no posts the page is noindex and
+// left out of the sitemap (astro.config.mjs), so an empty index is never indexed.
+const posts = await getPosts();
+const url = `${SITE}/blog/`;
+---
+<Base
+  page="blog"
+  title="Blog | Duct Hunt Kansas City"
+  description="Air duct and dryer vent cleaning articles from Derek Craig, owner of Duct Hunt in Kansas City."
+  noindex={posts.length === 0}
+  extraSchema={[blogNode(url, posts.map((p) => ({ url: `${SITE}/blog/${p.id}/`, headline: p.data.title, datePublished: isoDate(p.data.date) })))]}
+>
+  <PhotoHero lead="Blog" narrow />
+
+  {posts.length > 0 && (
+    <section class="sec paper">
+      <div class="wrap-960">
+        <ol class="posts">
+          {posts.map((p) => (
+            <li class="post">
+              <article>
+                <h2 class="post__h"><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
+                <p class="post__meta"><time datetime={isoDate(p.data.date)}>{displayDate(p.data.date)}</time></p>
+                <p class="post__ex">{p.data.description}</p>
+                <p class="post__more"><a href={`/blog/${p.id}/`} aria-hidden="true" tabindex="-1">Read more →</a></p>
+              </article>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .posts { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+  .post article {
+    background: var(--white); border: 2px solid var(--line); border-radius: 12px;
+    padding: clamp(20px, 3vw, 32px);
+  }
+  .post__h { margin: 0; font-weight: 900; font-size: clamp(24px, 3vw, 32px); line-height: 1.1; letter-spacing: -0.02em; text-wrap: balance; }
+  .post__h a { color: var(--slate); text-decoration: none; }
+  .post__h a:hover { color: var(--blue-deep); text-decoration: underline; }
+  .post__meta { margin: 8px 0 0; font-size: 15px; color: var(--text-muted); }
+  .post__ex { margin: 12px 0 0; max-width: 44em; }
+  .post__more { margin: 12px 0 0; }
+  .post__more a { color: var(--blue-deep); font-weight: 800; }
+</style>

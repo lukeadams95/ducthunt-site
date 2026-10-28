@@ -29,6 +29,8 @@ npm run audit:seo  # after a build: SEO checks over every page in dist/ (see seo
 | `/faq/` | FAQ (search, one-open-per-category accordions, `#q-…` deep links) |
 | `/quote/` | Free quote form. `?service=air-duct` or `dryer-vent` pre-selects the service. |
 | `/reviews/` | All Google reviews |
+| `/blog/` | Blog index, newest first. Not linked from the nav. Noindex and out of the sitemap until the first post exists. |
+| `/blog/<slug>/` | Blog post (one per Markdown file in `src/content/blog/`) |
 | `/404.html` | Not-found page; Cloudflare Pages serves it with a 404 status for unknown URLs |
 
 ## Where things live
@@ -39,6 +41,13 @@ npm run audit:seo  # after a build: SEO checks over every page in dist/ (see seo
 - `src/layouts/Base.astro`: shared head/SEO tags, top bar, sticky header, CTA banner, footer and mobile call bar.
 - `src/components/`: section building blocks (headings, buttons, review cards, steps, FAQ list, heroes, quote forms, before/after slider).
 - `src/styles/global.css`: design tokens and shared classes. All colors are tokens at the top of the file (`--blue`, `--blue-deep`, `--blue-soft`, `--mist`, `--slate`, `--white`, `--sun`), Archivo for text, and Russo One for small labels only.
+
+## Blog posts
+
+- One Markdown file per post: `src/content/blog/<slug>.md`. Copy `src/content/blog/_TEMPLATE.md` for the frontmatter (`title`, `slug`, `date` YYYY-MM-DD, `description`, optional `image` + `imageAlt`, optional `updated`). Photos go in `src/content/blog/images/`.
+- Every `.md` file in the folder is published on the next build (files starting with `_` are ignored, `draft: true` hides a post). There is no scheduled publishing: commit each post to `main` on its publish day and Cloudflare Pages deploys it.
+- The post page adds BlogPosting JSON-LD (author Derek Craig, Owner; publisher = the business node with its logo), `og:type` article, breadcrumbs (Home > Blog > post), and the usual quote/call CTAs. The index adds a Blog node. `@astrojs/sitemap` lists `/blog/` and every post automatically.
+- `npm run audit:seo` after a build checks titles, descriptions and the JSON-LD graph for posts too.
 
 ## Quote forms
 

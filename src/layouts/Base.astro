@@ -11,7 +11,7 @@ import heroPhoto from '../assets/hero.webp';
 import logoBlack from '../assets/logo-black.png';
 import { SITE, services, crumbsFor, type PageKey, type Service } from '../data/site';
 import type { Faq } from '../data/faqs';
-import { businessNode, websiteNode, webPageNode, breadcrumbNode, serviceNode, faqPage } from '../data/schema';
+import { businessNode, websiteNode, webPageNode, breadcrumbNode, serviceNode, faqPage, type Crumb } from '../data/schema';
 
 interface Props {
   title: string;
@@ -25,14 +25,20 @@ interface Props {
   /** Services this page is about, for Service schema */
   pageServices?: Service[];
   noindex?: boolean;
+  /** Breadcrumbs for pages without a fixed PageKey trail (blog posts) */
+  crumbs?: Crumb[];
+  /** Extra JSON-LD nodes for this page's @graph (Blog, BlogPosting, Person) */
+  extraSchema?: Record<string, unknown>[];
+  /** Blog posts: og:type article plus published/modified times (YYYY-MM-DD) */
+  article?: { published: string; modified: string };
 }
-const { title, description, page, ogImage = heroPhoto, ogAlt = 'Duct Hunt trailer outside a Kansas City home', faqs, pageServices = [], noindex = false } = Astro.props;
+const { title, description, page, ogImage = heroPhoto, ogAlt = 'Duct Hunt trailer outside a Kansas City home', faqs, pageServices = [], noindex = false, extraSchema = [], article } = Astro.props;
 
 const svc = services.find((s) => s.key === page);
 const quoteHref = svc ? `/quote/?service=${svc.slug}` : '/quote/';
 const bannerQuoteHref = page === 'home' ? '#hero-quote' : page === 'quote' ? '#qform' : '/#hero-quote';
 const url = `${SITE}${Astro.url.pathname}`;
-const crumbs = crumbsFor(page);
+const crumbs = Astro.props.crumbs ?? crumbsFor(page);
 
 // Social image: 1.91:1, never upscaled past the source width
 const ogW = Math.min(1200, ogImage.width);
@@ -51,6 +57,7 @@ const schema = {
     ...(crumbs.length > 1 ? [breadcrumbNode(url, crumbs)] : []),
     ...pageServices.map(serviceNode),
     ...(faqs?.length ? [faqPage(url, faqs)] : []),
+    ...extraSchema,
   ],
 };
 ---
@@ -103,7 +110,9 @@ const schema = {
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={url} />}
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    {article && <meta property="article:published_time" content={article.published} />}
+    {article && <meta property="article:modified_time" content={article.modified} />}
     <meta property="og:site_name" content="Duct Hunt LLC" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />

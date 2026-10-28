@@ -22,6 +22,12 @@ for (const f of readdirSync(new URL('./src/content/blog/', import.meta.url))) {
   if (slug && d) postDates[slug] = d;
 }
 const newestPost = Object.values(postDates).sort().pop();
+// Cloudflare Pages clones shallowly; fetch full history so per-file dates are real.
+try {
+  if (execSync('git rev-parse --is-shallow-repository', { encoding: 'utf8' }).trim() === 'true') {
+    execSync('git fetch --unshallow --quiet', { stdio: 'ignore', timeout: 60000 });
+  }
+} catch { /* fall back to whatever history is available */ }
 const gitDate = (file) => {
   try {
     const out = execSync(`git log -1 --format=%cs -- "${file}"`, { encoding: 'utf8' }).trim();

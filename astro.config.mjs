@@ -22,13 +22,14 @@ for (const f of readdirSync(new URL('./src/content/blog/', import.meta.url))) {
   if (slug && d) postDates[slug] = d;
 }
 const newestPost = Object.values(postDates).sort().pop();
-// Cloudflare Pages clones shallowly; fetch full history so per-file dates are real.
-try {
-  if (execSync('git rev-parse --is-shallow-repository', { encoding: 'utf8' }).trim() === 'true') {
-    execSync('git fetch --unshallow --quiet', { stdio: 'ignore', timeout: 60000 });
-  }
-} catch { /* fall back to whatever history is available */ }
+// Cloudflare Pages clones shallowly, so there git history can't date each file.
+// scripts/gen-lastmod.mjs writes src/data/lastmod.json from full local history
+// (run it before committing page changes); CI uses that map when shallow.
+let isShallow = true;
+try { isShallow = execSync('git rev-parse --is-shallow-repository', { encoding: 'utf8' }).trim() !== 'false'; } catch {}
+const lastmodMap = existsSync('src/data/lastmod.json') ? JSON.parse(readFileSync('src/data/lastmod.json', 'utf8')) : {};
 const gitDate = (file) => {
+  if (isShallow) return lastmodMap[file] || null;
   try {
     const out = execSync(`git log -1 --format=%cs -- "${file}"`, { encoding: 'utf8' }).trim();
     return out || null;

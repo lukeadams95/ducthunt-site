@@ -11,7 +11,6 @@ export const business = {
   phone: '(816) 655-8105',
   tel: 'tel:+18166558105',
   telE164: '+1-816-655-8105',
-  email: 'ducthuntllc@gmail.com',
   city: 'North Kansas City',
   region: 'MO',
   rating: '4.9',
@@ -23,7 +22,7 @@ export const business = {
   geo: { lat: 39.147813, lng: -94.5762644 },
   /** Weekly hours, shown in the footer and in schema.org data */
   hours: [
-    { days: 'Monday – Friday', time: '8 AM – 7 PM', schemaDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '19:00' },
+    { days: 'Monday – Friday', time: '8:00 AM to 7:00 PM', schemaDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '19:00' },
     { days: 'Saturday – Sunday', time: 'Closed' },
   ],
   mapEmbed:

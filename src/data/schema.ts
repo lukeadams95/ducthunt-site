@@ -32,7 +32,6 @@ export const businessNode = (img: { logo: { src: string; width: number; height: 
   logo: { '@type': 'ImageObject', '@id': ids.logo, url: img.logo.src, width: img.logo.width, height: img.logo.height },
   image: img.photo,
   telephone: business.telE164,
-  email: business.email,
   foundingDate: '2017',
   address: {
     '@type': 'PostalAddress',

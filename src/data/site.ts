@@ -11,7 +11,6 @@ export const business = {
   phone: '(816) 655-8105',
   tel: 'tel:+18166558105',
   telE164: '+1-816-655-8105',
-  email: 'ducthuntllc@gmail.com',
   city: 'North Kansas City',
   region: 'MO',
   rating: '4.9',

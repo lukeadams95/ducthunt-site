@@ -11,7 +11,7 @@ export const homeFaqs: Faq[] = [
   { q: 'How much does it cost?', a: 'It depends on your home and system. Call (816) 655-8105 or use the form for a free quote.' },
   { q: 'Do you work with builders, remodelers and flippers?', a: 'Yes. We handle pre-sale and post-construction duct cleaning with fast turnaround. Call to schedule.' },
   { q: 'Is the work guaranteed?', a: 'Yes. All of our work is guaranteed.' },
-  { q: 'What areas do you serve?', a: 'The Kansas City metro. If you are unsure whether we cover your address, give us a call.' },
+  { q: 'What areas do you serve?', a: 'The Kansas City metro and areas up to about an hour from it. If you are unsure whether we cover your address, give us a call.' },
 ];
 
 export const servicesFaqs: Faq[] = [
@@ -20,7 +20,7 @@ export const servicesFaqs: Faq[] = [
   { q: 'How often should ducts be cleaned?', a: 'Generally every 3–5 years, and sooner after a remodel or if you have pets or allergies.' },
   { q: 'Do you clean dryer vents and air ducts in the same visit?', a: 'Yes. We can do both in one visit.' },
   { q: 'Should I clean my ducts before or after a remodel?', a: 'After the dusty work is finished, so the dust does not just come back.' },
-  { q: 'What areas do you serve?', a: "The Kansas City metro, including Kansas City, North Kansas City, Overland Park, Olathe, Lee's Summit, Independence, Shawnee, Lenexa, Blue Springs, Liberty, Raytown and Gladstone. Not sure about your address? Give us a call." },
+  { q: 'What areas do you serve?', a: "The Kansas City metro and areas up to about an hour from it, including Kansas City, North Kansas City, Overland Park, Olathe, Lee's Summit, Independence, Shawnee, Lenexa, Blue Springs, Liberty, Raytown and Gladstone. Not sure about your address? Give us a call." },
 ];
 
 export const ductFaqs: Faq[] = [
@@ -43,7 +43,7 @@ export const dryerFaqs: Faq[] = [
 ];
 
 export const areaFaqs: Faq[] = [
-  { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides. See the city list above, and call if yours is not listed.' },
+  { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides, and areas up to about an hour from it. See the city list above, and call if yours is not listed.' },
   { q: 'Do you charge a trip fee?', a: 'Call (816) 655-8105 and we will confirm for your address.' },
   { q: 'How fast can you get to me?', a: 'Often next day, depending on the schedule.' },
   { q: 'Do you work with builders and remodelers across the metro?', a: 'Yes.' },
@@ -116,7 +116,7 @@ export const faqCategories: FaqCategory[] = [
     id: 'faq-service-area',
     title: 'Service Area',
     items: [
-      { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides. See the Service Area page for the full list.', link: { href: '/service-area/', label: 'See the Service Area page' } },
+      { q: 'What areas do you serve?', a: 'The Kansas City metro on both the Missouri and Kansas sides, and areas up to about an hour from it. See the Service Area page for the full list.', link: { href: '/service-area/', label: 'See the Service Area page' } },
       { q: 'Do you charge a trip fee?', a: 'Call (816) 655-8105 and we will confirm for your address.' },
     ],
   },

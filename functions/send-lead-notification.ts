@@ -67,15 +67,31 @@ async function verifyTurnstile(token: unknown, secret: string | undefined, ip: s
 const MAX_FIELDS = 30;
 const MAX_LEN = 2000;
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Max-Age': '86400',
+/** Browser origins allowed to call this endpoint: the live site and its Pages previews. */
+export const isAllowedOrigin = (o: string | null): boolean => {
+  if (!o) return false;
+  try {
+    const u = new URL(o);
+    return u.protocol === 'https:' && u.port === '' && isAllowedHostname(u.hostname);
+  } catch {
+    return false;
+  }
 };
 
-const json = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), { status, headers: { ...CORS, 'Content-Type': 'application/json' } });
+/** CORS headers for an allowed origin only (exact origin echoed, never *). */
+const corsFor = (origin: string | null): Record<string, string> =>
+  origin && isAllowedOrigin(origin)
+    ? {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Max-Age': '86400',
+        Vary: 'Origin',
+      }
+    : { Vary: 'Origin' };
+
+const json = (body: unknown, status = 200, origin: string | null = null) =>
+  new Response(JSON.stringify(body), { status, headers: { ...corsFor(origin), 'Content-Type': 'application/json' } });
 
 const LABELS: Record<string, string> = {
   name: 'Name',
@@ -132,29 +148,39 @@ function buildHtml(f: Record<string, string>): string {
 </body></html>`;
 }
 
-export const onRequestOptions = () => new Response(null, { status: 204, headers: CORS });
+export const onRequestOptions = ({ request }: Context): Response => {
+  const origin = request.headers.get('Origin');
+  if (!isAllowedOrigin(origin)) return new Response(null, { status: 403, headers: { Vary: 'Origin' } });
+  return new Response(null, { status: 204, headers: corsFor(origin) });
+};
 
 export const onRequestPost = async ({ request, env }: Context): Promise<Response> => {
+  // Browsers always send Origin on a POST. A foreign origin is refused before
+  // anything else runs; no Origin (non-browser) still has to pass Turnstile.
+  const origin = request.headers.get('Origin');
+  if (origin && !isAllowedOrigin(origin)) return json({ ok: false, error: 'Origin not allowed' }, 403);
+  const reply = (b: unknown, status = 200) => json(b, status, origin);
+
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return json({ ok: false, error: 'Invalid JSON' }, 400);
+    return reply({ ok: false, error: 'Invalid JSON' }, 400);
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
-    return json({ ok: false, error: 'Expected a JSON object' }, 400);
+    return reply({ ok: false, error: 'Expected a JSON object' }, 400);
   }
 
   // Turnstile first: nothing else runs (and nothing is emailed) without a valid token.
   const token = (body as Record<string, unknown>)[TOKEN_FIELD];
   delete (body as Record<string, unknown>)[TOKEN_FIELD];
   if (!(await verifyTurnstile(token, env.TURNSTILE_SECRET, request.headers.get('CF-Connecting-IP')))) {
-    return json({ ok: false, error: 'Spam check failed' }, 403);
+    return reply({ ok: false, error: 'Spam check failed' }, 403);
   }
 
   if (!env.RESEND_API_KEY) {
     console.error('[send-lead-notification] RESEND_API_KEY is not set');
-    return json({ ok: false, error: 'Email is not configured' }, 500);
+    return reply({ ok: false, error: 'Email is not configured' }, 500);
   }
 
   // Keep every field (pass-through), as trimmed strings with sane limits.
@@ -165,15 +191,15 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
   }
 
   // Honeypot: bots fill the hidden "company" field. Accept and drop.
-  if (fields.company) return json({ ok: true });
+  if (fields.company) return reply({ ok: true });
   delete fields.company;
 
   fields.name ??= '';
   fields.email ??= '';
   fields.phone ??= '';
   fields.message ??= '';
-  if (!fields.name) return json({ ok: false, error: 'Name is required' }, 400);
-  if (!fields.email && !fields.phone) return json({ ok: false, error: 'Email or phone is required' }, 400);
+  if (!fields.name) return reply({ ok: false, error: 'Name is required' }, 400);
+  if (!fields.email && !fields.phone) return reply({ ok: false, error: 'Email or phone is required' }, 400);
 
   const email: Record<string, unknown> = {
     from: FROM,
@@ -192,11 +218,11 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
     const out = (await res.json().catch(() => ({}))) as { id?: string; message?: string };
     if (!res.ok) {
       console.error('[send-lead-notification] Resend error', res.status, out);
-      return json({ ok: false, error: out.message ?? `Resend returned ${res.status}` }, 502);
+      return reply({ ok: false, error: out.message ?? `Resend returned ${res.status}` }, 502);
     }
-    return json({ ok: true, id: out.id });
+    return reply({ ok: true, id: out.id });
   } catch (err) {
     console.error('[send-lead-notification] Resend request failed', err);
-    return json({ ok: false, error: 'Could not reach the email service' }, 502);
+    return reply({ ok: false, error: 'Could not reach the email service' }, 502);
   }
 };

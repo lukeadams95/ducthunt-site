@@ -27,6 +27,8 @@ interface Context {
 
 const FROM = 'Duct Hunt <leads@newleadrelay.com>';
 const TO = ['ducthuntllc@gmail.com'];
+/** Agency copy. BCC only: never shown to Derek, never returned to the browser. */
+const BCC = ['luke@blueheronmarketing.com'];
 
 const TOKEN_FIELD = 'cf-turnstile-response';
 const TURNSTILE_ACTION = 'quote';
@@ -204,6 +206,7 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
   const email: Record<string, unknown> = {
     from: FROM,
     to: TO,
+    bcc: BCC,
     subject: `New Lead - ${fields.name.replace(/[\r\n]+/g, ' ')}`,
     html: buildHtml(fields),
   };
@@ -218,7 +221,7 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
     const out = (await res.json().catch(() => ({}))) as { id?: string; message?: string };
     if (!res.ok) {
       console.error('[send-lead-notification] Resend error', res.status, out);
-      return reply({ ok: false, error: out.message ?? `Resend returned ${res.status}` }, 502);
+      return reply({ ok: false, error: `Email service returned ${res.status}` }, 502);
     }
     return reply({ ok: true, id: out.id });
   } catch (err) {

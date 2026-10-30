@@ -41,9 +41,32 @@ const { variant, source } = Astro.props;
     const err = wrap.querySelector<HTMLElement>('.sqf__err')!;
     const btn = form.querySelector('button')!;
     const guard = guardForm(form, wrap.querySelector<HTMLElement>('[data-turnstile]')!);
+    // Same rules and messages as /quote/. ZIP is checked only if this form has one.
+    const rules: Record<string, (v: string) => string | null> = {
+      phone: (v) => (v.replace(/\D/g, '').length >= 10 ? null : 'Enter a valid 10-digit phone number.'),
+      zip: (v) => (/^\d{5}$/.test(v) ? null : 'Enter a 5-digit ZIP code.'),
+    };
+    const checked = Object.keys(rules)
+      .map((k) => form.querySelector<HTMLInputElement>(`[name="${k}"]`))
+      .filter((el): el is HTMLInputElement => !!el);
+    const check = (el: HTMLInputElement) => {
+      const msg = el.value.trim() ? rules[el.name](el.value.trim()) : null; // empty is left to `required`
+      el.setCustomValidity(msg ? `⚠ ${msg}` : '');
+      el.setAttribute('aria-invalid', String(!!msg));
+      return !msg;
+    };
+    checked.forEach((el) => {
+      el.addEventListener('input', () => check(el));
+      el.addEventListener('change', () => check(el));
+    });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       err.hidden = true;
+      const bad = checked.filter((el) => !check(el));
+      if (bad.length) {
+        bad[0].reportValidity();
+        return;
+      }
       btn.disabled = true;
       try {
         const data = formData(form);

@@ -6,7 +6,9 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 
 // The /blog/ index stays out of the sitemap (and is noindex) until the first post exists.
-const hasPosts = readdirSync(new URL('./src/content/blog/', import.meta.url)).some((f) => f.endsWith('.md') && !f.startsWith('_'));
+const hasPosts = readdirSync(new URL('./src/content/blog/', import.meta.url)).some(
+  (f) => f.endsWith('.md') && !f.startsWith('_') && !/^draft:\s*true\b/m.test(readFileSync(new URL(`./src/content/blog/${f}`, import.meta.url), 'utf8')),
+);
 
 // <lastmod> (YYYY-MM-DD): posts use frontmatter updated|date, /blog/ the newest
 // post date, other pages the last git commit date of their source file (else build date).

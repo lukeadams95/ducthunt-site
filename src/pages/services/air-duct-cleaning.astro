@@ -68,8 +68,8 @@ const quoteHref = '/quote/?service=air-duct';
   <section class="sec paper">
     <div class="wrap-880">
       <H2 lead="Air Duct Cleaning for Homes in" sub="North Kansas City and Beyond" />
-      <p class="body-lg" style="margin:28px 0 0">Over time, dust, pet hair, construction debris, and allergens build up inside your ductwork and get blown back into every room.</p>
-      <p class="body-lg" style="margin:18px 0 0">Duct Hunt cleans your entire system so your home breathes easier and your HVAC doesn't have to work as hard. Owner Derek Craig handles every job personally.</p>
+      <p class="body-lg answer" style="margin:28px 0 0"><strong>Duct Hunt cleans the whole air duct system in Kansas City homes: every supply vent and register, the return vents and ducts, the main trunk lines and the blower compartment, performed to NADCA standards.</strong> Owner Derek Craig gives you an upfront price over the phone, does the work himself and shows you before and after photos. Most homes take about 2 hours.</p>
+      <p class="body-lg" style="margin:18px 0 0">Over time, dust, pet hair, construction debris, and allergens build up inside your ductwork and get blown back into every room. A full cleaning helps your home breathe easier and keeps your HVAC from working as hard.</p>
     </div>
   </section>
 
@@ -77,6 +77,42 @@ const quoteHref = '/quote/?service=air-duct';
     <div class="wrap">
       <H2 lead="What's Included in Our Air Duct Cleaning" sub="in Kansas City" tone="stone" center />
       <IconItems items={included} card="paper" />
+    </div>
+  </section>
+
+  <section id="how-pricing-works" class="sec white">
+    <div class="wrap-880">
+      <H2 lead="How Pricing Works" sub="for Air Duct Cleaning" />
+      <p class="body-lg" style="margin:24px 0 0">Every home is different, so your quote is built around your home. These are the things that change it:</p>
+      <ul class="price-list">
+        <li><span aria-hidden="true">→</span><span><strong>Vent count.</strong> The number of supply and return vents in the home.</span></li>
+        <li><span aria-hidden="true">→</span><span><strong>Home size.</strong> Larger homes have more ductwork to clean.</span></li>
+        <li><span aria-hidden="true">→</span><span><strong>Access.</strong> How easy the ducts and blower compartment are to reach.</span></li>
+        <li><span aria-hidden="true">→</span><span><strong>Adding the dryer vent line.</strong> Dryer vent cleaning is a flat fee, so adding it to your visit is simple to price.</span></li>
+      </ul>
+      <p class="body-lg" style="margin:24px 0 0">Call <a href={business.tel} class="tel-link">{business.phone}</a> and Derek can usually give you an upfront price over the phone, with no in-home estimate needed. The price you're quoted is the price you pay, with no hidden fees.</p>
+    </div>
+  </section>
+
+  <section id="ducts-and-dryer-vent" class="sec paper">
+    <div class="wrap-880">
+      <H2 lead="Ducts and Dryer Vent" sub="in One Visit" />
+      <p class="body-lg" style="margin:24px 0 0">Many customers have both done at once. While Derek is cleaning your air ducts, he can also clean the full dryer vent line from the dryer to the exterior, clear the transition duct and the exterior opening, and finish with an airflow check. One visit, one quote, and the dryer vent part is a flat fee.</p>
+      <p class="body-lg" style="margin:18px 0 0"><a href="/services/dryer-vent-cleaning/" class="tel-link">See what dryer vent cleaning includes →</a></p>
+    </div>
+  </section>
+
+  <section id="no-upsell" class="sec white">
+    <div class="wrap-880">
+      <H2 lead="No Upsell," sub="No Pressure" />
+      <p class="body-lg" style="margin:24px 0 0">You get the cleaning you were quoted. If there are optional add-ons that might help your home, Derek will explain them and let you decide. There's never any pressure, and the person who quotes your job is the person who shows up.</p>
+    </div>
+  </section>
+
+  <section id="nadca-standards" class="sec paper">
+    <div class="wrap-880">
+      <H2 lead="Performed to" sub="NADCA Standards" />
+      <p class="body-lg" style="margin:24px 0 0">NADCA is the National Air Duct Cleaners Association. Our air duct cleaning is performed to its standards, and every cleaning covers the full system: supply vents and registers, return vents and ducts, the main trunk lines and the blower compartment, not just the vent covers you can see.</p>
     </div>
   </section>
 
@@ -145,9 +181,9 @@ const quoteHref = '/quote/?service=air-duct';
 
   <Callout
     on="light"
-    lead="Builders, Remodelers & House Flippers"
+    lead="Builders, Remodelers & Real Estate Agents"
     sub="in Kansas City"
-    text="Post-construction and pre-sale duct cleaning. Drywall dust and debris removed before move-in or listing. Fast turnaround for project timelines."
+    text="Post-construction, post-remodel and pre-sale duct cleaning for builders, remodelers and flippers, with drywall dust and debris removed before move-in or listing. Real estate agents refer their buyers and sellers to us. Fast turnaround for project timelines, with before and after photos."
     cta="Call About a Project"
     href={business.tel}
     maxw="960px"
@@ -189,6 +225,10 @@ const quoteHref = '/quote/?service=air-duct';
   .repair__card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
   .repair__card li { display: grid; grid-template-columns: 28px 1fr; font-weight: 600; }
   .repair__card li span:first-child { color: var(--blue); font-weight: 900; }
+  .price-list { list-style: none; margin: 20px 0 0; padding: 0; border-top: 2px solid var(--line); }
+  .price-list li { padding: 14px 0; border-bottom: 2px solid var(--line); display: grid; grid-template-columns: 36px 1fr; font-size: 18px; }
+  .price-list li span:first-child { font-weight: 900; }
+  .tel-link { color: var(--blue); font-weight: 800; }
   .caption { margin: 32px auto 0; text-align: center; font-size: 20px; font-weight: 600; max-width: 30em; text-wrap: balance; }
   .sign-cols { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 0 48px; }
   .sign-cols ul { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--line); align-self: start; }

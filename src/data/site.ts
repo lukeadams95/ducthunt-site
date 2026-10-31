@@ -18,6 +18,14 @@ export const business = {
   googleUrl: 'https://maps.app.goo.gl/PBD3ime9AN7Ch6dj8',
   /** Canonical Google Maps URL for the Business Profile (CID from the profile's place ID); used as schema.org sameAs/hasMap */
   googleCidUrl: 'https://www.google.com/maps?cid=15023503640910196470',
+  /** Verified third-party profiles of this business (schema.org sameAs). Each URL was checked live and shows Duct Hunt's name with its phone, website or owner. */
+  profiles: [
+    'https://www.facebook.com/2305770089677697',
+    'https://nextdoor.com/pages/duct-hunt/',
+    'https://www.brownbook.net/business/55605155/duct-hunt',
+    'https://www.n49.com/biz/7489841/',
+    'https://www.thumbtack.com/mo/kansas-city/duct-cleaning/duct-hunt/service/593189819391762437',
+  ],
   /** Map pin of the Google Business Profile */
   geo: { lat: 39.147813, lng: -94.5762644 },
   /** Weekly hours, shown in the footer and in schema.org data */

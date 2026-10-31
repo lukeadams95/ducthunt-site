@@ -35,8 +35,10 @@ export const businessNode = (img: { logo: { src: string; width: number; height: 
   foundingDate: '2017',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: business.street,
     addressLocality: business.city,
     addressRegion: business.region,
+    postalCode: business.postalCode,
     addressCountry: 'US',
   },
   geo: { '@type': 'GeoCoordinates', latitude: business.geo.lat, longitude: business.geo.lng },

@@ -11,6 +11,11 @@ export const business = {
   phone: '(816) 655-8105',
   tel: 'tel:+18166558105',
   telE164: '+1-816-655-8105',
+  /** Public street address, matches the Google Business Profile (Luke, Oct 31 2026) */
+  street: '314 E 26th Ave',
+  postalCode: '64116',
+  /** Full one-line address shown on the site */
+  addressLine: '314 E 26th Ave, North Kansas City, MO 64116',
   city: 'North Kansas City',
   region: 'MO',
   rating: '4.9',
@@ -23,7 +28,7 @@ export const business = {
     'https://www.facebook.com/2305770089677697',
     'https://nextdoor.com/pages/duct-hunt/',
     'https://www.brownbook.net/business/55605155/duct-hunt',
-    'https://www.n49.com/biz/7489841/',
+    'https://www.n49.com/biz/7489841/duct-hunt-mo-north-kansas-city-314-e-26th-ave/',
     'https://www.thumbtack.com/mo/kansas-city/duct-cleaning/duct-hunt/service/593189819391762437',
   ],
   /** Map pin of the Google Business Profile */

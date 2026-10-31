@@ -41,7 +41,7 @@ export const businessNode = (img: { logo: { src: string; width: number; height: 
   },
   geo: { '@type': 'GeoCoordinates', latitude: business.geo.lat, longitude: business.geo.lng },
   hasMap: business.googleCidUrl,
-  sameAs: [business.googleCidUrl],
+  sameAs: [business.googleCidUrl, ...business.profiles],
   areaServed,
   openingHoursSpecification: business.hours.flatMap((h) =>
     'opens' in h ? [{ '@type': 'OpeningHoursSpecification', dayOfWeek: h.schemaDays, opens: h.opens, closes: h.closes }] : [],

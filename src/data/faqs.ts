@@ -24,17 +24,22 @@ export const servicesFaqs: Faq[] = [
 ];
 
 export const ductFaqs: Faq[] = [
-  { q: 'How much does air duct cleaning cost?', a: 'Pricing is based on the number of vents and the size of your home. Call (816) 655-8105 for an upfront quote.' },
+  { q: 'How much does air duct cleaning cost?', a: 'It depends on the number of vents, the size of your home, how easy the system is to access, and whether you add the dryer vent line. Call (816) 655-8105 and Derek can usually give you an upfront price over the phone, with no in-home estimate needed.' },
+  { q: 'Are there any hidden fees?', a: "No. The price you're quoted is the price you pay." },
+  { q: 'Will you try to upsell me?', a: "No. If there are optional add-ons that might help your home, Derek will explain them and let you decide. There's never any pressure." },
+  { q: 'What does performed to NADCA standards mean?', a: 'NADCA is the National Air Duct Cleaners Association. Our air duct cleaning is performed to its standards.' },
   { q: 'How long does it take?', a: 'Most homes take about 2 hours.' },
   { q: 'How often should I have my ducts cleaned?', a: 'Generally every 3–5 years, sooner after a remodel or with pets or allergies.' },
   { q: 'Do I need to be home?', a: 'Yes, for access and the walkthrough.' },
   { q: 'Will it be messy?', a: 'No. The work area is cleaned up when the job is done.' },
-  { q: 'Can you clean my dryer vent at the same time?', a: 'Yes.', link: { href: '/services/dryer-vent-cleaning/', label: 'See Dryer Vent Cleaning' } },
+  { q: 'Can you clean my dryer vent in the same visit?', a: 'Yes, and many customers do both at once. Dryer vent cleaning is a flat fee.', link: { href: '/services/dryer-vent-cleaning/', label: 'See Dryer Vent Cleaning' } },
+  { q: 'Do you work with builders, remodelers and real estate agents?', a: 'Yes. We handle post-construction, post-remodel and pre-sale duct cleaning with fast turnaround, and agents refer their clients to us. Call (816) 655-8105 to schedule.' },
   { q: 'Should I clean ducts before or after a remodel?', a: 'After the dusty work is finished.' },
 ];
 
 export const dryerFaqs: Faq[] = [
   { q: 'How much does dryer vent cleaning cost?', a: 'Dryer vent cleaning is flat-fee. Call (816) 655-8105 for a quote.' },
+  { q: 'What does dryer vent cleaning include?', a: 'The full vent line from the dryer to the exterior, the transition duct behind the dryer, lint removed from the exterior opening, and an airflow check when we finish, with before and after photos.' },
   { q: 'How often should I clean my dryer vent?', a: 'Generally once a year, more often for large families or long vent runs.' },
   { q: 'How long does it take?', a: 'Most dryer vent cleanings are quick, usually under an hour.' },
   { q: 'Can you clean my air ducts at the same time?', a: 'Yes.', link: { href: '/services/air-duct-cleaning/', label: 'See Air Duct Cleaning' } },

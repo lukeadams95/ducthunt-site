@@ -13,6 +13,33 @@ import { business, services, areaGroups, areaCounties } from '../data/site';
 import { areaReviews } from '../data/reviews';
 import { areaFaqs } from '../data/faqs';
 
+const towns = [
+  {
+    id: 'northland',
+    h: 'Northland: Gladstone, Liberty and Parkville',
+    p: "We're based in North Kansas City, minutes from the Northland, so Gladstone, Liberty and Parkville homes can often be scheduled the next day. Air duct and dryer vent cleaning, quoted upfront over the phone.",
+    cta: 'Get a Northland quote',
+  },
+  {
+    id: 'olathe',
+    h: 'Olathe, KS',
+    p: 'Air duct and dryer vent cleaning for Olathe homes, plus post-construction and pre-sale cleaning for builders, remodelers and agents. You get an upfront price and before and after photos.',
+    cta: 'Get an Olathe quote',
+  },
+  {
+    id: 'lees-summit',
+    h: "Lee's Summit, MO",
+    p: "Air duct and dryer vent cleaning for Lee's Summit homes, with both done in one visit if you need them. Dryer vent cleaning is a flat fee, and the price you're quoted is the price you pay.",
+    cta: "Get a Lee's Summit quote",
+  },
+  {
+    id: 'johnson-county',
+    h: 'Johnson County, KS',
+    p: 'Overland Park, Olathe, Lenexa, Shawnee, Leawood, Prairie Village and Mission. Owner Derek Craig does every job himself, with no subcontractors, before and after photos, and no upsell.',
+    cta: 'Get a Johnson County quote',
+  },
+];
+
 const local = [
   { t: 'Fast scheduling', d: 'Being local means we can often get to you the next day.' },
   { t: 'We know KC homes', d: 'From older Northland homes that have never had their ducts cleaned to brand-new builds.' },
@@ -64,6 +91,21 @@ const local = [
     </div>
   </section>
 
+  <section id="towns" class="sec white">
+    <div class="wrap">
+      <H2 lead="Duct Cleaning Near You" sub="Across Kansas City" center />
+      <div class="towns">
+        {towns.map((t) => (
+          <section id={t.id} class="town">
+            <h3>{t.h}</h3>
+            <p>{t.p}</p>
+            <a href="/quote/" class="btn btn--ink" style="border:0">{t.cta}</a>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="sec paper">
     <div class="wrap">
       <H2 lead="Services Available" sub="Everywhere We Serve" center />
@@ -96,6 +138,10 @@ const local = [
 <style>
   .group { background: var(--mist); color: var(--slate); border-radius: 18px; padding: 28px; }
   .group h3 { margin: 0 0 16px; font-weight: 900; font-size: 24px; line-height: 1.1; }
+  .towns { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 22px; }
+  .town { background: var(--mist); color: var(--slate); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .town h3 { margin: 0; font-weight: 900; font-size: 24px; line-height: 1.1; }
+  .town p { margin: 0; font-size: 18px; flex: 1; }
   .counties { margin: 40px auto 0; max-width: 900px; text-align: center; }
   .counties h3 { margin: 0 0 16px; font-weight: 900; font-size: 24px; }
   .counties ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }

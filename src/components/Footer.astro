@@ -16,7 +16,7 @@ const company = [
     <div>
       <Image src={logoWhite} alt="Duct Hunt LLC" width={196} densities={[1, 2]} class="ftr__logo" />
       <address class="ftr__addr">
-        Based in {business.city}, {business.region}<br />
+        {business.addressLine}<br />
         <a href={business.tel} class="ftr__tel">{business.phone}</a>
       </address>
     </div>

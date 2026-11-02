@@ -1,5 +1,5 @@
 ---
-title: "Why Your House Gets Dusty When the Heat Comes On (and When Ducts Are Part of It)"
+title: "Why Your House Gets Dusty When the Heat Comes On"
 slug: "dusty-house-when-heat-comes-on"
 date: "2026-11-02"
 description: "House dustier since the furnace kicked on? What's normal, what to check first, and the signs your air ducts are part of the problem this winter."
@@ -7,7 +7,6 @@ image: "./images/duct-before-cleaning.webp"
 imageAlt: "Inside a dusty air duct before cleaning, with debris on the bottom and the words pet dander written in the dust"
 ---
 
-*By Derek Craig, owner of Duct Hunt*
 
 ## The short version
 

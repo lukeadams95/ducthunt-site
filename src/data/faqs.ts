@@ -35,6 +35,8 @@ export const ductFaqs: Faq[] = [
   { q: 'Can you clean my dryer vent in the same visit?', a: 'Yes, and many customers do both at once. Dryer vent cleaning is a flat fee.', link: { href: '/services/dryer-vent-cleaning/', label: 'See Dryer Vent Cleaning' } },
   { q: 'Do you work with builders, remodelers and real estate agents?', a: 'Yes. We handle post-construction, post-remodel and pre-sale duct cleaning with fast turnaround, and agents refer their clients to us. Call (816) 655-8105 to schedule.' },
   { q: 'Should I clean ducts before or after a remodel?', a: 'After the dusty work is finished.' },
+  { q: 'What areas around Kansas City does Duct Hunt cover?', a: 'Duct Hunt focuses on suburban single-family homes across the Northland and nearby Kansas and Missouri suburbs listed on the service-area page, including Liberty, Gladstone, Parkville, and Overland Park.' },
+  { q: 'How does Duct Hunt price air duct cleaning?', a: 'Derek gives an upfront price over the phone in most cases, so you usually skip an in-home estimate. The quoted price is the price you pay, with no hidden fees.' },
 ];
 
 export const dryerFaqs: Faq[] = [

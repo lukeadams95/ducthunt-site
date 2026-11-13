@@ -35,6 +35,7 @@ const towns = [
   {
     id: 'johnson-county',
     h: 'Johnson County, KS',
+    link: { text: 'Overland Park', href: '/service-area/overland-park/' },
     p: 'Overland Park, Olathe, Lenexa, Shawnee, Leawood, Prairie Village and Mission. Owner Derek Craig does every job himself, with no subcontractors, before and after photos, and no upsell.',
     cta: 'Get a Johnson County quote',
   },
@@ -98,7 +99,7 @@ const local = [
         {towns.map((t) => (
           <section id={t.id} class="town">
             <h3>{t.h}</h3>
-            <p>{t.p}</p>
+            <p>{t.link && t.p.startsWith(t.link.text) ? <><a href={t.link.href}>{t.link.text}</a>{t.p.slice(t.link.text.length)}</> : t.p}</p>
             <a href="/quote/" class="btn btn--ink" style="border:0">{t.cta}</a>
           </section>
         ))}

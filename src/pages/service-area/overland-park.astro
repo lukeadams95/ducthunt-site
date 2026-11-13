@@ -1,0 +1,156 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import HeroButtons from '../../components/HeroButtons.astro';
+import type { Faq } from '../../data/faqs';
+
+const title = 'Air Duct & Dryer Vent Cleaning in Overland Park, KS | Duct Hunt';
+const description = 'Air duct and dryer vent cleaning for Overland Park homes. The owner does every job, gives you an upfront price by phone, and shows you before and after photos.';
+const faqs: Faq[] = [
+  {
+    "q": "Do you serve all of Overland Park?",
+    "a": "Yes. Overland Park is part of our regular service area, along with nearby Johnson County towns like Olathe, Lenexa, Shawnee, Leawood, Prairie Village and Mission. If you're not sure about your street, call (816) 655-8105."
+  },
+  {
+    "q": "Is there a trip fee to Overland Park?",
+    "a": "Call (816) 655-8105 and we'll confirm for your address before anything is booked."
+  },
+  {
+    "q": "How much does air duct cleaning cost in Overland Park?",
+    "a": "It depends on the number of vents and the size of your home. You'll usually get an upfront price over the phone, and that's the price you pay."
+  },
+  {
+    "q": "How long does it take?",
+    "a": "Most homes take about 2 hours for air ducts. A dryer vent usually takes under an hour."
+  },
+  {
+    "q": "Do I need to be home?",
+    "a": "Yes, for access to the home and a quick walkthrough when the job is done."
+  },
+  {
+    "q": "Can you clean the ducts and the dryer vent in one visit?",
+    "a": "Yes, and many customers do both at once."
+  },
+  {
+    "q": "Will I see proof of the work?",
+    "a": "Yes. You get before and after photos of the vents and ducts."
+  },
+  {
+    "q": "Who actually does the cleaning?",
+    "a": "Derek Craig, the owner. No subcontractors or rotating crews."
+  }
+];
+const overlandPark = { '@type': 'City', name: 'Overland Park', containedInPlace: { '@type': 'State', name: 'Kansas' } };
+const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning', 'dryer']].map(([serviceType, key]) => ({
+  '@type': 'Service',
+  '@id': `https://www.ducthunt.com/service-area/overland-park/#${key}`,
+  serviceType,
+  name: `${serviceType} in Overland Park, KS`,
+  provider: { '@id': 'https://www.ducthunt.com/#business' },
+  areaServed: overlandPark,
+}));
+---
+<Base
+  page="post"
+  title={title}
+  description={description}
+  faqs={faqs}
+  crumbs={[{ name: 'Home', href: '/' }, { name: 'Service Area', href: '/service-area/' }, { name: 'Overland Park, KS', href: '/service-area/overland-park/' }]}
+  extraSchema={locationServices}
+>
+  <PhotoHero lead="Air Duct & Dryer Vent Cleaning in Overland Park, KS" narrow h1Size="clamp(32px, 4.8vw, 60px)">
+    <p class="lead">Duct Hunt cleans air ducts and dryer vents in Overland Park homes, and the owner, Derek Craig, does every job himself. You get an upfront price over the phone, a flat fee for dryer vents, and before and after photos, and scheduling is often next-day.</p>
+    <HeroButtons quoteHref="/quote/" />
+  </PhotoHero>
+
+  <section class="sec paper">
+    <article class="wrap-880 art">
+      <div class="prose">
+<h2>Who comes out to your Overland Park home</h2>
+<p>When you call Duct Hunt, Derek answers. He gives you the quote, sets the time, and shows up to do the work. No subcontractors and no rotating crews.</p>
+<p>That matters when you're comparing companies in Johnson County. The person who promised you a price is the same person who walks through your door. If something isn't right, Derek will make it right.</p>
+<p>Duct Hunt is a small, family-owned Kansas City company, not a franchise. We're based in North Kansas City and work across the metro, Overland Park included.</p>
+<h2>Air duct cleaning in Overland Park</h2>
+<p>Overland Park is mostly single-family homes, from older neighborhoods in the north part of the city to newer builds farther south. Whatever the age of the house, dust and debris build up in the system over time and get pushed back out every time the furnace or AC runs.</p>
+<p>Here's what's included in a whole-home cleaning:</p>
+<ol>
+<li>Supply vents and registers</li>
+<li>Return vents and return ducts</li>
+<li>Main trunk lines</li>
+<li>The blower compartment area</li>
+<li>Before and after photos so you can see the difference</li>
+<li>Cleanup when the job is done, plus filter recommendations and simple maintenance tips</li>
+</ol>
+<p>The work is performed to NADCA standards. Most homes take about 2 hours.</p>
+<p>If Derek finds a small hole, a loose run or a disconnected section during the cleaning, he can often tape, secure or reattach it on the spot. Bigger duct repairs get referred to another company.</p>
+<p><a href="/services/air-duct-cleaning/">See the full air duct cleaning service</a></p>
+<h2>Dryer vent cleaning in Overland Park</h2>
+<p>A clogged dryer vent makes loads take longer and puts lint where it shouldn't be. Dryer vent cleaning is a flat fee, and it usually takes under an hour.</p>
+<p>What's included:</p>
+<ol>
+<li>The full vent line from the dryer to the outside</li>
+<li>The transition duct behind the dryer</li>
+<li>Lint cleared from the exterior opening</li>
+<li>An airflow check when we're done</li>
+<li>Before and after photos</li>
+</ol>
+<p>If your vent exits through the roof, call and tell us where it comes out. We'll confirm it with you before we book.</p>
+<p>Lots of customers do ducts and the dryer vent in the same visit. One customer put it this way: "cleaning our dryer vent and dryer duct all together for a flat fee."</p>
+<p><a href="/services/dryer-vent-cleaning/">See the full dryer vent cleaning service</a></p>
+<h2>How pricing works</h2>
+<p>There are no prices posted here on purpose. Air duct cleaning is priced on the number of vents and the size of your home. Most people get an upfront price over the phone with no in-home estimate needed.</p>
+<p>Dryer vent cleaning is a flat fee. Call for a quote.</p>
+<p>The price you're quoted is the price you pay. No hidden fees. If there's an add-on that might help, Derek will explain it, and he won't push it. As one customer said: "There were no surprise fees involved, the previously agreed upon price was what I paid!"</p>
+<h2>Remodels, new builds and home sales in Overland Park</h2>
+<p>If you're remodeling, finishing a new build or getting ready to sell in Overland Park, Duct Hunt does post-construction, post-remodel and pre-sale duct cleaning, and checks that the dryer vent is clear and connected before move-in or listing.</p>
+<p>Timing matters. Derek will tell you if it's too early. One customer remembered: "He noticed I was still installing some drywall and needed to sand the floors. He turned my money down and recommended that I finish first."</p>
+<p>Many local real estate agents also refer Duct Hunt to their buyers and sellers.</p>
+<h2>What a visit looks like</h2>
+<ol>
+<li>Call (816) 655-8105 or <a href="/quote/">request a quote online</a>. Tell us roughly how many vents you have and the size of the home.</li>
+<li>Get your upfront price, usually the same day.</li>
+<li>Pick a time. Next-day is often open, and you'll get a reminder before arrival.</li>
+<li>Derek does the work and shows you the before and after photos.</li>
+<li>He cleans up and goes over filter tips before he leaves.</li>
+</ol>
+<p>Hours are Monday to Friday, 8 AM to 7 PM.</p>
+<h2>Overland Park FAQ</h2>
+<h3>Do you serve all of Overland Park?</h3>
+<p>Yes. Overland Park is part of our regular service area, along with nearby Johnson County towns like Olathe, Lenexa, Shawnee, Leawood, Prairie Village and Mission. If you're not sure about your street, call (816) 655-8105.</p>
+<h3>Is there a trip fee to Overland Park?</h3>
+<p>Call (816) 655-8105 and we'll confirm for your address before anything is booked.</p>
+<h3>How much does air duct cleaning cost in Overland Park?</h3>
+<p>It depends on the number of vents and the size of your home. You'll usually get an upfront price over the phone, and that's the price you pay.</p>
+<h3>How long does it take?</h3>
+<p>Most homes take about 2 hours for air ducts. A dryer vent usually takes under an hour.</p>
+<h3>Do I need to be home?</h3>
+<p>Yes, for access to the home and a quick walkthrough when the job is done.</p>
+<h3>Can you clean the ducts and the dryer vent in one visit?</h3>
+<p>Yes, and many customers do both at once.</p>
+<h3>Will I see proof of the work?</h3>
+<p>Yes. You get before and after photos of the vents and ducts.</p>
+<h3>Who actually does the cleaning?</h3>
+<p>Derek Craig, the owner. No subcontractors or rotating crews.</p>
+<h2>Get your Overland Park quote</h2>
+<p>Call (816) 655-8105 or <a href="/quote/">get a free quote online</a>. You'll talk to the owner, get an upfront price, and often get on the schedule for the next day.</p>
+<p><a href="/reviews/">Read reviews from local customers</a> | <a href="/why-duct-hunt/">Why homeowners choose Duct Hunt</a> | <a href="/service-area/">All service areas</a></p>
+      </div>
+      <HeroButtons quoteHref="/quote/" />
+    </article>
+  </section>
+</Base>
+
+<style>
+  .art { background: var(--white); border: 2px solid var(--line); border-radius: 12px; padding: clamp(20px, 4vw, 56px); }
+  .art :global(.btn--white) { background: var(--blue); color: var(--white); border-color: var(--blue); }
+  .art :global(.btn--white:hover) { background: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light) { color: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light:hover) { background: var(--blue-deep); color: var(--white); }
+  .prose { font-size: 19px; line-height: 1.65; }
+  .prose :global(h2) { margin: 1.6em 0 0.5em; font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -0.02em; }
+  .prose :global(h3) { margin: 1.4em 0 0.4em; font-weight: 800; font-size: 23px; line-height: 1.2; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { margin: 0 0 1em; }
+  .prose :global(li) { margin: 0.3em 0; }
+  .prose :global(a) { color: var(--blue-deep); font-weight: 700; }
+  .prose :global(> :first-child) { margin-top: 0; }
+</style>

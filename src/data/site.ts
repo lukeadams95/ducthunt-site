@@ -54,6 +54,7 @@ export type PageKey =
   | 'quote'
   | 'blog'
   | 'post'
+  | 'sitemap'
   | 'notfound';
 
 export interface Service {
@@ -113,6 +114,7 @@ export const crumbsFor = (page: PageKey): { name: string; href: string }[] => {
     faq: [{ name: 'FAQ', href: '/faq/' }],
     quote: [{ name: 'Free Quote', href: '/quote/' }],
     blog: [{ name: 'Blog', href: '/blog/' }],
+    sitemap: [{ name: 'Site Map', href: '/sitemap/' }],
   };
   return page === 'home' || page === 'notfound' ? [] : [home, ...(leaf[page] ?? [])];
 };

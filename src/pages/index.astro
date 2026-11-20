@@ -10,6 +10,7 @@ import Steps from '../components/Steps.astro';
 import MapEmbed from '../components/MapEmbed.astro';
 import HeroVideoLens from '../components/HeroVideoLens.astro';
 import SimpleQuoteForm from '../components/SimpleQuoteForm.astro';
+import LatestPosts from '../components/LatestPosts.astro';
 import hero from '../assets/hero.webp';
 import { homePoster, posterSizes } from '../lib/responsive-image';
 import processBefore from '../assets/process-before.jpg';
@@ -250,6 +251,9 @@ const lcp = await homePoster();
       <CtaPair on="light" class="mt44" />
     </div>
   </section>
+
+  <!-- LATEST POSTS -->
+  <LatestPosts />
 
   <!-- QUOTE FORM -->
   <section id="hero-quote" class="sec white rule">

@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import PhotoHero from '../../components/PhotoHero.astro';
+import HeroButtons from '../../components/HeroButtons.astro';
+import type { Faq } from '../../data/faqs';
+
+const title = 'Air Duct & Dryer Vent Cleaning in Liberty, MO | Duct Hunt';
+const description = "Air duct and dryer vent cleaning for Liberty, MO homes. The owner does every job, quotes you upfront by phone, and shows you before and after photos.";
+const faqs: Faq[] = [
+  {
+    "q": "Do you cover all of Liberty?",
+    "a": "Yes. Liberty is part of our regular Northland service area. If you're not sure about your address, call (816) 655-8105 and we'll tell you."
+  },
+  {
+    "q": "Is there a trip fee to Liberty?",
+    "a": "Call (816) 655-8105 and we'll confirm for your address."
+  },
+  {
+    "q": "How much does air duct cleaning cost in Liberty?",
+    "a": "It's based on the number of vents and the size of your home. You'll usually get an upfront price over the phone, and that price doesn't change."
+  },
+  {
+    "q": "How soon can you come out?",
+    "a": "Often the next day, depending on the schedule. Call to check."
+  },
+  {
+    "q": "Do I need to be home?",
+    "a": "Yes, for access to the home and a quick walkthrough when the job is done."
+  },
+  {
+    "q": "Can you do the ducts and dryer vent together?",
+    "a": "Yes. Many customers book both in one visit."
+  },
+  {
+    "q": "Who does the work?",
+    "a": "Derek Craig, the owner. No subcontractors."
+  }
+];
+const liberty = { '@type': 'City', name: 'Liberty', containedInPlace: { '@type': 'State', name: 'Missouri' } };
+const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning', 'dryer']].map(([serviceType, key]) => ({
+  '@type': 'Service',
+  '@id': `https://www.ducthunt.com/service-area/liberty/#${key}`,
+  serviceType,
+  name: `${serviceType} in Liberty, MO`,
+  provider: { '@id': 'https://www.ducthunt.com/#business' },
+  areaServed: liberty,
+}));
+---
+<Base
+  page="post"
+  title={title}
+  description={description}
+  faqs={faqs}
+  crumbs={[{ name: 'Home', href: '/' }, { name: 'Service Area', href: '/service-area/' }, { name: 'Liberty, MO', href: '/service-area/liberty/' }]}
+  extraSchema={locationServices}
+>
+  <PhotoHero lead="Air Duct & Dryer Vent Cleaning in Liberty, MO" narrow h1Size="clamp(32px, 4.8vw, 60px)">
+    <p class="lead">Duct Hunt cleans air ducts and dryer vents for homes in Liberty, and the owner, Derek Craig, does every job himself. You get an upfront price by phone, a flat fee for dryer vents, before and after photos, and often a next-day appointment.</p>
+    <HeroButtons quoteHref="/quote/" />
+  </PhotoHero>
+
+  <section class="sec paper">
+    <article class="wrap-880 art">
+      <div class="prose">
+<h2>A Northland company for Liberty homes</h2>
+<p>Duct Hunt is based in North Kansas City, so Liberty and the rest of Clay County are close to home for us. We work all over the Northland, including Gladstone, Kansas City North, Kearney, Smithville, Parkville, Riverside and Platte City.</p>
+<p>We're a small, family-owned business, not a franchise. When you call, Derek picks up. He gives you the quote, sets the time and does the work. No subcontractors and no rotating crews. If something isn't right, he'll make it right.</p>
+<h2>Air duct cleaning in Liberty</h2>
+<p>Whether your Liberty home is a few years old or a few decades old, dust and debris collect in the ductwork and blow back into the house every time the system runs. If a house has never had its ducts cleaned, there's usually a lot to see. One customer told us: "Our home was built in '79 and has NEVER been cleaned!"</p>
+<p>A whole-home cleaning covers:</p>
+<ol>
+<li>Supply vents and registers</li>
+<li>Return vents and return ducts</li>
+<li>Main trunk lines</li>
+<li>The blower compartment area</li>
+<li>Before and after photos</li>
+<li>Cleanup, filter recommendations and simple maintenance tips</li>
+</ol>
+<p>The work is performed to NADCA standards. Most homes take about 2 hours. One customer had "all the air ducts/returns in our 3,000 sq ft home cleaned in under 2 hours!"</p>
+<p>If Derek spots a small hole, a loose section or a disconnected run while he's cleaning, he can often fix it on the spot. For major duct repairs, he refers you to another company.</p>
+<p><a href="/services/air-duct-cleaning/">More on air duct cleaning</a></p>
+<h2>Dryer vent cleaning in Liberty</h2>
+<p>If your dryer takes two cycles to dry a load, the vent is a good place to start. Dryer vent cleaning is a flat fee and usually takes under an hour.</p>
+<p>It includes:</p>
+<ol>
+<li>The full vent line from the dryer to the outside</li>
+<li>The dryer transition duct</li>
+<li>Lint removed from the exterior opening</li>
+<li>An airflow check</li>
+<li>Before and after photos</li>
+</ol>
+<p>Vent goes out through the roof? Call and tell us where it exits, and we'll confirm with you before booking.</p>
+<p>You can also have the ducts and the dryer vent done in the same visit. Many customers do both at once.</p>
+<p><a href="/services/dryer-vent-cleaning/">More on dryer vent cleaning</a></p>
+<h2>Straight answers on price</h2>
+<p>We don't post prices. Air duct cleaning is priced by the number of vents and the size of your home, and you'll usually get an upfront price over the phone with no in-home estimate.</p>
+<p>Dryer vent cleaning is a flat fee. Call for a quote.</p>
+<p>The price you're quoted is the price you pay, with no hidden fees. Add-ons are explained, never pushed. Here's how one customer described the call: "He was able to tell me how the process works and the pricing. Other companies I called said they would have to come out and estimate the home."</p>
+<h2>Building, remodeling or selling in Liberty</h2>
+<p>Duct Hunt does post-construction, post-remodel and pre-sale duct cleaning for builders, remodelers, flippers and homeowners. We also check that dryer vents are clear and connected before move-in or listing.</p>
+<p>Derek will tell you if the timing is wrong. If there's still drywall or floor sanding to do, he'll tell you to finish first and come back after.</p>
+<p>Local real estate agents refer buyers and sellers to Duct Hunt too. One reviewer wrote: "I recommend him to my real estate clients, friends, and family!"</p>
+<h2>How it works</h2>
+<ol>
+<li>Call (816) 655-8105 or <a href="/quote/">request a quote</a>.</li>
+<li>Tell us roughly how many vents and how big the house is.</li>
+<li>Get an upfront price, usually the same day.</li>
+<li>Pick a time. Next-day is often available, and you'll get a reminder before Derek arrives.</li>
+<li>Derek cleans, shows you the before and after photos, and walks you through it at the end.</li>
+</ol>
+<p>Hours: Monday to Friday, 8 AM to 7 PM.</p>
+<h2>Liberty FAQ</h2>
+<h3>Do you cover all of Liberty?</h3>
+<p>Yes. Liberty is part of our regular Northland service area. If you're not sure about your address, call (816) 655-8105 and we'll tell you.</p>
+<h3>Is there a trip fee to Liberty?</h3>
+<p>Call (816) 655-8105 and we'll confirm for your address.</p>
+<h3>How much does air duct cleaning cost in Liberty?</h3>
+<p>It's based on the number of vents and the size of your home. You'll usually get an upfront price over the phone, and that price doesn't change.</p>
+<h3>How soon can you come out?</h3>
+<p>Often the next day, depending on the schedule. Call to check.</p>
+<h3>Do I need to be home?</h3>
+<p>Yes, for access to the home and a quick walkthrough when the job is done.</p>
+<h3>Can you do the ducts and dryer vent together?</h3>
+<p>Yes. Many customers book both in one visit.</p>
+<h3>Who does the work?</h3>
+<p>Derek Craig, the owner. No subcontractors.</p>
+<h2>Get a quote for your Liberty home</h2>
+<p>Call (816) 655-8105 or <a href="/quote/">get a free quote online</a>. You'll talk to the owner and get a straight price.</p>
+<p><a href="/reviews/">Customer reviews</a> | <a href="/why-duct-hunt/">Why Duct Hunt</a> | <a href="/service-area/">All service areas</a></p>
+      </div>
+      <HeroButtons quoteHref="/quote/" />
+    </article>
+  </section>
+</Base>
+
+<style>
+  .art { background: var(--white); border: 2px solid var(--line); border-radius: 12px; padding: clamp(20px, 4vw, 56px); }
+  .art :global(.btn--white) { background: var(--blue); color: var(--white); border-color: var(--blue); }
+  .art :global(.btn--white:hover) { background: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light) { color: var(--blue-deep); border-color: var(--blue-deep); }
+  .art :global(.btn--ghost-light:hover) { background: var(--blue-deep); color: var(--white); }
+  .prose { font-size: 19px; line-height: 1.65; }
+  .prose :global(h2) { margin: 1.6em 0 0.5em; font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -0.02em; }
+  .prose :global(h3) { margin: 1.4em 0 0.4em; font-weight: 800; font-size: 23px; line-height: 1.2; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { margin: 0 0 1em; }
+  .prose :global(li) { margin: 0.3em 0; }
+  .prose :global(a) { color: var(--blue-deep); font-weight: 700; }
+  .prose :global(> :first-child) { margin-top: 0; }
+</style>

@@ -18,6 +18,7 @@ const towns = [
     id: 'northland',
     h: 'Northland: Gladstone, Liberty and Parkville',
     p: "We're based in North Kansas City, minutes from the Northland, so Gladstone, Liberty and Parkville homes can often be scheduled the next day. Air duct and dryer vent cleaning, quoted upfront over the phone.",
+    link: { text: 'Liberty', href: '/service-area/liberty/' },
     cta: 'Get a Northland quote',
   },
   {
@@ -99,7 +100,7 @@ const local = [
         {towns.map((t) => (
           <section id={t.id} class="town">
             <h3>{t.h}</h3>
-            <p>{t.link && t.p.startsWith(t.link.text) ? <><a href={t.link.href}>{t.link.text}</a>{t.p.slice(t.link.text.length)}</> : t.p}</p>
+            <p>{t.link && t.p.includes(t.link.text) ? <>{t.p.slice(0, t.p.indexOf(t.link.text))}<a href={t.link.href}>{t.link.text}</a>{t.p.slice(t.p.indexOf(t.link.text) + t.link.text.length)}</> : t.p}</p>
             <a href="/quote/" class="btn btn--ink" style="border:0">{t.cta}</a>
           </section>
         ))}

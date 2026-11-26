@@ -36,7 +36,12 @@ const faqs: Faq[] = [
     "a": "Derek Craig, the owner. No subcontractors."
   }
 ];
-const liberty = { '@type': 'City', name: 'Liberty', containedInPlace: { '@type': 'State', name: 'Missouri' } };
+const liberty = {
+  '@type': 'City',
+  name: 'Liberty, Missouri',
+  sameAs: ['https://www.wikidata.org/wiki/Q959398', 'https://en.wikipedia.org/wiki/Liberty,_Missouri'],
+  containedInPlace: { '@type': 'AdministrativeArea', name: 'Clay County, Missouri' },
+};
 const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning', 'dryer']].map(([serviceType, key]) => ({
   '@type': 'Service',
   '@id': `https://www.ducthunt.com/service-area/liberty/#${key}`,
@@ -44,6 +49,7 @@ const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning',
   name: `${serviceType} in Liberty, MO`,
   provider: { '@id': 'https://www.ducthunt.com/#business' },
   areaServed: liberty,
+  about: liberty,
 }));
 ---
 <Base
@@ -63,7 +69,7 @@ const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning',
     <article class="wrap-880 art">
       <div class="prose">
 <h2>A Northland company for Liberty homes</h2>
-<p>Duct Hunt is based in North Kansas City, so Liberty and the rest of Clay County are close to home for us. We work all over the Northland, including Gladstone, Kansas City North, Kearney, Smithville, Parkville, Riverside and Platte City.</p>
+<p>Duct Hunt is based in North Kansas City, so Liberty and the rest of Clay County are close to home for us. We work all over the Northland, including Gladstone, Kansas City North, Kearney, Smithville, Parkville, Riverside and Platte City. Learn more about <a href="https://en.wikipedia.org/wiki/Liberty,_Missouri" target="_blank" rel="noopener">Liberty, Missouri on Wikipedia</a>.</p>
 <p>We're a small, family-owned business, not a franchise. When you call, Derek picks up. He gives you the quote, sets the time and does the work. No subcontractors and no rotating crews. If something isn't right, he'll make it right.</p>
 <h2>Air duct cleaning in Liberty</h2>
 <p>Whether your Liberty home is a few years old or a few decades old, dust and debris collect in the ductwork and blow back into the house every time the system runs. If a house has never had its ducts cleaned, there's usually a lot to see. One customer told us: "Our home was built in '79 and has NEVER been cleaned!"</p>

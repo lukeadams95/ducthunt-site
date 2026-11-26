@@ -40,7 +40,12 @@ const faqs: Faq[] = [
     "a": "Derek Craig, the owner. No subcontractors or rotating crews."
   }
 ];
-const overlandPark = { '@type': 'City', name: 'Overland Park', containedInPlace: { '@type': 'State', name: 'Kansas' } };
+const overlandPark = {
+  '@type': 'City',
+  name: 'Overland Park, Kansas',
+  sameAs: ['https://www.wikidata.org/wiki/Q500481', 'https://en.wikipedia.org/wiki/Overland_Park,_Kansas'],
+  containedInPlace: { '@type': 'AdministrativeArea', name: 'Johnson County, Kansas' },
+};
 const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning', 'dryer']].map(([serviceType, key]) => ({
   '@type': 'Service',
   '@id': `https://www.ducthunt.com/service-area/overland-park/#${key}`,
@@ -48,6 +53,7 @@ const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning',
   name: `${serviceType} in Overland Park, KS`,
   provider: { '@id': 'https://www.ducthunt.com/#business' },
   areaServed: overlandPark,
+  about: overlandPark,
 }));
 ---
 <Base
@@ -71,7 +77,7 @@ const locationServices = [['Air duct cleaning', 'duct'], ['Dryer vent cleaning',
 <p>That matters when you're comparing companies in Johnson County. The person who promised you a price is the same person who walks through your door. If something isn't right, Derek will make it right.</p>
 <p>Duct Hunt is a small, family-owned Kansas City company, not a franchise. We're based in North Kansas City and work across the metro, Overland Park included.</p>
 <h2>Air duct cleaning in Overland Park</h2>
-<p>Overland Park is mostly single-family homes, from older neighborhoods in the north part of the city to newer builds farther south. Whatever the age of the house, dust and debris build up in the system over time and get pushed back out every time the furnace or AC runs.</p>
+<p>Overland Park is mostly single-family homes, from older neighborhoods in the north part of the city to newer builds farther south (learn more about <a href="https://en.wikipedia.org/wiki/Overland_Park,_Kansas" target="_blank" rel="noopener">Overland Park, Kansas on Wikipedia</a>). Whatever the age of the house, dust and debris build up in the system over time and get pushed back out every time the furnace or AC runs.</p>
 <p>Here's what's included in a whole-home cleaning:</p>
 <ol>
 <li>Supply vents and registers</li>
